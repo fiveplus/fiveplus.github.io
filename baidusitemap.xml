@@ -318,26 +318,6 @@
 
     
   <url>
-    <loc>https://blog.ifiveplus.com/OpenJDK9%E5%9C%A8OSX%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95.html</loc>
-    <lastmod>2019-05-22T14:51:42.031Z</lastmod>
-    <data>
-        <display>
-        <title>OpenJDK9在OSX平台下编译和调试</title>
-        <pubTime>2018-01-29T05:20:52.000Z</pubTime>
-        
-        <tag>JDK</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="https://blog.ifiveplus.com/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://blog.ifiveplus.com/MNIST%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8.html</loc>
     <lastmod>2019-05-22T14:51:42.031Z</lastmod>
     <data>
@@ -353,6 +333,26 @@
            
              
               <breadCrumb title="machine learning" url="https://blog.ifiveplus.com/categories/machine-learning/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://blog.ifiveplus.com/OpenJDK9%E5%9C%A8OSX%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95.html</loc>
+    <lastmod>2019-05-22T14:51:42.031Z</lastmod>
+    <data>
+        <display>
+        <title>OpenJDK9在OSX平台下编译和调试</title>
+        <pubTime>2018-01-29T05:20:52.000Z</pubTime>
+        
+        <tag>JDK</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="https://blog.ifiveplus.com/categories/Java/"/>
           
         </display>
     </data>
