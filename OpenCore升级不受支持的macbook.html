@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+<!-- google adsense -->
+<!-- <script data-ad-client="ca-pub-8391260708003179" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="macOS,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Fiveplus Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="macbook2015pro已经不在macOS Sonoma支持范围内，本文讲解macbook2015pro如何升级到macOS Sonoma  创建安装程序借助 OpenCore Legacy Patcher，我们的新 GUI 包含 macOS 安装程序的下载菜单。因此，首先，您需要获取我们的应用程序：https://github.com/dortania/OpenCore-Legacy-Pa">
+<meta name="keywords" content="macOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCore升级不受支持的macbook">
+<meta property="og:url" content="https://blog.ifiveplus.com/OpenCore升级不受支持的macbook.html">
+<meta property="og:site_name" content="Fiveplus Blog">
+<meta property="og:description" content="macbook2015pro已经不在macOS Sonoma支持范围内，本文讲解macbook2015pro如何升级到macOS Sonoma  创建安装程序借助 OpenCore Legacy Patcher，我们的新 GUI 包含 macOS 安装程序的下载菜单。因此，首先，您需要获取我们的应用程序：https://github.com/dortania/OpenCore-Legacy-Pa">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Main-Menu.40fc1dad.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Create-Installer-Menu.6220ded8.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Download-Catalog.cb53a9a5.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Download-Listed-Products.e77dd4c3.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Download-Unsupported.c42dd553.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Download-Progress.84e96f79.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Needs-Installing.297e4912.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Download-Finished.ecc832c2.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Select-Local-Installer.88e785bd.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Format-USB.a14e2cea.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Flashing-Process.1d538441.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Sucess-Prompt.d2daa669.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Installer-Finished-Script.554b202c.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Main-Menu.40fc1dad.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Build-Start.61964260.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Build-Finished.8fc0d8ea.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-EFI-Select-Disk.d9a3392f.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-EFI-Select-Partition.131e5d28.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/efi-boot.8307f610.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/Unflashed-Boot-1.ba0e58a4.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/Unflashed-Boot-2.5e873f39.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/Unflashed-Boot-3.79f71d03.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/oc-boot.3c2bdab5.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/oclp-stuck-firstreboot.12edd7b4.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Settings-ShowPicker.5831a6a8.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Settings-SIP-Enabled.f95aadf0.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Settings-SIP-Root-Patch.b983af09.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Settings-SIP-Disabled.960a27d1.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-root-patch-update.2ede4894.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Root-Patch-Status.88367958.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Root-Patch.8759192a.png">
+<meta property="og:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Root-Patch-Finished.ce27b410.png">
+<meta property="og:updated_time" content="2023-10-30T09:55:54.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenCore升级不受支持的macbook">
+<meta name="twitter:description" content="macbook2015pro已经不在macOS Sonoma支持范围内，本文讲解macbook2015pro如何升级到macOS Sonoma  创建安装程序借助 OpenCore Legacy Patcher，我们的新 GUI 包含 macOS 安装程序的下载菜单。因此，首先，您需要获取我们的应用程序：https://github.com/dortania/OpenCore-Legacy-Pa">
+<meta name="twitter:image" content="https://blog.ifiveplus.com/images/OCLP-GUI-Main-Menu.40fc1dad.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://blog.ifiveplus.com/OpenCore升级不受支持的macbook.html">
+
+
+
+
+
+  <title>OpenCore升级不受支持的macbook | Fiveplus Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Fiveplus Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Bonjour le monde</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.ifiveplus.com/OpenCore升级不受支持的macbook.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fiveplus">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fiveplus Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">OpenCore升级不受支持的macbook</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2023-10-10T11:16:00+08:00">
+                2023-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MacOS/" itemprop="url" rel="index">
+                    <span itemprop="name">MacOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/OpenCore升级不受支持的macbook.html" class="leancloud_visitors" data-flag-title="OpenCore升级不受支持的macbook">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>macbook2015pro已经不在macOS Sonoma支持范围内，本文讲解macbook2015pro如何升级到macOS Sonoma</p>
+</blockquote>
+<h2 id="创建安装程序"><a href="#创建安装程序" class="headerlink" title="创建安装程序"></a>创建安装程序</h2><p>借助 OpenCore Legacy Patcher，我们的新 GUI 包含 macOS 安装程序的下载菜单。因此，首先，您需要获取我们的应用程序：<a href="https://github.com/dortania/OpenCore-Legacy-Patcher/releases" target="_blank" rel="noopener">https://github.com/dortania/OpenCore-Legacy-Patcher/releases</a></p>
+<p>在本指南中，我们将使用标准 OpenCore-Patcher (GUI)。</p>
+<p>下载后，打开应用程序，您应该会看到以下菜单：</p>
+<p><img src="/images/OCLP-GUI-Main-Menu.40fc1dad.png" alt="OCLP-GUI-Main-Menu"></p>
+<p>首先，我们要选择“创建 macOS 安装程序”按钮。这将为您提供 2 个选项：</p>
+<p><img src="/images/OCLP-GUI-Create-Installer-Menu.6220ded8.png" alt="OCLP-GUI-Main-Menu"></p>
+<p>对于此示例，我们假设您需要一个安装程序。选择此选项将下载 Apple 的安装程序目录并构建一个列表供您选择：</p>
+<table>
+<thead>
+<tr>
+<th>正在下载</th>
+<th>列出的安装商</th>
+<th>不受支持的安装程序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Installer-Download-Catalog.cb53a9a5.png" alt="OCLP-GUI-Installer-Download-Catalog"></td>
+<td><img src="/images/OCLP-GUI-Installer-Download-Listed-Products.e77dd4c3.png" alt="OCLP-GUI-Installer-Download-Listed-Products"></td>
+<td><img src="/images/OCLP-GUI-Installer-Download-Unsupported.c42dd553.png" alt="OCLP-GUI-Installer-Download-Unsupported"></td>
+</tr>
+</tbody></table>
+<p>由于修补程序正式支持 Big Sur 和更新版本的修补程序，因此只会显示那些完整的修补程序。对于我们自己来说，我们将选择 macOS 12，因为这是撰写本文时的最新公开版本。这会将 macOS 安装程序下载并安装到您的应用程序文件夹中。</p>
+<blockquote>
+<p>请注意，macOS Ventura 当前可能不支持某些计算机（即 2012 年及更早版本）。如果您看到此提示，则您需要使用旧版本的 macOS。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>下载安装程序</th>
+<th>请求安装</th>
+<th>安装完成</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Installer-Download-Progress.84e96f79.png" alt="OCLP-GUI-Installer-Download-Progress"></td>
+<td><img src="/images/OCLP-GUI-Installer-Needs-Installing.297e4912.png" alt="OCLP-GUI-Installer-Needs-Installing"></td>
+<td><img src="/images/OCLP-GUI-Installer-Download-Finished.ecc832c2.png" alt="OCLP-GUI-Installer-Download-Finished"></td>
+</tr>
+</tbody></table>
+<p>完成后，您可以继续将安装程序写入 USB 驱动器。</p>
+<blockquote>
+<p>注意：整个 USB 驱动器将被格式化</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>选择下载的安装程序</th>
+<th>选择要格式化的磁盘</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Installer-Select-Local-Installer.88e785bd.png" alt="OCLP-GUI-Installer-Select-Local-Installer"></td>
+<td><img src="/images/OCLP-GUI-Installer-Format-USB.a14e2cea.png" alt="OCLP-GUI-Installer-Format-USB"></td>
+</tr>
+</tbody></table>
+<p>现在修补程序将开始安装程序闪烁！</p>
+<table>
+<thead>
+<tr>
+<th>闪烁</th>
+<th>成功提示</th>
+<th>闪烁完成</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Installer-Flashing-Process.1d538441.png" alt="OCLP-GUI-Installer-Flashing-Process"></td>
+<td><img src="/images/OCLP-GUI-Installer-Sucess-Prompt.d2daa669.png" alt="OCLP-GUI-Installer-Sucess-Prompt"></td>
+<td><img src="/images/OCLP-GUI-Installer-Finished-Script.554b202c.png" alt="OCLP-GUI-Installer-Finished-Script"></td>
+</tr>
+</tbody></table>
+<p>完成后，前往构建和安装 OpenCore</p>
+<h2 id="构建和安装-OpenCore"><a href="#构建和安装-OpenCore" class="headerlink" title="构建和安装 OpenCore"></a>构建和安装 OpenCore</h2><p>现在我们已经有了 macOS 安装程序，现在让我们构建 OpenCore 配置！</p>
+<p>如果您尚未下载 OpenCore Patcher，请立即下载：<a href="https://github.com/dortania/OpenCore-Legacy-Patcher/releases" target="_blank" rel="noopener">https://github.com/dortania/OpenCore-Legacy-Patcher/releases</a></p>
+<p>接下来，运行<code>OpenCore-Patcher.app</code>:</p>
+<p><img src="/images/OCLP-GUI-Main-Menu.40fc1dad.png" alt="OCLP-GUI-Main-Menu"></p>
+<blockquote>
+<p>OpenCore 配置是特定于硬件的。如果您正在为与当前运行的模型不同的模型构建 OpenCore，则绝对有必要从“设置”中选择正确的模型。</p>
+</blockquote>
+<p>在这里我们将选择 Build and Install OpenCore 并开始构建：</p>
+<table>
+<thead>
+<tr>
+<th>开始建造</th>
+<th>竣工建筑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Build-Start.61964260.png" alt="OCLP-GUI-Build-Start"></td>
+<td><img src="/images/OCLP-GUI-Build-Finished.8fc0d8ea.png" alt="OCLP-GUI-Build-Finished"></td>
+</tr>
+</tbody></table>
+<p>构建完成后，您需要选择“安装 OpenCore”按钮：</p>
+<blockquote>
+<p>如果您手动创建了 macOS USB，但没有看到它列出，请确保它的格式为 GUID/GPT，或者具有供 OpenCore 驻留的 FAT32 分区。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>选择驱动器</th>
+<th>选择分区</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-EFI-Select-Disk.d9a3392f.png" alt="OCLP-GUI-EFI-Select-Disk"></td>
+<td><img src="/images/OCLP-GUI-EFI-Select-Partition.131e5d28.png" alt="OCLP-GUI-EFI-Select-Partition"></td>
+</tr>
+</tbody></table>
+<p>完成后，前往引导 OpenCore 和 macOS</p>
+<h2 id="引导-OpenCore-和-macOS"><a href="#引导-OpenCore-和-macOS" class="headerlink" title="引导 OpenCore 和 macOS"></a>引导 OpenCore 和 macOS</h2><h3 id="启动OpenCore"><a href="#启动OpenCore" class="headerlink" title="启动OpenCore"></a>启动OpenCore</h3><p>现在我们终于可以启动 OpenCore 了！</p>
+<p>重新启动机器，同时按住<code>Option</code>选择带有 OpenCore 图标的 EFI 启动项（按住该<code>Control</code>键将使该启动项成为默认启动项）：</p>
+<blockquote>
+<p>这将是 Mac 启动选择器</p>
+</blockquote>
+<p><img src="/images/efi-boot.8307f610.png" alt="efi-boot"></p>
+<h3 id="对于配备未闪存-GPU-的-Mac-Pro-Xserve-iMac-的注意事项"><a href="#对于配备未闪存-GPU-的-Mac-Pro-Xserve-iMac-的注意事项" class="headerlink" title="对于配备未闪存 GPU 的 Mac Pro/Xserve/iMac 的注意事项"></a>对于配备未闪存 GPU 的 Mac Pro/Xserve/iMac 的注意事项</h3><p>改编自<a href="https://forums.macrumors.com/threads/manually-configured-opencore-on-the-mac-pro.2207814/" target="_blank" rel="noopener">Mac Pro 上的 OpenCore 指南</a></p>
+<p>对于使用非闪存 GPU 的 Mac Pro、Xserve 和 iMac 用户，您仍然可以轻松启动 OpenCore 并查看整个启动过程。</p>
+<p>首先，打开终端并运行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nvram "recovery-boot-mode=unused" &amp;&amp; sudo reboot recovery</span><br></pre></td></tr></table></figure>
+
+<p>这将使您的计算机重新启动进入恢复环境。或者，在计算机启动时按住<code>Command</code>+<code>R</code>也可以让您进入恢复。</p>
+<p>其次，打开恢复环境的终端（菜单栏 &gt; 实用程序 &gt; 终端）。</p>
+<p>现在您需要获取驱动器标识符列表。为此，请运行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diskutil list</span><br></pre></td></tr></table></figure>
+
+<p>该命令应生成系统中安装的驱动器列表：</p>
+<p><img src="/images/Unflashed-Boot-1.ba0e58a4.png" alt="Unflashed-Boot-1"></p>
+<p>通过 OCLP 安装跟踪驱动器。稍后您将需要驱动器标识符。</p>
+<p>现在您需要挂载 EFI 分区（安装 OCLP 的位置，但如果您将 OCLP 安装到 FAT-32 卷，情况可能会有所不同）。</p>
+<p>运行以下命令（将 X 替换为驱动器号）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diskutil mount diskXs1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/Unflashed-Boot-2.5e873f39.png" alt="Unflashed-Boot-2"></p>
+<p>如果一切正确，则应该安装 EFI 分区。</p>
+<p>现在您需要使用以下<code>bless</code>命令来设置默认启动设备：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bless --mount /Volumes/EFI --setBoot --file /Volumes/EFI/System/Library/CoreServices/boot.efi</span><br></pre></td></tr></table></figure>
+
+<p>该命令运行后，不应产生任何输出。</p>
+<p><img src="/images/Unflashed-Boot-3.79f71d03.png" alt="Unflashed-Boot-3"></p>
+<p>如果该命令产生输出，请确保您输入的内容正确无误。</p>
+<p>现在您可以重新启动机器。OCLP 现在是默认启动选项！</p>
+<h3 id="安装macOS"><a href="#安装macOS" class="headerlink" title="安装macOS"></a>安装macOS</h3><p>现在您已经加载了 OpenCore，“选择安装 macOS”：</p>
+<blockquote>
+<p>这将是 OpenCore 选择器</p>
+</blockquote>
+<p><img src="/images/oc-boot.3c2bdab5.png" alt="oc-boot"></p>
+<p>您很快就会到达安装程序屏幕！如果您在构建 OCLP 时启用了详细模式，则会在屏幕上显示大量文本。从那里开始，它就像任何普通的 macOS 安装一样。有关启动过程的示例，请观看以下视频：</p>
+<p><a href="https://www.youtube.com/watch?v=AN3zsbQV_n4" target="_blank" rel="noopener">OpenCore 旧版修补程序启动过程</a></p>
+<p>如果您的 Mac 在第一次重新启动后循环回到设置的开头，请将其关闭，再次启动并按住Option。这次，选择带有灰色硬盘图标的选项，它可以显示“macOS Installer”或您在安装程序过程中为磁盘指定的名称。如有必要，每次重新启动后请继续重复此步骤。</p>
+<p><img src="/images/oclp-stuck-firstreboot.12edd7b4.png" alt="oclp-stuck-firstreboot"></p>
+<blockquote>
+<p>MacBookPro11,3 注意：启动 macOS Monterey 时，如果尚未安装加速补丁，则需要启动到安全模式。<a href="https://github.com/dortania/OpenCore-Legacy-Patcher/issues/522" target="_blank" rel="noopener">否则，您将因缺少 NVIDIA 驱动程序而出现黑屏</a>。 <code>Shift</code> + <code>Enter</code>在 OCLP 的启动菜单中选择 macOS Monterey 时按住可进入安全模式。</p>
+</blockquote>
+<p>安装并启动后，前往安装后</p>
+<h2 id="安装后"><a href="#安装后" class="headerlink" title="安装后"></a>安装后</h2><h3 id="无需USB驱动器启动"><a href="#无需USB驱动器启动" class="headerlink" title="无需USB驱动器启动"></a>无需USB驱动器启动</h3><p>通过 OpenCore 安装 macOS 后，您可以启动并完成常规安装过程。在不插入 USB 驱动器的情况下启动非常简单：</p>
+<ol>
+<li>下载 OpenCore 旧版补丁程序</li>
+<li>根据需要更改修补程序设置</li>
+<li>再次构建 OpenCore</li>
+<li>将 OpenCore 安装到内部驱动器</li>
+<li>重启按住Option，选择内部EFI</li>
+</ol>
+<p>瞧！不再需要 USB 驱动器。</p>
+<h3 id="无需启动选择器即可无缝启动"><a href="#无需启动选择器即可无缝启动" class="headerlink" title="无需启动选择器即可无缝启动"></a>无需启动选择器即可无缝启动</h3><p>为此，请运行 OpenCore Patcher 并前往 Patcher Settings，然后取消选中 Build 选项卡上的“Show OpenCore Bootpicker”：</p>
+<p><img src="/images/OCLP-GUI-Settings-ShowPicker.5831a6a8.png" alt="OCLP-GUI-Settings-ShowPicker"></p>
+<p>将其关闭后，再次构建 OpenCore EFI 并安装到所需的驱动器。现在要显示 OpenCore 选择器，您只需在单击 EFI 启动时按住“ESC”键，然后当您看到左上角的光标箭头时即可释放“ESC”键。</p>
+<h3 id="启用SIP"><a href="#启用SIP" class="headerlink" title="启用SIP"></a>启用SIP</h3><p>对于许多用户来说，SIP 将在构建时默认降低。对于 Intel HD 4000 用户，您可能已经注意到 SIP 被部分禁用。这是为了确保与 macOS Monterey 完全兼容，并允许它与旧操作系统之间无缝启动。但是，对于不打算启动 Monterey 的用户，您可以在“修补程序设置”下重新启用。</p>
+<blockquote>
+<p>注意：运行 macOS Ventura 的计算机或具有非 Metal GPU 的系统无法完全启用 SIP，因为根卷已打补丁。启用它会使安装变砖。</p>
+</blockquote>
+<p>从 0.6.6 开始，可以从图像中显示的“安全”选项卡访问 SIP 设置。</p>
+<table>
+<thead>
+<tr>
+<th>启用 SIP</th>
+<th>SIP 降低（根修补）</th>
+<th>SIP 已禁用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Settings-SIP-Enabled.f95aadf0.png" alt="OCLP-GUI-Settings-SIP-Enabled"></td>
+<td><img src="/images/OCLP-GUI-Settings-SIP-Root-Patch.b983af09.png" alt="OCLP-GUI-Settings-SIP-Root-Patch"></td>
+<td><img src="/images/OCLP-GUI-Settings-SIP-Disabled.960a27d1.png" alt="OCLP-GUI-Settings-SIP-Disabled"></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>如果您不确定是否应该启用 SIP，请保持原样。已运行安装后根修补的系统无法在不破坏当前安装的情况下启用 SIP。</p>
+</blockquote>
+<h3 id="应用安装后卷补丁"><a href="#应用安装后卷补丁" class="headerlink" title="应用安装后卷补丁"></a>应用安装后卷补丁</h3><p>安装后卷补丁（有时也称为根补丁）是一些旧 Mac 必须安装到磁盘才能恢复功能的补丁。</p>
+<p>如果 USB 安装介质是在 OCLP 中创建的，则OCLP 将在首次安装期间自动对系统进行根修补。macOS 更新后或系统上未检测到补丁时，系统还会提示用户安装这些补丁。我们建议使用最新版本的 OCLP 重建 OpenCore 以利用这些新功能。</p>
+<p>用户还可以在安装后菜单中查看是否已安装适用的补丁、对系统进行根修补的日期和版本。</p>
+<table>
+<thead>
+<tr>
+<th>自动安装提示</th>
+<th>地位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-root-patch-update.2ede4894.png" alt="OCLP-GUI-root-patch-update"></td>
+<td><img src="/images/OCLP-GUI-Root-Patch-Status.88367958.png" alt="OCLP-GUI-Root-Patch-Status"></td>
+</tr>
+</tbody></table>
+<h3 id="手动运行安装后补丁"><a href="#手动运行安装后补丁" class="headerlink" title="手动运行安装后补丁"></a>手动运行安装后补丁</h3><p>如果您使用的是 OCLP v0.4.3 或更早版本，或者需要手动运行修补程序，则可以使用该应用程序执行此操作。尝试运行补丁程序并没有什么坏处，因为如果没有兼容的硬件，什么也做不了。您可以在下面查看您的硬件是否需要根卷修补。</p>
+<table>
+<thead>
+<tr>
+<th>列出补丁</th>
+<th>修补完毕</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/images/OCLP-GUI-Root-Patch.8759192a.png" alt="OCLP-GUI-Root-Patch"></td>
+<td><img src="/images/OCLP-GUI-Root-Patch-Finished.ce27b410.png" alt="OCLP-GUI-Root-Patch-Finished"></td>
+</tr>
+</tbody></table>
+<p>对于 macOS Ventura 和配备 AMD Legacy GCN GPU（即 Metal）的 Mac，根修补需要网络连接来获取 Apple 的内核调试套件以开始根修补。如果您的系统无法连接到互联网，您可以从 Apple 网站手动下载 KDK：<a href="https://developer.apple.com/download/all/?q=Kernel%20Debug%20Kit" target="_blank" rel="noopener">Apple 的开发者下载页面</a></p>
+<p>获取与您安装的操作系统版本最接近的内核调试工具包，并将其安装到运行 Ventura 的计算机上。</p>
+<p>需要此功能的机器是配备 AMD Metal dGPU 的机器：</p>
+<p>2008 - 2013 Mac Pro (MacPro3,1 - 6,1)</p>
+<p>2009 - 2016 iMac（iMac10,1 - 17,1）</p>
+<p>2015 款 15 英寸 MacBook Pro，配备 dGPU (MacBookPro11,5)</p>
+<p>以下条目代表不再原生支持的 GPU，即。需要使用 OpenCore Legacy Patcher 修补根卷：</p>
+<p>macOS Big Sur 中需要修补的 GPU</p>
+<ul>
+<li>英伟达：<ul>
+<li>特斯拉（8000 - 300 系列）</li>
+</ul>
+</li>
+<li>超微半导体：<ul>
+<li>TeraScale（2000 - 6000 系列）</li>
+</ul>
+</li>
+<li>英特尔：<ul>
+<li>铁湖</li>
+<li>桑迪桥（2000 - 3000 系列）</li>
+</ul>
+</li>
+</ul>
+<p>macOS Monterey 中需要修补的 GPU</p>
+<ul>
+<li>英伟达：<ul>
+<li>特斯拉（8000 - 300 系列）</li>
+<li>开普勒（600 - 800 系列）</li>
+</ul>
+</li>
+<li>超微半导体：<ul>
+<li>TeraScale（2000 - 6000 系列）</li>
+</ul>
+</li>
+<li>英特尔：<ul>
+<li>铁湖</li>
+<li>桑迪桥（2000 - 3000 系列）</li>
+<li>Ivy Bridge（4000 系列）</li>
+</ul>
+</li>
+</ul>
+<p>macOS Monterey 中需要修补的无线卡</p>
+<ul>
+<li>博通：<ul>
+<li>BCM94328</li>
+<li>BCM94322</li>
+</ul>
+</li>
+<li>阿瑟罗斯</li>
+</ul>
+<p>macOS Ventura 中需要修补的 GPU</p>
+<ul>
+<li>英伟达：<ul>
+<li>开普勒（600 - 800 系列）</li>
+</ul>
+</li>
+<li>超微半导体：<ul>
+<li>GCN 1-3（7000 - R9 系列）</li>
+<li>Polaris（RX 4xx/5xx 系列，如果 CPU 缺少 AVX2）</li>
+</ul>
+</li>
+<li>英特尔：<ul>
+<li>Ivy Bridge（4000 系列）</li>
+<li>Haswell（4400、4600、5000 系列）</li>
+<li>布罗德韦尔（6000 系列）</li>
+<li>Skylake（500 系列）</li>
+</ul>
+</li>
+</ul>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://dortania.github.io/OpenCore-Legacy-Patcher/INSTALLER.html#creating-the-installer" target="_blank" rel="noopener">https://dortania.github.io/OpenCore-Legacy-Patcher/INSTALLER.html#creating-the-installer</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Fiveplus wechat" style="width: 200px; max-width: 100%;">
+    <div>扫一扫上方二维码，关注微信公众号：阿五编程</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果这篇文章对你有所帮助，请点击下方的打赏按钮。</div>
+  <br>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Fiveplus 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Fiveplus 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Fiveplus
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.ifiveplus.com/OpenCore升级不受支持的macbook.html" title="OpenCore升级不受支持的macbook">https://blog.ifiveplus.com/OpenCore升级不受支持的macbook.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/macOS/" rel="tag"># macOS</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/AppleMagicMouse卡顿的问题.html" rel="next" title="Apple Magic Mouse卡顿的问题">
+                <i class="fa fa-chevron-left"></i> Apple Magic Mouse卡顿的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Java线程池实现原理及其在美团业务中的实践.html" rel="prev" title="Java线程池实现原理及其在美团业务中的实践">
+                Java线程池实现原理及其在美团业务中的实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Fiveplus">
+            
+              <p class="site-author-name" itemprop="name">Fiveplus</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/fiveplus" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:274925658@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://plus.google.com/108382631617404307627" target="_blank" title="Google">
+                    
+                      <i class="fa fa-fw fa-google"></i>Google</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://www.facebook.com/profile.php?id=100008075168629" target="_blank" title="FB Page">
+                    
+                      <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建安装程序"><span class="nav-number">1.</span> <span class="nav-text">创建安装程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建和安装-OpenCore"><span class="nav-number">2.</span> <span class="nav-text">构建和安装 OpenCore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引导-OpenCore-和-macOS"><span class="nav-number">3.</span> <span class="nav-text">引导 OpenCore 和 macOS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动OpenCore"><span class="nav-number">3.1.</span> <span class="nav-text">启动OpenCore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对于配备未闪存-GPU-的-Mac-Pro-Xserve-iMac-的注意事项"><span class="nav-number">3.2.</span> <span class="nav-text">对于配备未闪存 GPU 的 Mac Pro/Xserve/iMac 的注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装macOS"><span class="nav-number">3.3.</span> <span class="nav-text">安装macOS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装后"><span class="nav-number">4.</span> <span class="nav-text">安装后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无需USB驱动器启动"><span class="nav-number">4.1.</span> <span class="nav-text">无需USB驱动器启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无需启动选择器即可无缝启动"><span class="nav-number">4.2.</span> <span class="nav-text">无需启动选择器即可无缝启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用SIP"><span class="nav-number">4.3.</span> <span class="nav-text">启用SIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用安装后卷补丁"><span class="nav-number">4.4.</span> <span class="nav-text">应用安装后卷补丁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动运行安装后补丁"><span class="nav-number">4.5.</span> <span class="nav-text">手动运行安装后补丁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束"><span class="nav-number">5.</span> <span class="nav-text">结束</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fiveplus</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">32.2k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a rel="external nofollow" class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.css">
+    <script src="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.js"></script>
+    <script>
+        /*
+        var emojiList = [{
+            code:'smile',
+            title:'笑脸',
+            unicode:'1f604'
+        },{
+            code:'mask',
+            title:'生病',
+            unicode:'1f637'
+        },{
+            code:'joy',
+            title:'破涕为笑',
+            unicode:'1f602'
+        },{
+            code:'stuck_out_tongue_closed_eyes',
+            title:'吐舌',
+            unicode:'1f61d'
+        },{
+            code:'flushed',
+            title:'脸红',
+            unicode:'1f633'
+        },{
+            code:'scream',
+            title:'恐惧',
+            unicode:'1f631'
+        },{
+            code:'pensive',
+            title:'失望',
+            unicode:'1f614'
+        },{
+            code:'unamused',
+            title:'无语',
+            unicode:'1f612'
+        },{
+            code:'grin',
+            title:'露齿笑',
+            unicode:'1f601'
+        },{
+            code:'heart_eyes',
+            title:'色',
+            unicode:'1f60d'
+        },{
+            code:'sweat',
+            title:'汗',
+            unicode:'1f613'
+        },{
+            code:'smirk',
+            title:'得意',
+            unicode:'1f60f'
+        }];
+        var disq = new iDisqus('comments', {
+            forum: 'fiveplusblog',
+            site: 'https://blog.ifiveplus.xyz',
+            api: 'https://disqus.ifiveplus.xyz/api',
+            mode: 1,
+            badge: '',
+            timeout: 3000,
+            init: true,
+            url: location.pathname.replace('index.html',''),
+            emoji_list: emojiList
+        });
+        disq.count();
+        */
+        var disq = new iDisqus('comments', {
+            forum: 'fiveplusblog',
+            site: 'https://blog.ifiveplus.xyz',
+            api: 'https://disqus.ifiveplus.xyz/api',
+            url: location.pathname.replace('index.html',''),
+            mode: 1,
+            timeout: 3000,
+            init: true,
+            emojiPreview: true
+        });
+        disq.count();
+    </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("pOswUP6xfRgPW7jo7J0Mt9FJ-gzGzoHsz", "bPND5ptZJgVlAdqqLvXpVNAT");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "default";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "Center";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
