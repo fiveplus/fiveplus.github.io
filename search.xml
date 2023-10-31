@@ -408,20 +408,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java图像截取</title>
-    <url>/Java%E5%9B%BE%E5%83%8F%E6%88%AA%E5%8F%96.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在仔细观察QQ空间的说说、微博以及微信的图文形式，它们的缩略图都是是对原图像经过一定的切割显示的图像，那么在我开发的<code>碎片云</code>中似乎也可以加上一个类似的功能。因此需要一个图像切割的方法完成这样类似的功能，具体的切割模式可以根据自己的实际需求来进行切割，下面就是核心方法<code>ImageUtil</code>的内容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.Rectangle;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReadParam;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReader;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.stream.ImageInputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">ImageUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getImageWidth</span><span class="params">(<span class="keyword">int</span> port,String url)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(url.indexOf(<span class="string">"attached"</span>)&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">				url = <span class="string">"http://127.0.0.1:"</span>+port+url;</span><br><span class="line">			&#125;</span><br><span class="line">			InputStream is = <span class="keyword">new</span> URL(url).openStream();</span><br><span class="line">			BufferedImage img = ImageIO.read(is);</span><br><span class="line">			<span class="keyword">return</span> img.getWidth();</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace();</span></span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cutImage</span><span class="params">(String path,<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(width &lt; <span class="number">1</span> || height &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">		FileInputStream is = <span class="keyword">null</span>;</span><br><span class="line">		ImageInputStream iis = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 读取图片文件</span></span><br><span class="line">			is = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">			<span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader 声称能够解码指定格式。 </span></span><br><span class="line"><span class="comment">             * 参数：formatName - 包含非正式格式名称 . （例如 "jpeg" 或 "tiff"）等 。 </span></span><br><span class="line"><span class="comment">             */</span> </span><br><span class="line">		 String fileEx = path.substring(path.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">            Iterator&lt;ImageReader&gt; it = ImageIO.getImageReadersByFormatName(fileEx);  </span><br><span class="line">            ImageReader reader = it.next();  </span><br><span class="line">            <span class="comment">// 获取图片流  </span></span><br><span class="line">            iis = ImageIO.createImageInputStream(is);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;iis:读取源.true:只向前搜索 &lt;/p&gt;.将它标记为 ‘只向前搜索’。 </span></span><br><span class="line"><span class="comment">             * 此设置意味着包含在输入源中的图像将只按顺序读取，可能允许 reader 避免缓存包含与以前已经读取的图像关联的数据的那些输入部分。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            reader.setInput(iis, <span class="keyword">true</span>);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;描述如何对流进行解码的类&lt;p&gt;.用于指定如何在输入时从 Java Image I/O </span></span><br><span class="line"><span class="comment">             * 框架的上下文中的流转换一幅图像或一组图像。用于特定图像格式的插件 将从其 ImageReader 实现的 </span></span><br><span class="line"><span class="comment">             * getDefaultReadParam 方法中返回 ImageReadParam 的实例。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            ImageReadParam param = reader.getDefaultReadParam();  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 图片裁剪区域。Rectangle 指定了坐标空间中的一个区域，通过 Rectangle 对象 </span></span><br><span class="line"><span class="comment">             * 的左上顶点的坐标（x，y）、宽度和高度可以定义这个区域。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            Rectangle rect = <span class="keyword">new</span> Rectangle(x, y, width, height);  </span><br><span class="line">            <span class="comment">// 提供一个 BufferedImage，将其用作解码像素数据的目标。  </span></span><br><span class="line">            param.setSourceRegion(rect);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象，并将 它作为一个完整的 </span></span><br><span class="line"><span class="comment">             * BufferedImage 返回。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            BufferedImage bi = reader.read(<span class="number">0</span>, param);  </span><br><span class="line">            <span class="comment">// 保存新图片  </span></span><br><span class="line">            ImageIO.write(bi, fileEx, <span class="keyword">new</span> File(path)); </span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">	            <span class="keyword">if</span> (is != <span class="keyword">null</span>)</span><br><span class="line">					is.close();</span><br><span class="line">	            <span class="keyword">if</span> (iis != <span class="keyword">null</span>) </span><br><span class="line">	                iis.close(); </span><br><span class="line">	        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Java OCR [Tess4j]</title>
     <url>/Java-OCR-Tess4j.html</url>
     <content><![CDATA[<h2 id="OCR介绍"><a href="#OCR介绍" class="headerlink" title="OCR介绍"></a>OCR介绍</h2><p>OCR技术是光学字符识别的缩写(Optical Character Recognition)，是通过扫描等光学输入方式将各种票据、报刊、书籍、文稿及其它印刷品的文字转化为图像信息，再利用文字识别技术将图像信息转化为可以使用的计算机输入技术。可应用于银行票据、大量文字资料、档案卷宗、文案的录入和处理领域。适合于银行、税务等行业大量票据表格的自动扫描识别及长期存储。相对一般文本，通常以最终识别率、识别速度、版面理解正确率及版面还原满意度4个方面作为OCR技术的评测依据；而相对于表格及票据， 通常以识别率或整张通过率及识别速度为测定OCR技术的实用标准。</p>
@@ -442,6 +428,60 @@
       </categories>
       <tags>
         <tag>ocr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java图像截取</title>
+    <url>/Java%E5%9B%BE%E5%83%8F%E6%88%AA%E5%8F%96.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在仔细观察QQ空间的说说、微博以及微信的图文形式，它们的缩略图都是是对原图像经过一定的切割显示的图像，那么在我开发的<code>碎片云</code>中似乎也可以加上一个类似的功能。因此需要一个图像切割的方法完成这样类似的功能，具体的切割模式可以根据自己的实际需求来进行切割，下面就是核心方法<code>ImageUtil</code>的内容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.Rectangle;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReadParam;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReader;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.stream.ImageInputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">ImageUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getImageWidth</span><span class="params">(<span class="keyword">int</span> port,String url)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(url.indexOf(<span class="string">"attached"</span>)&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">				url = <span class="string">"http://127.0.0.1:"</span>+port+url;</span><br><span class="line">			&#125;</span><br><span class="line">			InputStream is = <span class="keyword">new</span> URL(url).openStream();</span><br><span class="line">			BufferedImage img = ImageIO.read(is);</span><br><span class="line">			<span class="keyword">return</span> img.getWidth();</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace();</span></span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cutImage</span><span class="params">(String path,<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(width &lt; <span class="number">1</span> || height &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">		FileInputStream is = <span class="keyword">null</span>;</span><br><span class="line">		ImageInputStream iis = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 读取图片文件</span></span><br><span class="line">			is = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">			<span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader 声称能够解码指定格式。 </span></span><br><span class="line"><span class="comment">             * 参数：formatName - 包含非正式格式名称 . （例如 "jpeg" 或 "tiff"）等 。 </span></span><br><span class="line"><span class="comment">             */</span> </span><br><span class="line">		 String fileEx = path.substring(path.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">            Iterator&lt;ImageReader&gt; it = ImageIO.getImageReadersByFormatName(fileEx);  </span><br><span class="line">            ImageReader reader = it.next();  </span><br><span class="line">            <span class="comment">// 获取图片流  </span></span><br><span class="line">            iis = ImageIO.createImageInputStream(is);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;iis:读取源.true:只向前搜索 &lt;/p&gt;.将它标记为 ‘只向前搜索’。 </span></span><br><span class="line"><span class="comment">             * 此设置意味着包含在输入源中的图像将只按顺序读取，可能允许 reader 避免缓存包含与以前已经读取的图像关联的数据的那些输入部分。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            reader.setInput(iis, <span class="keyword">true</span>);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;描述如何对流进行解码的类&lt;p&gt;.用于指定如何在输入时从 Java Image I/O </span></span><br><span class="line"><span class="comment">             * 框架的上下文中的流转换一幅图像或一组图像。用于特定图像格式的插件 将从其 ImageReader 实现的 </span></span><br><span class="line"><span class="comment">             * getDefaultReadParam 方法中返回 ImageReadParam 的实例。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            ImageReadParam param = reader.getDefaultReadParam();  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 图片裁剪区域。Rectangle 指定了坐标空间中的一个区域，通过 Rectangle 对象 </span></span><br><span class="line"><span class="comment">             * 的左上顶点的坐标（x，y）、宽度和高度可以定义这个区域。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            Rectangle rect = <span class="keyword">new</span> Rectangle(x, y, width, height);  </span><br><span class="line">            <span class="comment">// 提供一个 BufferedImage，将其用作解码像素数据的目标。  </span></span><br><span class="line">            param.setSourceRegion(rect);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象，并将 它作为一个完整的 </span></span><br><span class="line"><span class="comment">             * BufferedImage 返回。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            BufferedImage bi = reader.read(<span class="number">0</span>, param);  </span><br><span class="line">            <span class="comment">// 保存新图片  </span></span><br><span class="line">            ImageIO.write(bi, fileEx, <span class="keyword">new</span> File(path)); </span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">	            <span class="keyword">if</span> (is != <span class="keyword">null</span>)</span><br><span class="line">					is.close();</span><br><span class="line">	            <span class="keyword">if</span> (iis != <span class="keyword">null</span>) </span><br><span class="line">	                iis.close(); </span><br><span class="line">	        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jenkins+SpringBoot+Docker实战</title>
+    <url>/Jenkins-SpringBoot-Docker%E5%AE%9E%E6%88%98.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h3><p>直接去官网下载就好了，这里给上链接：<a href="https://jenkins.io" target="_blank" rel="noopener">官网</a></p>
+<h3 id="构建代码来源"><a href="#构建代码来源" class="headerlink" title="构建代码来源"></a>构建代码来源</h3><p>当你第一次使用Jenkins时，会默认安装git插件为你的默认代码来源，如果你使用其他的，比如SVN等，需要另外安装插件。（这里我使用的是Git）</p>
+<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>单击左侧菜单”系统管理”，选择全局工具配置</p>
+<ol>
+<li>选择JDK安装，输入一个别名，JAVA_HOME填写你的JDK安装目录</li>
+<li>在Git installations看到Path to Git executable，输入你的git运行路径（这里写全路径：eg: D:\Program Files\Git\bin\git.exe）</li>
+<li>Maven这里选择自动安装就好了。</li>
+</ol>
+<h3 id="Jenkins创建项目"><a href="#Jenkins创建项目" class="headerlink" title="Jenkins创建项目"></a>Jenkins创建项目</h3><p>单击左侧菜单”新建Item”后，进入新页面，输入一个任务名称，并选择”构建一个maven项目”，单击确认。</p>
+<h3 id="Jenkins项目配置"><a href="#Jenkins项目配置" class="headerlink" title="Jenkins项目配置"></a>Jenkins项目配置</h3><ol>
+<li><p>选择源码管理选项卡，在Repository URL输入你的项目来源，选择Credentials后面的Add进行创建账号（在这里配置你的git账号）</p>
+</li>
+<li><p>选择构建分支”Branch Specifier (blank for ‘any’)”，这里默认会是*/master，可以根据需要修改。</p>
+</li>
+<li><p>触发器构建，建议使用WebHook，不过需要安装插件，这个在另一篇再讲。</p>
+</li>
+<li><p>Build下Root POM输入pom.xml，Goals and options输入：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">clean install -P dev -Dmaven.test.skip=true -e</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后一步，选择SSH Publishers，在Transfers下单击Add Transfer Set，接下来是参数配置：</p>
+<ul>
+<li>Source files: target/*.jar (上传到目标服务器的文件)</li>
+<li>Remove prefix: target/ （移除前置文件夹）</li>
+<li>Remote directory: / （斜杠表示你配置的SSH Server的访问目录）</li>
+<li>Exec command sh /jenkins/deploy.sh (执行远程shell，建议绝对路径)</li>
+</ul>
+</li>
+</ol>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>不光光只是Spring-boot可以使用Jenkins进行代码构建，更多玩法大家可以自己发掘。</p>
+]]></content>
+      <categories>
+        <category>Jenkins</category>
+      </categories>
+      <tags>
+        <tag>Jenkins</tag>
       </tags>
   </entry>
   <entry>
@@ -746,43 +786,63 @@
       </tags>
   </entry>
   <entry>
-    <title>Jenkins+SpringBoot+Docker实战</title>
-    <url>/Jenkins-SpringBoot-Docker%E5%AE%9E%E6%88%98.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h3><p>直接去官网下载就好了，这里给上链接：<a href="https://jenkins.io" target="_blank" rel="noopener">官网</a></p>
-<h3 id="构建代码来源"><a href="#构建代码来源" class="headerlink" title="构建代码来源"></a>构建代码来源</h3><p>当你第一次使用Jenkins时，会默认安装git插件为你的默认代码来源，如果你使用其他的，比如SVN等，需要另外安装插件。（这里我使用的是Git）</p>
-<h3 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h3><p>单击左侧菜单”系统管理”，选择全局工具配置</p>
-<ol>
-<li>选择JDK安装，输入一个别名，JAVA_HOME填写你的JDK安装目录</li>
-<li>在Git installations看到Path to Git executable，输入你的git运行路径（这里写全路径：eg: D:\Program Files\Git\bin\git.exe）</li>
-<li>Maven这里选择自动安装就好了。</li>
+    <title>MNIST机器学习入门</title>
+    <url>/MNIST%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8.html</url>
+    <content><![CDATA[<blockquote>
+<p> 跟着官方网站的教程，和自己的一些爬坑过程，简单的在这里做一下记录，希望对大家有所帮助。虽然有些部分是一致，但是当中有一些问题还是有参考价值的。（环境搭建本文暂不讨论）</p>
+</blockquote>
+<p>本文相关链接：</p>
+<blockquote>
+<p><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/tutorials/mnist_beginners.html" target="_blank" rel="noopener">MNIST机器学习入门官方网站</a></p>
+<p><a href="http://www.jianshu.com/p/4195577585e6" target="_blank" rel="noopener">简书网友参考链接</a></p>
+</blockquote>
+<p>官网例子运行截图如下（for Pycharm）</p>
+<p><img src="http://img.blog.csdn.net/20170901153542525?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbm9ibXI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="tensorflow demo"></p>
+<h3 id="一、MNIST简介"><a href="#一、MNIST简介" class="headerlink" title="一、MNIST简介"></a>一、MNIST简介</h3><blockquote>
+<p><a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">官网链接</a></p>
+</blockquote>
+<p>这个MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。</p>
+<p>它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图。</p>
+<p>总共4个文件:</p>
+<p><code>train-images-idx3-ubyte</code>: training set images<br><code>train-labels-idx1-ubyte</code>: training set labels<br><code>t10k-images-idx3-ubyte</code>:  test set images<br><code>t10k-labels-idx1-ubyte</code>:  test set labels</p>
+<p>图片都被转成二进制放到了文件里面，</p>
+<p>所以，每一个文件头部几个字节都记录着这些图片的信息，然后才是储存的图片信息。</p>
+<h3 id="二、tensorflow手写数字识别步骤"><a href="#二、tensorflow手写数字识别步骤" class="headerlink" title="二、tensorflow手写数字识别步骤"></a>二、tensorflow手写数字识别步骤</h3><ol>
+<li>将要识别的图片转为灰度图，并且转化为28*28矩阵</li>
+<li>将28*28的矩阵转换成1维矩阵</li>
+<li>用一个1*10的向量代表标签，因为数字是0～9，如数字1对应的矩阵就是：[0,1,0,0,0,0,0,0,0,0]</li>
+<li>softmax回归预测图片是哪个数字的概率。</li>
 </ol>
-<h3 id="Jenkins创建项目"><a href="#Jenkins创建项目" class="headerlink" title="Jenkins创建项目"></a>Jenkins创建项目</h3><p>单击左侧菜单”新建Item”后，进入新页面，输入一个任务名称，并选择”构建一个maven项目”，单击确认。</p>
-<h3 id="Jenkins项目配置"><a href="#Jenkins项目配置" class="headerlink" title="Jenkins项目配置"></a>Jenkins项目配置</h3><ol>
-<li><p>选择源码管理选项卡，在Repository URL输入你的项目来源，选择Credentials后面的Add进行创建账号（在这里配置你的git账号）</p>
-</li>
-<li><p>选择构建分支”Branch Specifier (blank for ‘any’)”，这里默认会是*/master，可以根据需要修改。</p>
-</li>
-<li><p>触发器构建，建议使用WebHook，不过需要安装插件，这个在另一篇再讲。</p>
-</li>
-<li><p>Build下Root POM输入pom.xml，Goals and options输入：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">clean install -P dev -Dmaven.test.skip=true -e</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后一步，选择SSH Publishers，在Transfers下单击Add Transfer Set，接下来是参数配置：</p>
-<ul>
-<li>Source files: target/*.jar (上传到目标服务器的文件)</li>
-<li>Remove prefix: target/ （移除前置文件夹）</li>
-<li>Remote directory: / （斜杠表示你配置的SSH Server的访问目录）</li>
-<li>Exec command sh /jenkins/deploy.sh (执行远程shell，建议绝对路径)</li>
-</ul>
-</li>
-</ol>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>不光光只是Spring-boot可以使用Jenkins进行代码构建，更多玩法大家可以自己发掘。</p>
+<p>这里顺带说一下还有一个回归：logistic，因为这里我们表示的状态不只两种，因此需要使用softmax。</p>
+<h3 id="三、标签介绍（有监督学习／无监督学习）"><a href="#三、标签介绍（有监督学习／无监督学习）" class="headerlink" title="三、标签介绍（有监督学习／无监督学习）"></a>三、标签介绍（有监督学习／无监督学习）</h3><blockquote>
+<p> 监督学习：利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程，也称为监督训练或有教师学习举个例子，MNIST自带了训练图片和训练标签，每张图片都有一个对应的标签，比如这张图片是1，标签也就是1,用他们训练程序，之后程序也就能识别测试集中的图片了，比如给定一张2的图片，它能预测出他是2</p>
+<p>无监督学习：其中很重要的一类叫聚类举个例子，如果MNIST中只有训练图片，没有标签，我们的程序能够根据图片的不同特征，将他们分类，但是并不知道他们具体是几，这个其实就是“聚类”</p>
+</blockquote>
+<h4 id="标签的表示"><a href="#标签的表示" class="headerlink" title="标签的表示"></a>标签的表示</h4><p>在这里标签的表示方式有些特殊，它也是使用了一个一维数组，而不是单纯的数字，上面也说了，他是一个一位数组，0表示方法[1,0,0,0,0,0,0,0,0,0],1表示[0,1,0,0,0,0,0,0,0,0],………，</p>
+<p>主要原因其实是这样的，因为softmax回归处理后会生成一个1*10的数组，数组[0,0]的数字表示预测的这张图片是0的概率，[0,1]则表示这张图片表示是1的概率……以此类推，这个数组表示的就是这张图片是哪个数字的概率（已经归一化），</p>
+<p>因此，实际上，概率最大的那个数字就是我们所预测的值。两者对应来看，标准的标签就是表示图片对应数字的概率为100%，而表示其它数字的概率为0，举个例子，0表示[1,0,0,0,0,0,0,0,0,0]，可以理解为它表示0的概率为100%，而表示别的数字的概率为0.</p>
+<p>####softmax回归</p>
+<p>这是一个分类器，可以认为是Logistic回归的扩展，Logistic大家应该都听说过，就是生物学上的S型曲线，它只能分两类，用0和1表示，这个用来表示答题对错之类只有两种状态的问题时足够了，但是像这里的MNIST要把它分成10类，就必须用softmax来进行分类了。</p>
+<p>P(y=0)=p0,P(y=1)=p1,p(y=2)=p2……P(y=9)=p9.这些表示预测为数字i的概率，（跟上面标签的格式正好对应起来了）,它们的和为1，即 ∑(pi)=1。</p>
+<p>tensorflow实现了这个函数，我们直接调用这个softmax函数即可，对于原理，可以参考下面的引文，这里只说一下我们这个MNIST demo要用softmax做什么。</p>
+<p>（注：每一个神经元都可以接收来自网络中其他神经元的一个或多个输入信号，神经元与神经元之间都对应着连接权值，所有的输入加权和决定该神经元是处于激活还是抑制状态。感知器网络的输出只能取值0或1，不具备可导性。而基于敏感度的训练算法要求其输出函数必须处处可导，于是引入了常见的S型可导函数，即在每个神经元的输出之前先经过S型激活函数的处理。）</p>
+<p>####交叉熵</p>
+<p>通俗一点就是，方差大家都知道吧，用它可以衡量预测值和实际值的相差程度，交叉熵其实也是一样的作用，那为什么不用方差呢，因为看sigmoid函数的图像就会发现，它的两侧几乎就是平的，导致它的方差在大部分情况下很小，这样在训练参数的时候收敛地就会很慢，交叉熵就是用来解决这个问题的，它的公式是 $-\sum y’log(y)$ ，其中，y是我们预测的概率分布,y’是实际的分布。</p>
+<p>###梯度下降</p>
+<p>上面那步也说了，有个交叉熵，根据大伙对方差的理解，值越小，自然就越好，因此我们也要训练使得交叉熵最小的参数，这里梯度下降法就派上用场了，这个解释见上一篇系列文章吧，什么叫训练参数呢，可以想象一下，我们先用实际的值在二位坐标上画一条线，然后我们希望我们预测出来的那些值要尽可能地贴近这条线，我们假设生成我们这条线的公式ax+ax^2+bx^3+…..，我们需要生成这些系数，要求得这些系数，我们就需要各种点代入，然后才能求出，所以其实训练参数跟求参数是个类似的过程。</p>
+<p>###预测</p>
+<p>训练结束以后我们就可以用这个模型去预测新的图片了，大概意思就是输入对应的值就能获取相应的结果。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> xrange  <span class="comment"># pylint: disable=redefined-builtin</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.contrib.learn.python.learn.datasets.mnist <span class="keyword">import</span> read_data_sets</span><br><span class="line"><span class="keyword">import</span> tensorflow.examples.tutorials.mnist.input_data</span><br><span class="line"><span class="string">"""MNIST机器学习"""</span></span><br><span class="line"><span class="string">"""下载并读取数据源"""</span></span><br><span class="line">mnist = read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line"><span class="string">"""x是784维占位符，基础图像28x28=784"""</span></span><br><span class="line">x = tf.placeholder(tf.float32,[<span class="literal">None</span>,<span class="number">784</span>])</span><br><span class="line"><span class="string">"""W表示证据值向量，因为总数据量为0～9，每一维对应不同的数字，因此为10"""</span></span><br><span class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>,<span class="number">10</span>]))</span><br><span class="line"><span class="string">"""b同理，为10"""</span></span><br><span class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</span><br><span class="line">y = tf.nn.softmax(tf.matmul(x,W)+b)</span><br><span class="line"><span class="string">"""初始化交叉熵的值"""</span></span><br><span class="line">y_ = tf.placeholder(<span class="string">"float"</span>,[<span class="literal">None</span>,<span class="number">10</span>])</span><br><span class="line"><span class="string">"""计算交叉熵"""</span></span><br><span class="line">cross_entropy = -tf.reduce_sum(y_*tf.log(y))</span><br><span class="line"><span class="string">"""梯度下降算法"""</span></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.01</span>).minimize(cross_entropy)</span><br><span class="line"><span class="string">"""开始训练模型"""</span></span><br><span class="line">init = tf.initialize_all_variables()</span><br><span class="line">sess = tf.Session()</span><br><span class="line">sess.run(init)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    batch_xs,batch_ys = mnist.train.next_batch(<span class="number">100</span>)</span><br><span class="line">    sess.run(train_step,feed_dict=&#123;x:batch_xs,y_:batch_ys&#125;)</span><br><span class="line"><span class="string">"""评估模型"""</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(y,<span class="number">1</span>), tf.argmax(y_,<span class="number">1</span>))</span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, <span class="string">"float"</span>))</span><br><span class="line"><span class="string">"""正确率"""</span></span><br><span class="line">k = sess.run(accuracy, feed_dict=&#123;x: mnist.test.images, y_: mnist.test.labels&#125;)</span><br><span class="line">print(k)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>公式参考链接：<a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="noopener">https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference</a></p>
 ]]></content>
       <categories>
-        <category>Jenkins</category>
+        <category>machine learning</category>
       </categories>
       <tags>
-        <tag>Jenkins</tag>
+        <tag>mnist</tag>
+        <tag>machine learning</tag>
       </tags>
   </entry>
   <entry>
@@ -1085,97 +1145,6 @@
       </tags>
   </entry>
   <entry>
-    <title>MNIST机器学习入门</title>
-    <url>/MNIST%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8.html</url>
-    <content><![CDATA[<blockquote>
-<p> 跟着官方网站的教程，和自己的一些爬坑过程，简单的在这里做一下记录，希望对大家有所帮助。虽然有些部分是一致，但是当中有一些问题还是有参考价值的。（环境搭建本文暂不讨论）</p>
-</blockquote>
-<p>本文相关链接：</p>
-<blockquote>
-<p><a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/tutorials/mnist_beginners.html" target="_blank" rel="noopener">MNIST机器学习入门官方网站</a></p>
-<p><a href="http://www.jianshu.com/p/4195577585e6" target="_blank" rel="noopener">简书网友参考链接</a></p>
-</blockquote>
-<p>官网例子运行截图如下（for Pycharm）</p>
-<p><img src="http://img.blog.csdn.net/20170901153542525?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbm9ibXI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="tensorflow demo"></p>
-<h3 id="一、MNIST简介"><a href="#一、MNIST简介" class="headerlink" title="一、MNIST简介"></a>一、MNIST简介</h3><blockquote>
-<p><a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">官网链接</a></p>
-</blockquote>
-<p>这个MNIST数据库是一个手写数字的数据库，它提供了六万的训练集和一万的测试集。</p>
-<p>它的图片是被规范处理过的，是一张被放在中间部位的28px*28px的灰度图。</p>
-<p>总共4个文件:</p>
-<p><code>train-images-idx3-ubyte</code>: training set images<br><code>train-labels-idx1-ubyte</code>: training set labels<br><code>t10k-images-idx3-ubyte</code>:  test set images<br><code>t10k-labels-idx1-ubyte</code>:  test set labels</p>
-<p>图片都被转成二进制放到了文件里面，</p>
-<p>所以，每一个文件头部几个字节都记录着这些图片的信息，然后才是储存的图片信息。</p>
-<h3 id="二、tensorflow手写数字识别步骤"><a href="#二、tensorflow手写数字识别步骤" class="headerlink" title="二、tensorflow手写数字识别步骤"></a>二、tensorflow手写数字识别步骤</h3><ol>
-<li>将要识别的图片转为灰度图，并且转化为28*28矩阵</li>
-<li>将28*28的矩阵转换成1维矩阵</li>
-<li>用一个1*10的向量代表标签，因为数字是0～9，如数字1对应的矩阵就是：[0,1,0,0,0,0,0,0,0,0]</li>
-<li>softmax回归预测图片是哪个数字的概率。</li>
-</ol>
-<p>这里顺带说一下还有一个回归：logistic，因为这里我们表示的状态不只两种，因此需要使用softmax。</p>
-<h3 id="三、标签介绍（有监督学习／无监督学习）"><a href="#三、标签介绍（有监督学习／无监督学习）" class="headerlink" title="三、标签介绍（有监督学习／无监督学习）"></a>三、标签介绍（有监督学习／无监督学习）</h3><blockquote>
-<p> 监督学习：利用一组已知类别的样本调整分类器的参数，使其达到所要求性能的过程，也称为监督训练或有教师学习举个例子，MNIST自带了训练图片和训练标签，每张图片都有一个对应的标签，比如这张图片是1，标签也就是1,用他们训练程序，之后程序也就能识别测试集中的图片了，比如给定一张2的图片，它能预测出他是2</p>
-<p>无监督学习：其中很重要的一类叫聚类举个例子，如果MNIST中只有训练图片，没有标签，我们的程序能够根据图片的不同特征，将他们分类，但是并不知道他们具体是几，这个其实就是“聚类”</p>
-</blockquote>
-<h4 id="标签的表示"><a href="#标签的表示" class="headerlink" title="标签的表示"></a>标签的表示</h4><p>在这里标签的表示方式有些特殊，它也是使用了一个一维数组，而不是单纯的数字，上面也说了，他是一个一位数组，0表示方法[1,0,0,0,0,0,0,0,0,0],1表示[0,1,0,0,0,0,0,0,0,0],………，</p>
-<p>主要原因其实是这样的，因为softmax回归处理后会生成一个1*10的数组，数组[0,0]的数字表示预测的这张图片是0的概率，[0,1]则表示这张图片表示是1的概率……以此类推，这个数组表示的就是这张图片是哪个数字的概率（已经归一化），</p>
-<p>因此，实际上，概率最大的那个数字就是我们所预测的值。两者对应来看，标准的标签就是表示图片对应数字的概率为100%，而表示其它数字的概率为0，举个例子，0表示[1,0,0,0,0,0,0,0,0,0]，可以理解为它表示0的概率为100%，而表示别的数字的概率为0.</p>
-<p>####softmax回归</p>
-<p>这是一个分类器，可以认为是Logistic回归的扩展，Logistic大家应该都听说过，就是生物学上的S型曲线，它只能分两类，用0和1表示，这个用来表示答题对错之类只有两种状态的问题时足够了，但是像这里的MNIST要把它分成10类，就必须用softmax来进行分类了。</p>
-<p>P(y=0)=p0,P(y=1)=p1,p(y=2)=p2……P(y=9)=p9.这些表示预测为数字i的概率，（跟上面标签的格式正好对应起来了）,它们的和为1，即 ∑(pi)=1。</p>
-<p>tensorflow实现了这个函数，我们直接调用这个softmax函数即可，对于原理，可以参考下面的引文，这里只说一下我们这个MNIST demo要用softmax做什么。</p>
-<p>（注：每一个神经元都可以接收来自网络中其他神经元的一个或多个输入信号，神经元与神经元之间都对应着连接权值，所有的输入加权和决定该神经元是处于激活还是抑制状态。感知器网络的输出只能取值0或1，不具备可导性。而基于敏感度的训练算法要求其输出函数必须处处可导，于是引入了常见的S型可导函数，即在每个神经元的输出之前先经过S型激活函数的处理。）</p>
-<p>####交叉熵</p>
-<p>通俗一点就是，方差大家都知道吧，用它可以衡量预测值和实际值的相差程度，交叉熵其实也是一样的作用，那为什么不用方差呢，因为看sigmoid函数的图像就会发现，它的两侧几乎就是平的，导致它的方差在大部分情况下很小，这样在训练参数的时候收敛地就会很慢，交叉熵就是用来解决这个问题的，它的公式是 $-\sum y’log(y)$ ，其中，y是我们预测的概率分布,y’是实际的分布。</p>
-<p>###梯度下降</p>
-<p>上面那步也说了，有个交叉熵，根据大伙对方差的理解，值越小，自然就越好，因此我们也要训练使得交叉熵最小的参数，这里梯度下降法就派上用场了，这个解释见上一篇系列文章吧，什么叫训练参数呢，可以想象一下，我们先用实际的值在二位坐标上画一条线，然后我们希望我们预测出来的那些值要尽可能地贴近这条线，我们假设生成我们这条线的公式ax+ax^2+bx^3+…..，我们需要生成这些系数，要求得这些系数，我们就需要各种点代入，然后才能求出，所以其实训练参数跟求参数是个类似的过程。</p>
-<p>###预测</p>
-<p>训练结束以后我们就可以用这个模型去预测新的图片了，大概意思就是输入对应的值就能获取相应的结果。</p>
-<p>代码如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> tempfile</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> six.moves <span class="keyword">import</span> xrange  <span class="comment"># pylint: disable=redefined-builtin</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.contrib.learn.python.learn.datasets.mnist <span class="keyword">import</span> read_data_sets</span><br><span class="line"><span class="keyword">import</span> tensorflow.examples.tutorials.mnist.input_data</span><br><span class="line"><span class="string">"""MNIST机器学习"""</span></span><br><span class="line"><span class="string">"""下载并读取数据源"""</span></span><br><span class="line">mnist = read_data_sets(<span class="string">"MNIST_data/"</span>, one_hot=<span class="literal">True</span>)</span><br><span class="line"><span class="string">"""x是784维占位符，基础图像28x28=784"""</span></span><br><span class="line">x = tf.placeholder(tf.float32,[<span class="literal">None</span>,<span class="number">784</span>])</span><br><span class="line"><span class="string">"""W表示证据值向量，因为总数据量为0～9，每一维对应不同的数字，因此为10"""</span></span><br><span class="line">W = tf.Variable(tf.zeros([<span class="number">784</span>,<span class="number">10</span>]))</span><br><span class="line"><span class="string">"""b同理，为10"""</span></span><br><span class="line">b = tf.Variable(tf.zeros([<span class="number">10</span>]))</span><br><span class="line">y = tf.nn.softmax(tf.matmul(x,W)+b)</span><br><span class="line"><span class="string">"""初始化交叉熵的值"""</span></span><br><span class="line">y_ = tf.placeholder(<span class="string">"float"</span>,[<span class="literal">None</span>,<span class="number">10</span>])</span><br><span class="line"><span class="string">"""计算交叉熵"""</span></span><br><span class="line">cross_entropy = -tf.reduce_sum(y_*tf.log(y))</span><br><span class="line"><span class="string">"""梯度下降算法"""</span></span><br><span class="line">train_step = tf.train.GradientDescentOptimizer(<span class="number">0.01</span>).minimize(cross_entropy)</span><br><span class="line"><span class="string">"""开始训练模型"""</span></span><br><span class="line">init = tf.initialize_all_variables()</span><br><span class="line">sess = tf.Session()</span><br><span class="line">sess.run(init)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    batch_xs,batch_ys = mnist.train.next_batch(<span class="number">100</span>)</span><br><span class="line">    sess.run(train_step,feed_dict=&#123;x:batch_xs,y_:batch_ys&#125;)</span><br><span class="line"><span class="string">"""评估模型"""</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(y,<span class="number">1</span>), tf.argmax(y_,<span class="number">1</span>))</span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, <span class="string">"float"</span>))</span><br><span class="line"><span class="string">"""正确率"""</span></span><br><span class="line">k = sess.run(accuracy, feed_dict=&#123;x: mnist.test.images, y_: mnist.test.labels&#125;)</span><br><span class="line">print(k)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>公式参考链接：<a href="https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference" target="_blank" rel="noopener">https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference</a></p>
-]]></content>
-      <categories>
-        <category>machine learning</category>
-      </categories>
-      <tags>
-        <tag>mnist</tag>
-        <tag>machine learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rabbitmq for Docker安装教程</title>
-    <url>/Rabbitmq-for-Docker%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>为了配合Spring-Cloud-Bus做配置文件的更新，需要用到Rabbitmq，在实际生产环境中安装Rabbitmq出现了一些问题（如Linux内核版本、erlang版本等其他问题），因此使用Docker进行部署。</p>
-<p>运行查找命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker search rabbitmq</span><br></pre></td></tr></table></figure>
-
-<p>找到第一个：NAME is rabbitmq</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull rabbitmq</span><br></pre></td></tr></table></figure>
-
-<p>运行一个rabbitmq容器</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:latest</span><br></pre></td></tr></table></figure>
-
-<p>5672: 服务端口号</p>
-<p>15672: web管理端口号</p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>最后，可以把运行容器的部分保存成一个rabbitmq-start.sh的文件，方便快速启动。</p>
-<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><ul>
-<li>docker ps : 查看已经运行的容器</li>
-<li>docker ps -a: 查看停止的容器</li>
-<li>docker stop &lt;container_name/container_id&gt;: 停止容器</li>
-<li>docker rm &lt;container_name/container_id&gt;: 删除容器</li>
-<li>Docker rmi &lt;image_name/image_id&gt;: 删除镜像</li>
-</ul>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
-      <tags>
-        <tag>rabbitmq</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>OpenJDK9在OSX平台下编译和调试</title>
     <url>/OpenJDK9%E5%9C%A8OSX%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95.html</url>
     <content><![CDATA[<p>在<code>深入理解Java虚拟机</code>一书中编译OpenJDK出现各种奇怪的错误，在这里集中做一下说明，以便日后查看。</p>
@@ -1215,6 +1184,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Rabbitmq for Docker安装教程</title>
+    <url>/Rabbitmq-for-Docker%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>为了配合Spring-Cloud-Bus做配置文件的更新，需要用到Rabbitmq，在实际生产环境中安装Rabbitmq出现了一些问题（如Linux内核版本、erlang版本等其他问题），因此使用Docker进行部署。</p>
+<p>运行查找命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker search rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>找到第一个：NAME is rabbitmq</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>运行一个rabbitmq容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:latest</span><br></pre></td></tr></table></figure>
+
+<p>5672: 服务端口号</p>
+<p>15672: web管理端口号</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>最后，可以把运行容器的部分保存成一个rabbitmq-start.sh的文件，方便快速启动。</p>
+<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><ul>
+<li>docker ps : 查看已经运行的容器</li>
+<li>docker ps -a: 查看停止的容器</li>
+<li>docker stop &lt;container_name/container_id&gt;: 停止容器</li>
+<li>docker rm &lt;container_name/container_id&gt;: 删除容器</li>
+<li>Docker rmi &lt;image_name/image_id&gt;: 删除镜像</li>
+</ul>
+]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+      <tags>
+        <tag>rabbitmq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSH建立SOCKS代理</title>
     <url>/SSH%E5%BB%BA%E7%AB%8BSOCKS%E4%BB%A3%E7%90%86.html</url>
     <content><![CDATA[<p>因工作环境与服务器不在同一局域网下，为了安全性，不公开内部端口，因此需要进行外网对局域网的服务进行访问，我的ssh账号拥有shell权限，可以建立SSH Tunnel。</p>
@@ -1240,23 +1240,6 @@
       <tags>
         <tag>SSH</tag>
         <tag>SOCKS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SpringFramework BeanUtil</title>
-    <url>/SpringFramework-BeanUtil.html</url>
-    <content><![CDATA[<p>在使用SpringMVC开发JavaWeb网站的时候，当执行Update方法的时候，需要对修改实体类的字段进行<code>set</code>操作，字段过多的时候一个个的<code>set</code>实在是一件麻烦事，于是想到了SpringFramework自带的BeanUtils方法，但是这个方法会将结果为<code>Null</code>的字段也进行拷贝，与实际Update功能不符，因此需要进行改写。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>改写SpringFramework BeanUtils</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapperImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">BeanUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 重写工具类BeanUtils，如果为NULL则不复制属性值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source newClass</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> target oldClass</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyProperties</span><span class="params">(Object source,Object target)</span></span>&#123;</span><br><span class="line">		BeanUtils.copyProperties(source, target,getNullPropertyNames(source));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object source)&#123;</span><br><span class="line">		<span class="keyword">final</span> BeanWrapper src = <span class="keyword">new</span> BeanWrapperImpl(source);</span><br><span class="line">		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();</span><br><span class="line">		Set&lt;String&gt; emptyNames = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(java.beans.PropertyDescriptor pd:pds)&#123;</span><br><span class="line">			Object srcValue = src.getPropertyValue(pd.getName());</span><br><span class="line">			<span class="keyword">if</span>(srcValue == <span class="keyword">null</span>) emptyNames.add(pd.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		String[] result = <span class="keyword">new</span> String[emptyNames.size()];</span><br><span class="line">		<span class="keyword">return</span> emptyNames.toArray(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>在实际使用过程中可以进行拓展，比如对<code>int</code>类型进行操作。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1330,61 +1313,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>frp-NAS内网穿透实现</title>
-    <url>/frp-NAS%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0.html</url>
-    <content><![CDATA[<p>群晖在使用的过程中，因为没有公网IP的关系，因而需要用到内网穿透技术。使用nat123或者花生壳虽然能达到效果，奈何速度太慢，收到端口闲置颇多，因而使用frp实现内网穿透。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
-<li>一台阿里云服务器或者VPS （服务端）</li>
-<li>NAS（客户端）</li>
-<li>FRP服务端以及客户端：<a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">FRP官网</a></li>
-</ul>
-<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>服务器端配置文件<code>frps.ini</code></p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">7000</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="string">8080</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">7500</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">用户名</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">密码</span></span><br><span class="line"><span class="attr">max_pool_count</span> = <span class="string">5</span></span><br><span class="line"><span class="attr">authentication_timeout</span> = <span class="string">900</span></span><br><span class="line"></span><br><span class="line"><span class="attr">subdomain_host</span> = <span class="string">your_domain.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[ssh]</span></span><br><span class="line"><span class="attr">listen_port</span> = <span class="string">6000</span></span><br><span class="line"><span class="attr">auth_token</span> = <span class="string">和客服端 token 对应</span></span><br></pre></td></tr></table></figure>
-
-<p>启动服务端</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./frps -c ./frps.ini</span><br></pre></td></tr></table></figure>
-
-<p>客户端配置文件</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">7000</span></span><br><span class="line"><span class="attr">auth_token</span> = <span class="string">和服务器端对应</span></span><br><span class="line"><span class="attr">pool_count</span> = <span class="string">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">tcp</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">NAS局域网ip / 127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">22</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="string">6000</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[nas]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">http</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">5000</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">nas</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[web]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">http</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">80</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">web</span></span><br></pre></td></tr></table></figure>
-
-<p>运行客户端</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
-
-<h3 id="域名配置"><a href="#域名配置" class="headerlink" title="域名配置"></a>域名配置</h3><p>最后，将域名与服务器端的IP进行绑定操作即可。</p>
-]]></content>
-      <categories>
-        <category>nas</category>
-      </categories>
-      <tags>
-        <tag>nas</tag>
-        <tag>frp</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Tesseract-OCR识别中文与训练字库实例</title>
     <url>/Tesseract-OCR%E8%AF%86%E5%88%AB%E4%B8%AD%E6%96%87%E4%B8%8E%E8%AE%AD%E7%BB%83%E5%AD%97%E5%BA%93%E5%AE%9E%E4%BE%8B.html</url>
     <content><![CDATA[<p>关于中文识别，效果不错并且开源的应该就是Tesseract-OCR了，在Mac下试用了一下，参考了网络上其他人的一些资源，在这里分享一下。</p>
@@ -1442,6 +1370,78 @@
       </tags>
   </entry>
   <entry>
+    <title>SpringFramework BeanUtil</title>
+    <url>/SpringFramework-BeanUtil.html</url>
+    <content><![CDATA[<p>在使用SpringMVC开发JavaWeb网站的时候，当执行Update方法的时候，需要对修改实体类的字段进行<code>set</code>操作，字段过多的时候一个个的<code>set</code>实在是一件麻烦事，于是想到了SpringFramework自带的BeanUtils方法，但是这个方法会将结果为<code>Null</code>的字段也进行拷贝，与实际Update功能不符，因此需要进行改写。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>改写SpringFramework BeanUtils</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapperImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">BeanUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 重写工具类BeanUtils，如果为NULL则不复制属性值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source newClass</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> target oldClass</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyProperties</span><span class="params">(Object source,Object target)</span></span>&#123;</span><br><span class="line">		BeanUtils.copyProperties(source, target,getNullPropertyNames(source));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object source)&#123;</span><br><span class="line">		<span class="keyword">final</span> BeanWrapper src = <span class="keyword">new</span> BeanWrapperImpl(source);</span><br><span class="line">		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();</span><br><span class="line">		Set&lt;String&gt; emptyNames = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(java.beans.PropertyDescriptor pd:pds)&#123;</span><br><span class="line">			Object srcValue = src.getPropertyValue(pd.getName());</span><br><span class="line">			<span class="keyword">if</span>(srcValue == <span class="keyword">null</span>) emptyNames.add(pd.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		String[] result = <span class="keyword">new</span> String[emptyNames.size()];</span><br><span class="line">		<span class="keyword">return</span> emptyNames.toArray(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>在实际使用过程中可以进行拓展，比如对<code>int</code>类型进行操作。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>frp-NAS内网穿透实现</title>
+    <url>/frp-NAS%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0.html</url>
+    <content><![CDATA[<p>群晖在使用的过程中，因为没有公网IP的关系，因而需要用到内网穿透技术。使用nat123或者花生壳虽然能达到效果，奈何速度太慢，收到端口闲置颇多，因而使用frp实现内网穿透。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>一台阿里云服务器或者VPS （服务端）</li>
+<li>NAS（客户端）</li>
+<li>FRP服务端以及客户端：<a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">FRP官网</a></li>
+</ul>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>服务器端配置文件<code>frps.ini</code></p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">7000</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="string">8080</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">7500</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">用户名</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">密码</span></span><br><span class="line"><span class="attr">max_pool_count</span> = <span class="string">5</span></span><br><span class="line"><span class="attr">authentication_timeout</span> = <span class="string">900</span></span><br><span class="line"></span><br><span class="line"><span class="attr">subdomain_host</span> = <span class="string">your_domain.com</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[ssh]</span></span><br><span class="line"><span class="attr">listen_port</span> = <span class="string">6000</span></span><br><span class="line"><span class="attr">auth_token</span> = <span class="string">和客服端 token 对应</span></span><br></pre></td></tr></table></figure>
+
+<p>启动服务端</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./frps -c ./frps.ini</span><br></pre></td></tr></table></figure>
+
+<p>客户端配置文件</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">ip</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">7000</span></span><br><span class="line"><span class="attr">auth_token</span> = <span class="string">和服务器端对应</span></span><br><span class="line"><span class="attr">pool_count</span> = <span class="string">1</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">tcp</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">NAS局域网ip / 127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">22</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="string">6000</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[nas]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">http</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">5000</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">nas</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[web]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">http</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">80</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">web</span></span><br></pre></td></tr></table></figure>
+
+<p>运行客户端</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./frpc -c ./frpc.ini</span><br></pre></td></tr></table></figure>
+
+<h3 id="域名配置"><a href="#域名配置" class="headerlink" title="域名配置"></a>域名配置</h3><p>最后，将域名与服务器端的IP进行绑定操作即可。</p>
+]]></content>
+      <categories>
+        <category>nas</category>
+      </categories>
+      <tags>
+        <tag>nas</tag>
+        <tag>frp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOSOpenDev安装</title>
     <url>/iOSOpenDev%E5%AE%89%E8%A3%85.html</url>
     <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装-macports"><a href="#安装-macports" class="headerlink" title="安装 macports"></a>安装 <a href="https://link.jianshu.com/?t=https://www.macports.org/install.php" target="_blank" rel="noopener">macports</a></h3><p>安装完MacPorts后打开终端，输入 sudo port -v selfupdate 更新MacPorts到最新版本，时间可能比较长。</p>
@@ -1463,6 +1463,24 @@
       </categories>
       <tags>
         <tag>iOSOpenDev</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>macOS下JD-GUI无法打开的问题</title>
+    <url>/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html</url>
+    <content><![CDATA[<blockquote>
+<p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>macOS</tag>
       </tags>
   </entry>
   <entry>
@@ -1522,84 +1540,6 @@
       <tags>
         <tag>gem</tag>
         <tag>ruby</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sysbench基准测试</title>
-    <url>/sysbench%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95.html</url>
-    <content><![CDATA[<p>文件I/O(fileio)基准测试可以测试系统在不同I/O负载下的性能。这对于比较不同的硬盘驱动器、不同的RAID卡、不同的RAID模式，都很有帮助。可以根据测试结果来调整I/O子系统。文件I/O基准测试模拟了很多InnoDB的I/O特性。测试的第一步是准备(prepare)阶段，生成测试用到的数据文件，生成的数据文件至少要比内存大。如果文件中的数据能完全放入内存中，则操作系统缓存大部分的数据，导致测试结果无法体现I/O密集型的工作负载。</p>
-<h2 id="安装sysbench"><a href="#安装sysbench" class="headerlink" title="安装sysbench"></a>安装sysbench</h2><h3 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://github.com/akopytov/sysbench/archive/1.0.zip -O <span class="string">"sysbench-1.0.zip"</span></span><br><span class="line">unzip sysbench-1.0.zip</span><br><span class="line"><span class="built_in">cd</span> sysbench-1.0</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install automake libtool –y</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line"><span class="comment">#这里换成机器中mysql路径下的include</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/mysql/include</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-
-<p>有可能有的同学找不到include目录，不要慌，看看下面:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install mysql-devel</span><br></pre></td></tr></table></figure>
-
-<p><code>/usr/include/mysql</code>就是include目录了。</p>
-<h2 id="内建测试-fileio测试"><a href="#内建测试-fileio测试" class="headerlink" title="内建测试: fileio测试"></a>内建测试: fileio测试</h2><h3 id="准备测试集"><a href="#准备测试集" class="headerlink" title="准备测试集"></a>准备测试集</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-total-size=150G prepare</span><br></pre></td></tr></table></figure>
-
-<p><code>--test=fileio</code>表示测试类型为内建的fileio测试</p>
-<p><code>--test-total-size=150G</code>表示准备测试数据集为150G大小</p>
-<p><code>prepare</code>命令准备测试数据集</p>
-<h3 id="查看帮助文档"><a href="#查看帮助文档" class="headerlink" title="查看帮助文档"></a>查看帮助文档</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
-
-<p>fileio options: //可用的选项</p>
-<p>–file-num=N number of files to create [128]   //文件数量</p>
-<p>–file-block-size=N block size to use in all IO operations [16384]  //文件块大小设定</p>
-<p>–file-total-size=SIZE total size of files to create [2G]  //文件总大小</p>
-<p>–file-test-mode=STRING test mode {seqwr, seqrewr, seqrd, rndrd, rndwr, rndrw}  //测试模式</p>
-<p>–file-io-mode=STRING file operations mode {sync,async,mmap} [sync]  //io模式，“同步”、“异步”</p>
-<p>–file-extra-flags=STRING additional flags to use on opening files {sync,dsync,direct} []</p>
-<p>–file-fsync-freq=N do fsync() after this number of requests (0 - don’t use fsync()) [100]  //fsync()方法调用频率</p>
-<p>–file-fsync-all=[on|off] do fsync() after each write operation [off]  //每一次写操作都进行fsync()同步，默认为off</p>
-<p>–file-fsync-end=[on|off] do fsync() at the end of test [on]  //在测试结束之前调用fsync()同步方法</p>
-<p>–file-fsync-mode=STRING which method to use for synchronization {fsync, fdatasync} [fsync]</p>
-<p>–file-merged-requests=N merge at most this number of IO requests if possible (0 - don’t merge) [0]</p>
-<p>–file-rw-ratio=N reads/writes ratio for combined<br>test [1.5]  //读写比率设定</p>
-<p>有一个重要的测试选项：–file-test-mode=STRING。其可用的选项为：</p>
-<p>seqwr：顺序写</p>
-<p>seqrewr：顺序重写</p>
-<p>seqrd：顺序读</p>
-<p>rndrd：随机读取</p>
-<p>rndwr：随机写入</p>
-<p>rndrw：混合随机读/写</p>
-<h3 id="混合随机读写测试"><a href="#混合随机读写测试" class="headerlink" title="混合随机读写测试"></a>混合随机读写测试</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-test-mode=rndrw --file-total-size=150G --file-rw-ratio=2 run</span><br></pre></td></tr></table></figure>
-
-<p>选项解释：</p>
-<p>–test-fileio：测试类型为IO测试</p>
-<p>–file-total-size=5G：测试文件总大小为5G</p>
-<p>–file-test-mode=rndrw：文件IO测试模式为随机混合读写方式</p>
-<p>–file-rw-ratio=2：读写次数比率为2</p>
-<h3 id="分析打印结果"><a href="#分析打印结果" class="headerlink" title="分析打印结果"></a>分析打印结果</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench 1.0:  multi-threaded system evaluation benchmark</span><br><span class="line"></span><br><span class="line">Running the <span class="built_in">test</span> with following options:</span><br><span class="line">Number of threads: 1    //测试线程数</span><br><span class="line">Initializing random number generator from current time</span><br><span class="line"></span><br><span class="line">//测试属性设定，可以通过选项控制</span><br><span class="line">Extra file open flags: 0</span><br><span class="line">128 files, 40MiB each</span><br><span class="line">5GiB total file size</span><br><span class="line">Block size 16KiB</span><br><span class="line">Number of IO requests: 10000</span><br><span class="line">Read/Write ratio <span class="keyword">for</span> combined random IO <span class="built_in">test</span>: 2.00</span><br><span class="line">Periodic FSYNC enabled, calling fsync() each 100 requests.</span><br><span class="line">Calling fsync() at the end of <span class="built_in">test</span>, Enabled.</span><br><span class="line">Using synchronous I/O mode</span><br><span class="line">Doing random r/w <span class="built_in">test</span></span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line">//测试过程中文件操作情况</span><br><span class="line">File operations:</span><br><span class="line">    reads/s:                      95.45  //每秒钟读请求数</span><br><span class="line">    writes/s:                     47.72  //每秒钟写请求数</span><br><span class="line">    fsyncs/s:                     183.25  //没表中同步次数</span><br><span class="line"></span><br><span class="line">//吞吐率</span><br><span class="line">Throughput:</span><br><span class="line">    <span class="built_in">read</span>, MiB/s:                  1.49  //读，1.49MB每秒</span><br><span class="line">    written, MiB/s:               0.75  //写，0.75MB每秒</span><br><span class="line"></span><br><span class="line">//统计数据</span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          69.8488s    //测试总时长</span><br><span class="line">    total number of events:              10000   　　//事件数量</span><br><span class="line">    total time taken by event execution: 39.6674s  　//事件执行事件</span><br><span class="line">    response time: //事件响应事件统计</span><br><span class="line">         min:                                  0.02ms   //最短</span><br><span class="line">         avg:                                  3.97ms   //平均</span><br><span class="line">         max:                                 27.70ms   //最长</span><br><span class="line">         approx.  95 percentile:              11.77ms   //95%以上事件响应时长</span><br><span class="line"></span><br><span class="line">Threads fairness:  //线程公平性统计信息</span><br><span class="line">    events (avg/stddev):           10000.0000/0.00</span><br><span class="line">    execution time (avg/stddev):   39.6674/0.00</span><br></pre></td></tr></table></figure>
-
-<p>与文件IO性能评价密切相关的指标有：每秒钟请求数、吞吐量、95%以上事件响应时间。</p>
-<h3 id="清除测试数据集"><a href="#清除测试数据集" class="headerlink" title="清除测试数据集"></a>清除测试数据集</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-total-size=150G cleanup</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Mysql</category>
-      </categories>
-      <tags>
-        <tag>Mysql</tag>
-        <tag>sysbench</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>macOS下JD-GUI无法打开的问题</title>
-    <url>/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html</url>
-    <content><![CDATA[<blockquote>
-<p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>
-]]></content>
-      <categories>
-        <category>MacOS</category>
-      </categories>
-      <tags>
-        <tag>macOS</tag>
       </tags>
   </entry>
   <entry>
@@ -1720,6 +1660,83 @@
       </tags>
   </entry>
   <entry>
+    <title>sysbench基准测试</title>
+    <url>/sysbench%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95.html</url>
+    <content><![CDATA[<p>文件I/O(fileio)基准测试可以测试系统在不同I/O负载下的性能。这对于比较不同的硬盘驱动器、不同的RAID卡、不同的RAID模式，都很有帮助。可以根据测试结果来调整I/O子系统。文件I/O基准测试模拟了很多InnoDB的I/O特性。测试的第一步是准备(prepare)阶段，生成测试用到的数据文件，生成的数据文件至少要比内存大。如果文件中的数据能完全放入内存中，则操作系统缓存大部分的数据，导致测试结果无法体现I/O密集型的工作负载。</p>
+<h2 id="安装sysbench"><a href="#安装sysbench" class="headerlink" title="安装sysbench"></a>安装sysbench</h2><h3 id="下载解压"><a href="#下载解压" class="headerlink" title="下载解压"></a>下载解压</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://github.com/akopytov/sysbench/archive/1.0.zip -O <span class="string">"sysbench-1.0.zip"</span></span><br><span class="line">unzip sysbench-1.0.zip</span><br><span class="line"><span class="built_in">cd</span> sysbench-1.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install automake libtool –y</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line"><span class="comment">#这里换成机器中mysql路径下的include</span></span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/mysql/include</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>有可能有的同学找不到include目录，不要慌，看看下面:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install mysql-devel</span><br></pre></td></tr></table></figure>
+
+<p><code>/usr/include/mysql</code>就是include目录了。</p>
+<h2 id="内建测试-fileio测试"><a href="#内建测试-fileio测试" class="headerlink" title="内建测试: fileio测试"></a>内建测试: fileio测试</h2><h3 id="准备测试集"><a href="#准备测试集" class="headerlink" title="准备测试集"></a>准备测试集</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-total-size=150G prepare</span><br></pre></td></tr></table></figure>
+
+<p><code>--test=fileio</code>表示测试类型为内建的fileio测试</p>
+<p><code>--test-total-size=150G</code>表示准备测试数据集为150G大小</p>
+<p><code>prepare</code>命令准备测试数据集</p>
+<h3 id="查看帮助文档"><a href="#查看帮助文档" class="headerlink" title="查看帮助文档"></a>查看帮助文档</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+
+<p>fileio options: //可用的选项</p>
+<p>–file-num=N number of files to create [128]   //文件数量</p>
+<p>–file-block-size=N block size to use in all IO operations [16384]  //文件块大小设定</p>
+<p>–file-total-size=SIZE total size of files to create [2G]  //文件总大小</p>
+<p>–file-test-mode=STRING test mode {seqwr, seqrewr, seqrd, rndrd, rndwr, rndrw}  //测试模式</p>
+<p>–file-io-mode=STRING file operations mode {sync,async,mmap} [sync]  //io模式，“同步”、“异步”</p>
+<p>–file-extra-flags=STRING additional flags to use on opening files {sync,dsync,direct} []</p>
+<p>–file-fsync-freq=N do fsync() after this number of requests (0 - don’t use fsync()) [100]  //fsync()方法调用频率</p>
+<p>–file-fsync-all=[on|off] do fsync() after each write operation [off]  //每一次写操作都进行fsync()同步，默认为off</p>
+<p>–file-fsync-end=[on|off] do fsync() at the end of test [on]  //在测试结束之前调用fsync()同步方法</p>
+<p>–file-fsync-mode=STRING which method to use for synchronization {fsync, fdatasync} [fsync]</p>
+<p>–file-merged-requests=N merge at most this number of IO requests if possible (0 - don’t merge) [0]</p>
+<p>–file-rw-ratio=N reads/writes ratio for combined<br>test [1.5]  //读写比率设定</p>
+<p>有一个重要的测试选项：–file-test-mode=STRING。其可用的选项为：</p>
+<p>seqwr：顺序写</p>
+<p>seqrewr：顺序重写</p>
+<p>seqrd：顺序读</p>
+<p>rndrd：随机读取</p>
+<p>rndwr：随机写入</p>
+<p>rndrw：混合随机读/写</p>
+<h3 id="混合随机读写测试"><a href="#混合随机读写测试" class="headerlink" title="混合随机读写测试"></a>混合随机读写测试</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-test-mode=rndrw --file-total-size=150G --file-rw-ratio=2 run</span><br></pre></td></tr></table></figure>
+
+<p>选项解释：</p>
+<p>–test-fileio：测试类型为IO测试</p>
+<p>–file-total-size=5G：测试文件总大小为5G</p>
+<p>–file-test-mode=rndrw：文件IO测试模式为随机混合读写方式</p>
+<p>–file-rw-ratio=2：读写次数比率为2</p>
+<h3 id="分析打印结果"><a href="#分析打印结果" class="headerlink" title="分析打印结果"></a>分析打印结果</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench 1.0:  multi-threaded system evaluation benchmark</span><br><span class="line"></span><br><span class="line">Running the <span class="built_in">test</span> with following options:</span><br><span class="line">Number of threads: 1    //测试线程数</span><br><span class="line">Initializing random number generator from current time</span><br><span class="line"></span><br><span class="line">//测试属性设定，可以通过选项控制</span><br><span class="line">Extra file open flags: 0</span><br><span class="line">128 files, 40MiB each</span><br><span class="line">5GiB total file size</span><br><span class="line">Block size 16KiB</span><br><span class="line">Number of IO requests: 10000</span><br><span class="line">Read/Write ratio <span class="keyword">for</span> combined random IO <span class="built_in">test</span>: 2.00</span><br><span class="line">Periodic FSYNC enabled, calling fsync() each 100 requests.</span><br><span class="line">Calling fsync() at the end of <span class="built_in">test</span>, Enabled.</span><br><span class="line">Using synchronous I/O mode</span><br><span class="line">Doing random r/w <span class="built_in">test</span></span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line">//测试过程中文件操作情况</span><br><span class="line">File operations:</span><br><span class="line">    reads/s:                      95.45  //每秒钟读请求数</span><br><span class="line">    writes/s:                     47.72  //每秒钟写请求数</span><br><span class="line">    fsyncs/s:                     183.25  //没表中同步次数</span><br><span class="line"></span><br><span class="line">//吞吐率</span><br><span class="line">Throughput:</span><br><span class="line">    <span class="built_in">read</span>, MiB/s:                  1.49  //读，1.49MB每秒</span><br><span class="line">    written, MiB/s:               0.75  //写，0.75MB每秒</span><br><span class="line"></span><br><span class="line">//统计数据</span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          69.8488s    //测试总时长</span><br><span class="line">    total number of events:              10000   　　//事件数量</span><br><span class="line">    total time taken by event execution: 39.6674s  　//事件执行事件</span><br><span class="line">    response time: //事件响应事件统计</span><br><span class="line">         min:                                  0.02ms   //最短</span><br><span class="line">         avg:                                  3.97ms   //平均</span><br><span class="line">         max:                                 27.70ms   //最长</span><br><span class="line">         approx.  95 percentile:              11.77ms   //95%以上事件响应时长</span><br><span class="line"></span><br><span class="line">Threads fairness:  //线程公平性统计信息</span><br><span class="line">    events (avg/stddev):           10000.0000/0.00</span><br><span class="line">    execution time (avg/stddev):   39.6674/0.00</span><br></pre></td></tr></table></figure>
+
+<p>与文件IO性能评价密切相关的指标有：每秒钟请求数、吞吐量、95%以上事件响应时间。</p>
+<h3 id="清除测试数据集"><a href="#清除测试数据集" class="headerlink" title="清除测试数据集"></a>清除测试数据集</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sysbench --<span class="built_in">test</span>=fileio --file-total-size=150G cleanup</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>Mysql</tag>
+        <tag>sysbench</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于Spring-Cloud的一点想法</title>
+    <url>/%E5%85%B3%E4%BA%8ESpring-Cloud%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95.html</url>
+    <content><![CDATA[<p>第一次知道Spring-Cloud是通过同学的介绍，第一次使用是因为想把在公司做的所有项目做一个集合，但是在实际使用过程中发现了一些问题，所以在这里对Spring-Cloud的使用场合以及需要注意的地方，做一个总结。</p>
+<p>首先作为Spring-Cloud的核心就是Eureka-Server（服务发现平台），在Spring-Cloud中，几乎你创建的所有服务，都必须通过这个服务发现平台注册，那么安全性应该是首先需要考虑的了，再考虑到分布式，那么这个服务发现平台应该不只是在局域网内使用，因此我觉得应该需要有账户和密码，好在Spring-Security模块帮我解决了这个问题。</p>
+<p>其二是网关处理，所有的服务最终的出口是Zuul，Zuul不能当作nginx，他对css/js等前端的处理不做好，因此如果想要使用spring-cloud的同学注意了，这里讲的所有概念都是基于微服务的，是一种需要将前端与服务端分离的架构模式。Zuul也可以代理由其他语言完成的微服务，比如ASP.NET/PHP语言等，但是最友好的应该是Spring-Cloud，这里可以通过设置route配置相关service-name，对于service-name相同的微服务，会自动对其做负载均衡处理。</p>
+<p>再然后一个问题就是，每当我有一个新的微服务的时候，那么我就需要重新编译Zuul，再上传，这也太费劲了吧！然后出现了Config+Bus这个组合，结合git的WebHook功能，可以做到网关配置文件的集中管理。</p>
+<p>接着说说负载均衡和熔断处理，在Spring-Cloud中主要是有Feign+Hystric来做的，但是似乎和我想的不太一样，首先我需要新建一个项目，把所有的服务聚合起来，然后对每个服务的每个http分别做熔断，这部分代码的编写无非就是接口+熔断，接口部分需要和每个service-id下的所有请求一一对应，但是似乎我没有找到好的解决方案，写这么些几乎重复的东西实在有些不舒服。替代的解决方案是去掉feign层，直接在zuul网关上进行处理，当请求无法到达的时候统一处理熔断。（似乎也不是很好）</p>
+<p>最后的部分就是自动化部署了，毕竟每次编译代码+上传代码+上传服务器+重新启动也是个体力活，咱能自动化处理岂不美哉？</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+      <tags>
+        <tag>spring-cloud</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>打开Windows Powershell Modules报错</title>
     <url>/%E6%89%93%E5%BC%80Windows-Powershell-Modules%E6%8A%A5%E9%94%99.html</url>
     <content><![CDATA[<p>在阿里云Windows Server里进入PowerShell的时候一直报如下错误：</p>
@@ -1739,20 +1756,35 @@
       </tags>
   </entry>
   <entry>
-    <title>关于Spring-Cloud的一点想法</title>
-    <url>/%E5%85%B3%E4%BA%8ESpring-Cloud%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95.html</url>
-    <content><![CDATA[<p>第一次知道Spring-Cloud是通过同学的介绍，第一次使用是因为想把在公司做的所有项目做一个集合，但是在实际使用过程中发现了一些问题，所以在这里对Spring-Cloud的使用场合以及需要注意的地方，做一个总结。</p>
-<p>首先作为Spring-Cloud的核心就是Eureka-Server（服务发现平台），在Spring-Cloud中，几乎你创建的所有服务，都必须通过这个服务发现平台注册，那么安全性应该是首先需要考虑的了，再考虑到分布式，那么这个服务发现平台应该不只是在局域网内使用，因此我觉得应该需要有账户和密码，好在Spring-Security模块帮我解决了这个问题。</p>
-<p>其二是网关处理，所有的服务最终的出口是Zuul，Zuul不能当作nginx，他对css/js等前端的处理不做好，因此如果想要使用spring-cloud的同学注意了，这里讲的所有概念都是基于微服务的，是一种需要将前端与服务端分离的架构模式。Zuul也可以代理由其他语言完成的微服务，比如ASP.NET/PHP语言等，但是最友好的应该是Spring-Cloud，这里可以通过设置route配置相关service-name，对于service-name相同的微服务，会自动对其做负载均衡处理。</p>
-<p>再然后一个问题就是，每当我有一个新的微服务的时候，那么我就需要重新编译Zuul，再上传，这也太费劲了吧！然后出现了Config+Bus这个组合，结合git的WebHook功能，可以做到网关配置文件的集中管理。</p>
-<p>接着说说负载均衡和熔断处理，在Spring-Cloud中主要是有Feign+Hystric来做的，但是似乎和我想的不太一样，首先我需要新建一个项目，把所有的服务聚合起来，然后对每个服务的每个http分别做熔断，这部分代码的编写无非就是接口+熔断，接口部分需要和每个service-id下的所有请求一一对应，但是似乎我没有找到好的解决方案，写这么些几乎重复的东西实在有些不舒服。替代的解决方案是去掉feign层，直接在zuul网关上进行处理，当请求无法到达的时候统一处理熔断。（似乎也不是很好）</p>
-<p>最后的部分就是自动化部署了，毕竟每次编译代码+上传代码+上传服务器+重新启动也是个体力活，咱能自动化处理岂不美哉？</p>
+    <title>路由网关Zuul结合Config-Server配置文件更新教程</title>
+    <url>/%E8%B7%AF%E7%94%B1%E7%BD%91%E5%85%B3Zuul%E7%BB%93%E5%90%88Config-Server%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%9B%B4%E6%96%B0%E6%95%99%E7%A8%8B.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
+<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>新建一个项目名叫service-zuul，pom.xml文件如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fiveplus<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>service-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>service-zuul<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Zuul project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.8.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.aspectj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aspectjweaver<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>Dalston.RC1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    					<span class="tag">&lt;<span class="name">executable</span>&gt;</span>true<span class="tag">&lt;/<span class="name">executable</span>&gt;</span></span><br><span class="line">  				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来是application.properties配置文件</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">eureka.client.service-url.default-zone</span>=<span class="string">http://localhost:8761/eureka/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">server.port</span>=<span class="string">8769</span></span><br><span class="line"></span><br><span class="line"><span class="meta">spring.rabbitmq.host</span>=<span class="string">localhost</span></span><br><span class="line"><span class="meta">spring.rabbitmq.port</span>=<span class="string">5672</span></span><br></pre></td></tr></table></figure>
+
+<p>注意一下，需要安装rabbitmq。</p>
+<p>接下来是bootstrap.properties配置文件，用来配置连接的Config Server。</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.application.name</span>=<span class="string">service-zuul</span></span><br><span class="line"><span class="meta">spring.cloud.config.label</span>=<span class="string">master</span></span><br><span class="line"><span class="meta">spring.cloud.config.profile</span>=<span class="string">dev</span></span><br><span class="line"><span class="meta">spring.cloud.config.uri</span>= <span class="string">http://localhost:8888/</span></span><br></pre></td></tr></table></figure>
+
+<p>然后是Application.java文件：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fiveplus;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好了，然后我们可以把所有的路由全写在git上（service-zuul-dev.properties）：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">zuul.routes.user.path</span>=<span class="string">/user-service/**</span></span><br><span class="line"><span class="meta">zuul.routes.user.service-id</span>=<span class="string">user-service</span></span><br></pre></td></tr></table></figure>
+
+<p>然后可以结合WebHook，每当push文件的时候，发送请求更新配置文件：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">http://&lt;config_server_hostname/config_server_ip&gt;:&lt;config_server_port&gt;/bus/refresh</span><br></pre></td></tr></table></figure>
+
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>注意，在<a href="/Spring-Config-Server搭建教程.html" title="Spring Config Server搭建教程">Spring Config Server搭建教程</a>中已经配置了Spring-Cloud-Bus。</p>
 ]]></content>
       <categories>
-        <category>Others</category>
+        <category>SpringBoot</category>
       </categories>
       <tags>
-        <tag>spring-cloud</tag>
+        <tag>zuul</tag>
       </tags>
   </entry>
   <entry>
@@ -1804,38 +1836,6 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>路由网关Zuul结合Config-Server配置文件更新教程</title>
-    <url>/%E8%B7%AF%E7%94%B1%E7%BD%91%E5%85%B3Zuul%E7%BB%93%E5%90%88Config-Server%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%9B%B4%E6%96%B0%E6%95%99%E7%A8%8B.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能。</p>
-<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>新建一个项目名叫service-zuul，pom.xml文件如下：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fiveplus<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>service-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>service-zuul<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Zuul project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.8.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-config<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.aspectj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>aspectjweaver<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.8.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>Dalston.RC1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    					<span class="tag">&lt;<span class="name">executable</span>&gt;</span>true<span class="tag">&lt;/<span class="name">executable</span>&gt;</span></span><br><span class="line">  				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>接下来是application.properties配置文件</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">eureka.client.service-url.default-zone</span>=<span class="string">http://localhost:8761/eureka/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">server.port</span>=<span class="string">8769</span></span><br><span class="line"></span><br><span class="line"><span class="meta">spring.rabbitmq.host</span>=<span class="string">localhost</span></span><br><span class="line"><span class="meta">spring.rabbitmq.port</span>=<span class="string">5672</span></span><br></pre></td></tr></table></figure>
-
-<p>注意一下，需要安装rabbitmq。</p>
-<p>接下来是bootstrap.properties配置文件，用来配置连接的Config Server。</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.application.name</span>=<span class="string">service-zuul</span></span><br><span class="line"><span class="meta">spring.cloud.config.label</span>=<span class="string">master</span></span><br><span class="line"><span class="meta">spring.cloud.config.profile</span>=<span class="string">dev</span></span><br><span class="line"><span class="meta">spring.cloud.config.uri</span>= <span class="string">http://localhost:8888/</span></span><br></pre></td></tr></table></figure>
-
-<p>然后是Application.java文件：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fiveplus;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>好了，然后我们可以把所有的路由全写在git上（service-zuul-dev.properties）：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">zuul.routes.user.path</span>=<span class="string">/user-service/**</span></span><br><span class="line"><span class="meta">zuul.routes.user.service-id</span>=<span class="string">user-service</span></span><br></pre></td></tr></table></figure>
-
-<p>然后可以结合WebHook，每当push文件的时候，发送请求更新配置文件：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">http://&lt;config_server_hostname/config_server_ip&gt;:&lt;config_server_port&gt;/bus/refresh</span><br></pre></td></tr></table></figure>
-
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>注意，在<a href="/Spring-Config-Server搭建教程.html" title="Spring Config Server搭建教程">Spring Config Server搭建教程</a>中已经配置了Spring-Cloud-Bus。</p>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
-      <tags>
-        <tag>zuul</tag>
       </tags>
   </entry>
 </search>
