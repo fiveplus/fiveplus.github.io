@@ -181,6 +181,34 @@
   </entry>
   
   <entry>
+    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
+    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
+    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
+    <published>2023-10-09T02:59:00.000Z</published>
+    <updated>2023-10-30T09:55:54.548Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
+      
+    
+    </summary>
+    
+      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
+    
+    
+      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>macOS升级到Ventura后gem无法使用处理方案</title>
     <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Egem%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
     <id>https://blog.ifiveplus.com/macOS升级到Ventura后gem无法使用处理方案.html</id>
@@ -207,34 +235,6 @@
       <category term="gem" scheme="https://blog.ifiveplus.com/tags/gem/"/>
     
       <category term="ruby" scheme="https://blog.ifiveplus.com/tags/ruby/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
-    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
-    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
-    <published>2023-10-09T02:59:00.000Z</published>
-    <updated>2023-10-30T09:55:54.548Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
-      
-    
-    </summary>
-    
-      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
-    
-    
-      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
     
   </entry>
   
