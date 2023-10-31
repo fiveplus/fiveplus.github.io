@@ -2561,7 +2561,6 @@ Follow t
     <link rel="stylesheet" href="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.css">
     <script src="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.js"></script>
     <script>
-        /*
         var emojiList = [{
             code:'smile',
             title:'笑脸',
@@ -2611,6 +2610,7 @@ Follow t
             title:'得意',
             unicode:'1f60f'
         }];
+        /*
         var disq = new iDisqus('comments', {
             forum: 'fiveplusblog',
             site: 'https://blog.ifiveplus.xyz',
@@ -2624,6 +2624,7 @@ Follow t
         });
         disq.count();
         */
+        /*
         var disq = new iDisqus('comments', {
             forum: 'fiveplusblog',
             site: 'https://blog.ifiveplus.xyz',
@@ -2633,6 +2634,17 @@ Follow t
             timeout: 3000,
             init: true,
             emojiPreview: true
+        });
+        */
+        var disq = new iDisqus('comments', {
+            forum: 'fiveplusblog',
+            site: 'https://blog.ifiveplus.xyz',
+            api: 'https://disqus.ifiveplus.xyz/api',
+            url: location.pathname.replace('index.html',''),
+            mode: 1,
+            timeout: 3000,
+            init: true,
+            emojiList: emojiList
         });
         disq.count();
     </script>

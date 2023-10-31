@@ -2573,7 +2573,6 @@ MNIST机器学习入门官方网站
     <link rel="stylesheet" href="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.css">
     <script src="https://disqus.ifiveplus.xyz/api/../dist/iDisqus.min.js"></script>
     <script>
-        /*
         var emojiList = [{
             code:'smile',
             title:'笑脸',
@@ -2623,6 +2622,7 @@ MNIST机器学习入门官方网站
             title:'得意',
             unicode:'1f60f'
         }];
+        /*
         var disq = new iDisqus('comments', {
             forum: 'fiveplusblog',
             site: 'https://blog.ifiveplus.xyz',
@@ -2636,6 +2636,7 @@ MNIST机器学习入门官方网站
         });
         disq.count();
         */
+        /*
         var disq = new iDisqus('comments', {
             forum: 'fiveplusblog',
             site: 'https://blog.ifiveplus.xyz',
@@ -2645,6 +2646,17 @@ MNIST机器学习入门官方网站
             timeout: 3000,
             init: true,
             emojiPreview: true
+        });
+        */
+        var disq = new iDisqus('comments', {
+            forum: 'fiveplusblog',
+            site: 'https://blog.ifiveplus.xyz',
+            api: 'https://disqus.ifiveplus.xyz/api',
+            url: location.pathname.replace('index.html',''),
+            mode: 1,
+            timeout: 3000,
+            init: true,
+            emojiList: emojiList
         });
         disq.count();
     </script>
