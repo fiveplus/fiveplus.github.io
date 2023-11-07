@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.ifiveplus.com/"/>
-  <updated>2023-10-30T09:55:54.547Z</updated>
+  <updated>2023-11-07T06:18:52.946Z</updated>
   <id>https://blog.ifiveplus.com/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>华为手机adbshell卸载不需要的系统应用</title>
+    <link href="https://blog.ifiveplus.com/%E5%8D%8E%E4%B8%BA%E6%89%8B%E6%9C%BAadbshell%E5%8D%B8%E8%BD%BD%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8.html"/>
+    <id>https://blog.ifiveplus.com/华为手机adbshell卸载不需要的系统应用.html</id>
+    <published>2023-11-07T06:05:32.000Z</published>
+    <updated>2023-11-07T06:18:52.946Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>华为手机上有些系统应用广告太多，但是却无法卸载，这里介绍一下如何卸载这些系统应用</p></blockquote><h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><h3 id="adb的下载与环境变量设置"><a href="#adb的下载与环境变量设置" class="headerlink" title="adb的下载与环境变量设置"></a>adb的下载与环境变量设置</h3><p>略</p><h3 id="手机USB调试模式开启"><a href="#手机USB调试模式开启" class="headerlink" title="手机USB调试模式开启"></a>手机USB调试模式开启</h3><p>略</p><h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>略</p><h3 id="adb会用到的命令"><a href="#adb会用到的命令" class="headerlink" title="adb会用到的命令"></a>adb会用到的命令</h3><p><code>adb version</code>: 安装完成查看版本号</p><p><code>adb devices</code>: 连接设备</p><p><code>adb shell am monitor</code>: 执行后运行需要卸载的应用，即可看到该应用的包名</p><p><code>adb shell pm list packages</code>: 查看所有应用包名</p><p><code>adb shell pm uninstall -k --user 0 应用包名</code>: 卸载应用，-k表示保存数据</p><p><code>adb shell pm disable -k --user 0 应用包名</code>: 禁用应用,-k表示保存数据</p><p><code>adb shell pm enable -k --user 0 应用包名</code>: 恢复应用,-k表示保存数据</p><p>我卸载的应用（华为音乐，华为浏览器，华为电影，华为智慧助手）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb shell pm uninstall -k --user 0 com.huawei.music    </span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.browser</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.himovie</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.vassistant</span><br></pre></td></tr></table></figure><p>建议先从<code>华为应用市场</code>-<code>我的</code>-<code>设置</code>中关闭自动更新后再卸载应用</p><h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>参考链接：<a href="https://www.xjx100.cn/news/405554.html?action=onClick" target="_blank" rel="noopener">https://www.xjx100.cn/news/405554.html?action=onClick</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;华为手机上有些系统应用广告太多，但是却无法卸载，这里介绍一下如何卸载这些系统应用&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;解决步骤&quot;&gt;&lt;a href=&quot;#解决步骤&quot; class=&quot;headerlink&quot; title=&quot;解决步骤&quot;&gt;&lt;/a
+      
+    
+    </summary>
+    
+      <category term="Others" scheme="https://blog.ifiveplus.com/categories/Others/"/>
+    
+    
+      <category term="android" scheme="https://blog.ifiveplus.com/tags/android/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -153,6 +181,34 @@
   </entry>
   
   <entry>
+    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
+    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
+    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
+    <published>2023-10-09T02:59:00.000Z</published>
+    <updated>2023-10-30T09:55:54.548Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
+      
+    
+    </summary>
+    
+      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
+    
+    
+      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
+    
+  </entry>
+  
+  <entry>
     <title>macOS下JD-GUI无法打开的问题</title>
     <link href="https://blog.ifiveplus.com/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html"/>
     <id>https://blog.ifiveplus.com/macOS下JD-GUI无法打开的问题.html</id>
@@ -207,34 +263,6 @@
       <category term="gem" scheme="https://blog.ifiveplus.com/tags/gem/"/>
     
       <category term="ruby" scheme="https://blog.ifiveplus.com/tags/ruby/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
-    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
-    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
-    <published>2023-10-09T02:59:00.000Z</published>
-    <updated>2023-10-30T09:55:54.548Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
-      
-    
-    </summary>
-    
-      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
-    
-    
-      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
     
   </entry>
   
@@ -535,32 +563,6 @@
       <category term="Feign" scheme="https://blog.ifiveplus.com/tags/Feign/"/>
     
       <category term="Hystric" scheme="https://blog.ifiveplus.com/tags/Hystric/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码开源协议选择</title>
-    <link href="https://blog.ifiveplus.com/%E4%BB%A3%E7%A0%81%E5%BC%80%E6%BA%90%E5%8D%8F%E8%AE%AE%E9%80%89%E6%8B%A9.html"/>
-    <id>https://blog.ifiveplus.com/代码开源协议选择.html</id>
-    <published>2017-12-26T06:48:39.000Z</published>
-    <updated>2023-10-30T09:55:54.549Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>随着你项目做得多了代码写得多了，你会发现编码过程中会不时用到其他人的成果，一个项目下来多少会引入一些优秀的库，别人放在公网上开源的DLL，以及一些算法等等。细心的你会注意到即使只是一小段代码，优秀的作者都在最开始会简单地附上一段关于许可的声明，或者说是协议比如”Licensed under the MIT license”，并且一些博客也会标明”此文章发表在CC协议下”。而如果我们Copy了别人的代码或者文字同时没注意这些的话，在国外法律意识特别强的环境下，我们的作品会因触犯别人的权益而违法。因为好多开源协议最低要求是使用者需要保留原作者对代码的声明，不声不响地就拿来用了必然导致恶果。</p><p>所以开源不等于免费，开源也不等于没有约束。</p></blockquote><h2 id="什么是License"><a href="#什么是License" class="headerlink" title="什么是License?"></a>什么是License?</h2><p>License是软件的授权许可，里面详尽表述了你获得代码后拥有的权利，可以对别人的作品进行何种操作，何种操作又是被禁止的。软件协议可分为开源和商业。当然本文要讨论的当然是开源协议。</p><p>所以对于大多数人来说，不用自己花大把时间去写许可协议，选择一分广为流传的开源协议是个不错的选择，如果你的作品是开源的话，这样省时又省心。</p><h2 id="快速选择"><a href="#快速选择" class="headerlink" title="快速选择"></a>快速选择</h2><p>目前流行的开源协议有很多，并且同一款协议有很多变种，比如你或许看到过’ CC Attribution-NoDerivs’,’ CC Attribution-NonCommercial’同属CC协议（后面会有介绍）。如此纷繁的协议该如何选择？协议太宽松会导致作者丧失对作品的很多权利，太严格又不便于使用者使用及作品的传播。所以除了协议多之外，你还要考虑你对作品想保留哪些权利，放开哪些限制。</p><h2 id="简单宽松的协议"><a href="#简单宽松的协议" class="headerlink" title="简单宽松的协议"></a>简单宽松的协议</h2><p>如果你只想要一个简单点的协议不想太麻烦的话。</p><p><a href="http://choosealicense.com/licenses/mit" target="_blank" rel="noopener">MIT协议</a>相对宽松但还是抓住了要点的。此协议允许别人以任何方式使用你的代码同时署名原作者，但原作者不承担代码使用后的风险，当然也没有技术支持的义务。jQuery和Rails就是MIT协议。</p><h2 id="考虑有专利的情况"><a href="#考虑有专利的情况" class="headerlink" title="考虑有专利的情况"></a>考虑有专利的情况</h2><p>如果你的作品中涉及到专利相关。</p><p><a href="http://choosealicense.com/licenses/apache/" target="_blank" rel="noopener">Apache协议</a>也是个相对宽松与MIT类似的协议，但它简单指明了作品归属者对用户专利上的一些授权（我的理解是软件作品中含有专利，但它授权你可以免费使用）。Apache服务器，SVN还有NuGet等是使用的Apache协议。</p><h2 id="代码分享与促进"><a href="#代码分享与促进" class="headerlink" title="代码分享与促进"></a>代码分享与促进</h2><p>如果你在乎作品的传播和别人的修改，希望别人也以相同的协议分享出来。</p><p>GPL（<a href="http://choosealicense.com/licenses/gpl-v2" target="_blank" rel="noopener">V2</a>或<a href="http://choosealicense.com/licenses/gpl-v3" target="_blank" rel="noopener">V3</a>）是一种版本自由的协议（可以参照copy right来理解，后者是版本保留，那copyleft便是版权自由，或者无版权，但无版权不代表你可以不遵守软件中声明的协议）。此协议要求代码分发者或者以此代码为基础开发出来的衍生作品需要以同样的协议来发布。此协议的版本3与版本2相近，只是多3中加了条对于不支持修改后代码运行的硬件的限制（没太明白此句话的内涵）。</p><h2 id="各协议授权详情"><a href="#各协议授权详情" class="headerlink" title="各协议授权详情"></a>各协议授权详情</h2><ul><li>协议和版权信息(License and copyright notice)：在代码中保留作者提供的协议和版权信息</li><li>声明变更(State Changes)：在代码中声明对原来代码的重大修改及变更</li><li>公开源码(Disclose Source)：代码必需公开。如果是基于<a href="https://www.gnu.org/licenses/lgpl.html" target="_blank" rel="noopener">LGPL协议</a> 下，则只需使用的开源代码公开，不必将整个软件源码公开</li><li>库引用(Library usage)：该库可以用于商业软件中</li><li>责任承担(Hold Liable)：代码的作者承担代码使用后的风险及产生的后果</li><li>商标使用(Use Trademark)：可以使用作者的姓名，作品的Logo，或商标</li><li>附加协议(Sublicensing)：允许在软件分发传播过程中附加上原来没有的协议条款等</li></ul><table><thead><tr><th><strong>协议</strong></th><th><strong>描述</strong></th><th><strong>要求</strong></th><th><strong>允许</strong></th><th><strong>禁止</strong></th></tr></thead><tbody><tr><td><a href="http://choosealicense.com/licenses/apache/" target="_blank" rel="noopener">Apache</a></td><td>一个较宽松且简明地指出了专利授权的协议。</td><td>协议和版权信息 / 声明变更</td><td>商用 / 分发 / 修改 / 专利授权 / 私用 / 附加协议</td><td>责任承担（<em>禁止让作者承担责任，可以理解为免责</em>） / 商标使用</td></tr><tr><td><a href="http://choosealicense.com/licenses/gpl-v2/" target="_blank" rel="noopener">GPL</a></td><td>此协议是应用最为广泛的开源协议，拥有较强的版权自由( copyleft )要求。衍生代码的分发需开源并且也要遵守此协议。此协议有许多变种，不同变种的要求略有不同。</td><td>公开源码 / 协议和版权信息 / 声明变更</td><td>商用  /分发  /修改 / 专利授权 / 私用</td><td>责任承担 / 附加协议</td></tr><tr><td><a href="http://choosealicense.com/licenses/mit/" target="_blank" rel="noopener">MIT</a></td><td>宽松简单且精要的一个协议。在适当标明来源及免责的情况下，它允许你对代码进行任何形式的使用。</td><td>协议和版权信息</td><td>商用 /分发 / 修改 / 私用 / 附加协议</td><td>责任承担</td></tr><tr><td><a href="http://choosealicense.com/licenses/artistic/" target="_blank" rel="noopener">Artistic</a></td><td>Perl社区尤为钟爱此协议。要求更改后的软件不能影响原软件的使用。</td><td>协议和版权信息 / 声明变更</td><td>商用 / 分发 / 修改 / 私用 / 附加协议</td><td>责任承担 / 商标使用</td></tr><tr><td><a href="http://choosealicense.com/licenses/bsd/" target="_blank" rel="noopener">BSD</a></td><td>较为宽松的协议，包含两个变种<a href="http://choosealicense.com/licenses/bsd" target="_blank" rel="noopener"><strong>BSD 2-Clause</strong></a>和<a href="http://choosealicense.com/licenses/bsd-3-clause" target="_blank" rel="noopener"><strong>BSD 3-Clause</strong></a>，两者都与MIT协议只存在细微差异。</td><td>协议和版权信息</td><td>商用 / 分发 / 修改 / 私用 / 附加协议</td><td>责任承担</td></tr><tr><td><a href="http://choosealicense.com/licenses/eclipse/" target="_blank" rel="noopener">Eclipse</a></td><td>对商用非常友好的一种协议，可以用于软件的商业授权。包含对专利的优雅授权，并且也可以对相关代码应用商业协议。</td><td>公开源码 / 协议和版权信息</td><td>商用 / 分发 / 修改 / 专利授权 / 私用 / 附加协议</td><td>责任承担</td></tr><tr><td><a href="http://choosealicense.com/licenses/lgpl-v2.1/" target="_blank" rel="noopener">LGPL</a></td><td>主要用于一些代码库。衍生代码可以以此协议发布（言下之意你可以用其他协议），但与此协议相关的代码必需遵循此协议。</td><td>公开源码 / 库引用 / 协议和版权信息</td><td>商用 / 分发 / 修改 / 专利授权 / 私用 / 附加协议</td><td>责任承担</td></tr><tr><td><a href="http://choosealicense.com/licenses/mozilla/" target="_blank" rel="noopener">Mozilla</a></td><td>Mozilla Public License(MPL 2.0)是由Mozilla基金创建维护的。此协议旨在较为宽松的BSD协议和更加互惠的GPL协议中寻找一个折衷点。</td><td>公开源码 / 协议和版权信息</td><td>商用 / 分发 / 修改 / 专利授权 / 私用 / 附加协议</td><td>责任承担 /商标使用</td></tr><tr><td><a href="http://choosealicense.com/licenses/no-license/" target="_blank" rel="noopener">No license</a></td><td>你保留所有权利，不允许他人分发，复制或者创造衍生物。当你将代码发表在一些网站上时需要遵守该网站的协议，此协议可能包含了一些对你劳动成果的授权许可。比如你将代码发布到GitHub，那么你就必需同意别人可以查看和Fork你的代码。</td><td>协议和版权信息</td><td>商用 / 私用</td><td>分发 / 修改 / 附加协议</td></tr><tr><td><a href="http://choosealicense.com/licenses/unlicense/" target="_blank" rel="noopener">Public domain dedication</a></td><td>在许多国家，默认版权归作者自动拥有，所以<a href="http://unlicense.org/" target="_blank" rel="noopener">Unlicense</a>协议提供了一种通用的模板，此协议表明你放弃版权，将劳动成果无私贡献出来。你将丧失对作品的全部权利，包括在MIT/X11中定义的无担保权利。</td><td>N/A</td><td>商用 / 分发 / 修改 / 私用</td><td>责任承担</td></tr></tbody></table><h3 id="非代码类作品的协议"><a href="#非代码类作品的协议" class="headerlink" title="非代码类作品的协议"></a>非代码类作品的协议</h3><p>上面各协议只是针对软件或代码作品，如果你的作品不是代码，比如视频，音乐，图片，文章等，共享于公众之前，也最好声明一下协议以保证自己的权益不被侵犯。针对非代码的数字作品的协议，最通用的莫过于<a href="http://creativecommons.org/choose/" target="_blank" rel="noopener"><strong>Creative Commons</strong></a>(也是你经常在别人博客下面可以看到的CC协议)协议。</p><h3 id="无协议"><a href="#无协议" class="headerlink" title="无协议"></a>无协议</h3><p>你没有义务也没人非要你必需在自己的代码作品里面加上一个开源协议。但一如上文所讨论过的优点，如果你想把代码分享出来，最好还是选择一个适合的开源协议，这样别人用着放心。</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>原文出处：<a href="https://www.cnblogs.com/Wayou/p/how_to_choose_a_license.html" target="_blank" rel="noopener">https://www.cnblogs.com/Wayou/p/how_to_choose_a_license.html</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;随着你项目做得多了代码写得多了，你会发现编码过程中会不时用到其他人的成果，一个项目下来多少会引入一些优秀的库，别人放在公网上开源的DLL，以及一些算法等等。细心的你会注意到即使只是一小段代码，优秀的作者都在最开始会简单地附上一段关于许可的声明，或者
-      
-    
-    </summary>
-    
-      <category term="Others" scheme="https://blog.ifiveplus.com/categories/Others/"/>
-    
-    
-      <category term="license" scheme="https://blog.ifiveplus.com/tags/license/"/>
     
   </entry>
   
