@@ -239,34 +239,6 @@
   </entry>
   
   <entry>
-    <title>macOS下JD-GUI无法打开的问题</title>
-    <link href="https://blog.ifiveplus.com/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html"/>
-    <id>https://blog.ifiveplus.com/macOS下JD-GUI无法打开的问题.html</id>
-    <published>2023-10-09T02:59:00.000Z</published>
-    <updated>2023-10-30T09:55:54.548Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p></blockquote><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;在官网下载了最新版本的额JD-GUI，打开出现如下错误&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class
-      
-    
-    </summary>
-    
-      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
-    
-    
-      <category term="macOS" scheme="https://blog.ifiveplus.com/tags/macOS/"/>
-    
-  </entry>
-  
-  <entry>
     <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
     <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
     <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
@@ -291,6 +263,34 @@
     
     
       <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>macOS下JD-GUI无法打开的问题</title>
+    <link href="https://blog.ifiveplus.com/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html"/>
+    <id>https://blog.ifiveplus.com/macOS下JD-GUI无法打开的问题.html</id>
+    <published>2023-10-09T02:59:00.000Z</published>
+    <updated>2023-10-30T09:55:54.548Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p></blockquote><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;在官网下载了最新版本的额JD-GUI，打开出现如下错误&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class
+      
+    
+    </summary>
+    
+      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
+    
+    
+      <category term="macOS" scheme="https://blog.ifiveplus.com/tags/macOS/"/>
     
   </entry>
   
