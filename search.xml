@@ -55,25 +55,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Eclipse使用SVN提交发生错误的处理方案</title>
-    <url>/Eclipse%E4%BD%BF%E7%94%A8SVN%E6%8F%90%E4%BA%A4%E5%8F%91%E7%94%9F%E9%94%99%E8%AF%AF%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
-    <content><![CDATA[<blockquote>
-<p>在使用2023年9月的<code>Eclipse</code>的时候，使用<code>Subclipse</code>用于SVN版本管理的过程中，在提交代码的时候出现了错误。</p>
-</blockquote>
-<blockquote>
-<p>这是一个eclipse的BUG，是由于SVN连接接口SVNKit的错误导致，SVNKit官方已经修复了这个BUG，但是Eclipse Marketplace还未关联。因此需要手动更新SVNKit，下面讲一下如何更新SVNKit</p>
-</blockquote>
-<h2 id="更新方法"><a href="#更新方法" class="headerlink" title="更新方法"></a>更新方法</h2><p>进入菜单栏<code>Help</code>-&gt;<code>Install New Software</code>，输入地址<code>https://eclipse.svnkit.com/1.10.x/</code>，等待下载更新完成后，重启<code>Eclipse</code>即可。</p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>BUG链接：<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=576745" target="_blank" rel="noopener">https://bugs.eclipse.org/bugs/show_bug.cgi?id=576745</a></p>
-]]></content>
-      <categories>
-        <category>MacOS</category>
-      </categories>
-      <tags>
-        <tag>Eclipse</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Eureka server for Docker</title>
     <url>/Eureka-server-for-Docker.html</url>
     <content><![CDATA[<h2 id="Eureka简介"><a href="#Eureka简介" class="headerlink" title="Eureka简介"></a>Eureka简介</h2><p>Eureka是Netflix开发的服务发现框架，本身是一个基于REST的服务，主要用于定位运行在AWS域中的中间层服务，以达到负载均衡和中间层服务故障转移的目的。Spring Cloud将它集成在其子项目spring-cloud-netflix中，以实现Spring Cloud的服务发现功能。</p>
@@ -98,56 +79,6 @@
       </categories>
       <tags>
         <tag>EurekaServer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FFmpeg常用基本命令</title>
-    <url>/FFmpeg%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.html</url>
-    <content><![CDATA[<h2 id="FFmpeg介绍"><a href="#FFmpeg介绍" class="headerlink" title="FFmpeg介绍"></a>FFmpeg介绍</h2><p>FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用LGPL或GPL许可证。它提供了录制、转换以及流化音视频的完整解决方案。它包含了非常先进的音频/视频编解码库libavcodec，为了保证高可移植性和编解码质量，libavcodec里很多code都是从头开发的。</p>
-<h2 id="FFmpeg常用基本命令"><a href="#FFmpeg常用基本命令" class="headerlink" title="FFmpeg常用基本命令"></a>FFmpeg常用基本命令</h2><h3 id="分离视频音频流"><a href="#分离视频音频流" class="headerlink" title="分离视频音频流"></a>分离视频音频流</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input_file -vcodec copy -an output_file_video　　//分离视频流</span><br><span class="line">ffmpeg -i input_file -acodec copy -vn output_file_audio　　//分离音频流</span><br></pre></td></tr></table></figure>
-
-<h3 id="视频解复用"><a href="#视频解复用" class="headerlink" title="视频解复用"></a>视频解复用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i test.mp4 –vcodec copy –an –f m4v test.264</span><br><span class="line">ffmpeg –i test.avi –vcodec copy –an –f m4v test.264</span><br></pre></td></tr></table></figure>
-
-<h3 id="视频转码"><a href="#视频转码" class="headerlink" title="视频转码"></a>视频转码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –bf 0 –g 25 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为封装文件</span><br><span class="line">ffmpeg –i test.avi -vcodec mpeg4 –vtag xvid –qsame test_xvid.avi</span><br><span class="line">//-bf B帧数目控制，-g 关键帧间隔控制，-s 分辨率控制</span><br></pre></td></tr></table></figure>
-
-<h3 id="视频封装"><a href="#视频封装" class="headerlink" title="视频封装"></a>视频封装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i video_file –i audio_file –vcodec copy –acodec copy output_file</span><br></pre></td></tr></table></figure>
-
-<h3 id="视频剪切"><a href="#视频剪切" class="headerlink" title="视频剪切"></a>视频剪切</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i test.avi –r 1 –f image2 image-%3d.jpeg        //提取图片</span><br><span class="line">ffmpeg -ss 0:1:30 -t 0:0:20 -i input.avi -vcodec copy -acodec copy output.avi    //剪切视频</span><br><span class="line">//-r 提取图像的频率，-ss 开始时间，-t 持续时间</span><br></pre></td></tr></table></figure>
-
-<h3 id="视频录制"><a href="#视频录制" class="headerlink" title="视频录制"></a>视频录制</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i rtsp://192.168.3.205:5555/<span class="built_in">test</span> –vcodec copy out.avi</span><br></pre></td></tr></table></figure>
-
-<h3 id="YUV序列播放"><a href="#YUV序列播放" class="headerlink" title="YUV序列播放"></a>YUV序列播放</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffplay -f rawvideo -video_size 1920x1080 input.yuv</span><br></pre></td></tr></table></figure>
-
-<h3 id="YUV序列转AVI"><a href="#YUV序列转AVI" class="headerlink" title="YUV序列转AVI"></a>YUV序列转AVI</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –s w*h –pix_fmt yuv420p –i input.yuv –vcodec mpeg4 output.avi</span><br></pre></td></tr></table></figure>
-
-<h3 id="常用参数说明："><a href="#常用参数说明：" class="headerlink" title="常用参数说明："></a>常用参数说明：</h3><p><strong>主要参数：</strong></p>
-<ul>
-<li>-i 设定输入流</li>
-<li>-f 设定输出格式</li>
-<li>-ss 开始时间</li>
-</ul>
-<p><strong>视频参数：</strong></p>
-<ul>
-<li>-b 设定视频流量，默认为200Kbit/s</li>
-<li>-r 设定帧速率，默认为25</li>
-<li>-s 设定画面的宽与高</li>
-<li>-aspect 设定画面的比例</li>
-<li>-vn 不处理视频</li>
-<li>-vcodec 设定视频编解码器，未设定时则使用与输入流相同的编解码器</li>
-</ul>
-<p><strong>音频参数：</strong></p>
-<ul>
-<li>-ar 设定采样率</li>
-<li>-ac 设定声音的Channel数</li>
-<li>-acodec 设定声音编解码器，未设定时则使用与输入流相同的编解码器</li>
-<li>-an 不处理音频</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ffmpeg</category>
-      </categories>
-      <tags>
-        <tag>ffmpeg</tag>
       </tags>
   </entry>
   <entry>
@@ -216,31 +147,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo阅读量api.leancloud.cn解析失败</title>
-    <url>/Hexo%E9%98%85%E8%AF%BB%E9%87%8Fapi-leancloud-cn%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5.html</url>
-    <content><![CDATA[<blockquote>
-<p>近期，国家有关部门和运营商对网络基础设施进行了更严格的管制，其中包含一些针对 DNS 系统的调整。LeanCloud 国内节点 API 的老版域名 api.leancloud.cn 意外地受到了波及，因此在国外一些地区和国内少数地区会出现一定概率的解析错误（DNS 污染），在访问这个域名时可能会出现间歇性的失败。</p>
-</blockquote>
-<p>近期，刷新博客的时候发现阅读量无法显示，打开控制台，发现错误提示是无法访问api.leancloud.cn。</p>
-<p>打开<code>https://app-router.leancloud.cn/2/route?appId=&lt;替换为 appId&gt;</code>，复制<code>api_server</code>后面的地址。（后面会有用）</p>
-<p>打开<code>&lt;Hexo_Floder&gt;/themes/next/layout/_third-party/analytics/lean-analytics.swig</code>，找到链接<code>https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js</code>，下载文件保存到<code>&lt;Hexo Floder&gt;/source</code>，找到<code>av-core-mini-0.6.4.js</code>文件中<code>https://api.leancloud.cn</code>替换为刚刚复制的<code>api_server</code>的值。</p>
-<p>打开网站配置文件<code>_config.yml</code>，找到<code>Directory</code>，在<code>skip_render</code>下加一行（注意空格）：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">- <span class="string">'js/av-core-mini-0.6.4.js'</span></span><br></pre></td></tr></table></figure>
-
-<p>最后执行如下操作上传网站。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
-
-<p>再访问看看，就可以了。</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>leancloud</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo Github Blog 搭建教程</title>
     <url>/Hexo-Github-Blog-%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B.html</url>
     <content><![CDATA[<h2 id="Quick-Start-For-OSX"><a href="#Quick-Start-For-OSX" class="headerlink" title="Quick Start (For OSX)"></a>Quick Start (For OSX)</h2><h3 id="安装Xcode"><a href="#安装Xcode" class="headerlink" title="安装Xcode"></a>安装Xcode</h3><p>Hexo的编译可能依赖Xcode。这个直接从App Store上下载就好了，没什么难度。</p>
@@ -294,6 +200,100 @@
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Eclipse使用SVN提交发生错误的处理方案</title>
+    <url>/Eclipse%E4%BD%BF%E7%94%A8SVN%E6%8F%90%E4%BA%A4%E5%8F%91%E7%94%9F%E9%94%99%E8%AF%AF%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
+    <content><![CDATA[<blockquote>
+<p>在使用2023年9月的<code>Eclipse</code>的时候，使用<code>Subclipse</code>用于SVN版本管理的过程中，在提交代码的时候出现了错误。</p>
+</blockquote>
+<blockquote>
+<p>这是一个eclipse的BUG，是由于SVN连接接口SVNKit的错误导致，SVNKit官方已经修复了这个BUG，但是Eclipse Marketplace还未关联。因此需要手动更新SVNKit，下面讲一下如何更新SVNKit</p>
+</blockquote>
+<h2 id="更新方法"><a href="#更新方法" class="headerlink" title="更新方法"></a>更新方法</h2><p>进入菜单栏<code>Help</code>-&gt;<code>Install New Software</code>，输入地址<code>https://eclipse.svnkit.com/1.10.x/</code>，等待下载更新完成后，重启<code>Eclipse</code>即可。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>BUG链接：<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=576745" target="_blank" rel="noopener">https://bugs.eclipse.org/bugs/show_bug.cgi?id=576745</a></p>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>Eclipse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FFmpeg常用基本命令</title>
+    <url>/FFmpeg%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.html</url>
+    <content><![CDATA[<h2 id="FFmpeg介绍"><a href="#FFmpeg介绍" class="headerlink" title="FFmpeg介绍"></a>FFmpeg介绍</h2><p>FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用LGPL或GPL许可证。它提供了录制、转换以及流化音视频的完整解决方案。它包含了非常先进的音频/视频编解码库libavcodec，为了保证高可移植性和编解码质量，libavcodec里很多code都是从头开发的。</p>
+<h2 id="FFmpeg常用基本命令"><a href="#FFmpeg常用基本命令" class="headerlink" title="FFmpeg常用基本命令"></a>FFmpeg常用基本命令</h2><h3 id="分离视频音频流"><a href="#分离视频音频流" class="headerlink" title="分离视频音频流"></a>分离视频音频流</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ffmpeg -i input_file -vcodec copy -an output_file_video　　//分离视频流</span><br><span class="line">ffmpeg -i input_file -acodec copy -vn output_file_audio　　//分离音频流</span><br></pre></td></tr></table></figure>
+
+<h3 id="视频解复用"><a href="#视频解复用" class="headerlink" title="视频解复用"></a>视频解复用</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i test.mp4 –vcodec copy –an –f m4v test.264</span><br><span class="line">ffmpeg –i test.avi –vcodec copy –an –f m4v test.264</span><br></pre></td></tr></table></figure>
+
+<h3 id="视频转码"><a href="#视频转码" class="headerlink" title="视频转码"></a>视频转码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –bf 0 –g 25 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为封装文件</span><br><span class="line">ffmpeg –i test.avi -vcodec mpeg4 –vtag xvid –qsame test_xvid.avi</span><br><span class="line">//-bf B帧数目控制，-g 关键帧间隔控制，-s 分辨率控制</span><br></pre></td></tr></table></figure>
+
+<h3 id="视频封装"><a href="#视频封装" class="headerlink" title="视频封装"></a>视频封装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i video_file –i audio_file –vcodec copy –acodec copy output_file</span><br></pre></td></tr></table></figure>
+
+<h3 id="视频剪切"><a href="#视频剪切" class="headerlink" title="视频剪切"></a>视频剪切</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i test.avi –r 1 –f image2 image-%3d.jpeg        //提取图片</span><br><span class="line">ffmpeg -ss 0:1:30 -t 0:0:20 -i input.avi -vcodec copy -acodec copy output.avi    //剪切视频</span><br><span class="line">//-r 提取图像的频率，-ss 开始时间，-t 持续时间</span><br></pre></td></tr></table></figure>
+
+<h3 id="视频录制"><a href="#视频录制" class="headerlink" title="视频录制"></a>视频录制</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –i rtsp://192.168.3.205:5555/<span class="built_in">test</span> –vcodec copy out.avi</span><br></pre></td></tr></table></figure>
+
+<h3 id="YUV序列播放"><a href="#YUV序列播放" class="headerlink" title="YUV序列播放"></a>YUV序列播放</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffplay -f rawvideo -video_size 1920x1080 input.yuv</span><br></pre></td></tr></table></figure>
+
+<h3 id="YUV序列转AVI"><a href="#YUV序列转AVI" class="headerlink" title="YUV序列转AVI"></a>YUV序列转AVI</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ffmpeg –s w*h –pix_fmt yuv420p –i input.yuv –vcodec mpeg4 output.avi</span><br></pre></td></tr></table></figure>
+
+<h3 id="常用参数说明："><a href="#常用参数说明：" class="headerlink" title="常用参数说明："></a>常用参数说明：</h3><p><strong>主要参数：</strong></p>
+<ul>
+<li>-i 设定输入流</li>
+<li>-f 设定输出格式</li>
+<li>-ss 开始时间</li>
+</ul>
+<p><strong>视频参数：</strong></p>
+<ul>
+<li>-b 设定视频流量，默认为200Kbit/s</li>
+<li>-r 设定帧速率，默认为25</li>
+<li>-s 设定画面的宽与高</li>
+<li>-aspect 设定画面的比例</li>
+<li>-vn 不处理视频</li>
+<li>-vcodec 设定视频编解码器，未设定时则使用与输入流相同的编解码器</li>
+</ul>
+<p><strong>音频参数：</strong></p>
+<ul>
+<li>-ar 设定采样率</li>
+<li>-ac 设定声音的Channel数</li>
+<li>-acodec 设定声音编解码器，未设定时则使用与输入流相同的编解码器</li>
+<li>-an 不处理音频</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ffmpeg</category>
+      </categories>
+      <tags>
+        <tag>ffmpeg</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo阅读量api.leancloud.cn解析失败</title>
+    <url>/Hexo%E9%98%85%E8%AF%BB%E9%87%8Fapi-leancloud-cn%E8%A7%A3%E6%9E%90%E5%A4%B1%E8%B4%A5.html</url>
+    <content><![CDATA[<blockquote>
+<p>近期，国家有关部门和运营商对网络基础设施进行了更严格的管制，其中包含一些针对 DNS 系统的调整。LeanCloud 国内节点 API 的老版域名 api.leancloud.cn 意外地受到了波及，因此在国外一些地区和国内少数地区会出现一定概率的解析错误（DNS 污染），在访问这个域名时可能会出现间歇性的失败。</p>
+</blockquote>
+<p>近期，刷新博客的时候发现阅读量无法显示，打开控制台，发现错误提示是无法访问api.leancloud.cn。</p>
+<p>打开<code>https://app-router.leancloud.cn/2/route?appId=&lt;替换为 appId&gt;</code>，复制<code>api_server</code>后面的地址。（后面会有用）</p>
+<p>打开<code>&lt;Hexo_Floder&gt;/themes/next/layout/_third-party/analytics/lean-analytics.swig</code>，找到链接<code>https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js</code>，下载文件保存到<code>&lt;Hexo Floder&gt;/source</code>，找到<code>av-core-mini-0.6.4.js</code>文件中<code>https://api.leancloud.cn</code>替换为刚刚复制的<code>api_server</code>的值。</p>
+<p>打开网站配置文件<code>_config.yml</code>，找到<code>Directory</code>，在<code>skip_render</code>下加一行（注意空格）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">- <span class="string">'js/av-core-mini-0.6.4.js'</span></span><br></pre></td></tr></table></figure>
+
+<p>最后执行如下操作上传网站。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo d -g</span><br></pre></td></tr></table></figure>
+
+<p>再访问看看，就可以了。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>leancloud</tag>
       </tags>
   </entry>
   <entry>
@@ -408,43 +408,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java OCR [Tess4j]</title>
-    <url>/Java-OCR-Tess4j.html</url>
-    <content><![CDATA[<h2 id="OCR介绍"><a href="#OCR介绍" class="headerlink" title="OCR介绍"></a>OCR介绍</h2><p>OCR技术是光学字符识别的缩写(Optical Character Recognition)，是通过扫描等光学输入方式将各种票据、报刊、书籍、文稿及其它印刷品的文字转化为图像信息，再利用文字识别技术将图像信息转化为可以使用的计算机输入技术。可应用于银行票据、大量文字资料、档案卷宗、文案的录入和处理领域。适合于银行、税务等行业大量票据表格的自动扫描识别及长期存储。相对一般文本，通常以最终识别率、识别速度、版面理解正确率及版面还原满意度4个方面作为OCR技术的评测依据；而相对于表格及票据， 通常以识别率或整张通过率及识别速度为测定OCR技术的实用标准。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>tensoflow-ocr是谷歌开源的一个ocr文字识别功能，本次介绍的OCR如何与其他语言之一Java的结合调用，需要已经有tenslow-ocr的安装环境。</p>
-<h3 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.cms<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ocr<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>ocr<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.bytedeco<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javacv<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   	<span class="comment">&lt;!-- tesseract-ocr 文字识别调用 --&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sourceforge.tess4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tess4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="需要的文件"><a href="#需要的文件" class="headerlink" title="需要的文件"></a>需要的文件</h3><ol>
-<li>需要分析的图片文件</li>
-<li>创建tessdata文件夹，并放入模型文件chi_sim.traineddata (训练集的制作在这里不做讲解)</li>
-</ol>
-<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><p>实际使用过程中，可能还需要对图像进行相关处理，如二值化、灰度化，文字图像捕捉等相关操作</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Tess-OCR 文字识别</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span> <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println( <span class="string">"tess4j starting..."</span> );</span><br><span class="line">        File imgFile = <span class="keyword">new</span> File(<span class="string">"images/testhuang.png"</span>);</span><br><span class="line">        BufferedImage image = ImageIO.read(imgFile);</span><br><span class="line">        <span class="comment">//TODO 图像灰度化</span></span><br><span class="line">        <span class="comment">//image = ImageHelper.convertImageToGrayscale(image);</span></span><br><span class="line">        <span class="comment">//TODO 图像二值化</span></span><br><span class="line">        <span class="comment">//image = ImageHelper.convertImageToBinary(image);</span></span><br><span class="line">        <span class="comment">//ImageIO.write(image, "jpg", new File("gray.jpg"));</span></span><br><span class="line">        ITesseract instance = <span class="keyword">new</span> Tesseract(); <span class="comment">//JNA Interface Mapping</span></span><br><span class="line">        instance.setLanguage(<span class="string">"chi_sim"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">			String res = instance.doOCR(image);</span><br><span class="line">			System.out.println(res);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (TesseractException e) &#123;</span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>有其他不足的部分，日后再做补充。</p>
-]]></content>
-      <categories>
-        <category>ocr</category>
-      </categories>
-      <tags>
-        <tag>ocr</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java图像截取</title>
-    <url>/Java%E5%9B%BE%E5%83%8F%E6%88%AA%E5%8F%96.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在仔细观察QQ空间的说说、微博以及微信的图文形式，它们的缩略图都是是对原图像经过一定的切割显示的图像，那么在我开发的<code>碎片云</code>中似乎也可以加上一个类似的功能。因此需要一个图像切割的方法完成这样类似的功能，具体的切割模式可以根据自己的实际需求来进行切割，下面就是核心方法<code>ImageUtil</code>的内容。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.Rectangle;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReadParam;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReader;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.stream.ImageInputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">ImageUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getImageWidth</span><span class="params">(<span class="keyword">int</span> port,String url)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(url.indexOf(<span class="string">"attached"</span>)&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">				url = <span class="string">"http://127.0.0.1:"</span>+port+url;</span><br><span class="line">			&#125;</span><br><span class="line">			InputStream is = <span class="keyword">new</span> URL(url).openStream();</span><br><span class="line">			BufferedImage img = ImageIO.read(is);</span><br><span class="line">			<span class="keyword">return</span> img.getWidth();</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace();</span></span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cutImage</span><span class="params">(String path,<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(width &lt; <span class="number">1</span> || height &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">		FileInputStream is = <span class="keyword">null</span>;</span><br><span class="line">		ImageInputStream iis = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 读取图片文件</span></span><br><span class="line">			is = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">			<span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader 声称能够解码指定格式。 </span></span><br><span class="line"><span class="comment">             * 参数：formatName - 包含非正式格式名称 . （例如 "jpeg" 或 "tiff"）等 。 </span></span><br><span class="line"><span class="comment">             */</span> </span><br><span class="line">		 String fileEx = path.substring(path.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">            Iterator&lt;ImageReader&gt; it = ImageIO.getImageReadersByFormatName(fileEx);  </span><br><span class="line">            ImageReader reader = it.next();  </span><br><span class="line">            <span class="comment">// 获取图片流  </span></span><br><span class="line">            iis = ImageIO.createImageInputStream(is);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;iis:读取源.true:只向前搜索 &lt;/p&gt;.将它标记为 ‘只向前搜索’。 </span></span><br><span class="line"><span class="comment">             * 此设置意味着包含在输入源中的图像将只按顺序读取，可能允许 reader 避免缓存包含与以前已经读取的图像关联的数据的那些输入部分。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            reader.setInput(iis, <span class="keyword">true</span>);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;描述如何对流进行解码的类&lt;p&gt;.用于指定如何在输入时从 Java Image I/O </span></span><br><span class="line"><span class="comment">             * 框架的上下文中的流转换一幅图像或一组图像。用于特定图像格式的插件 将从其 ImageReader 实现的 </span></span><br><span class="line"><span class="comment">             * getDefaultReadParam 方法中返回 ImageReadParam 的实例。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            ImageReadParam param = reader.getDefaultReadParam();  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 图片裁剪区域。Rectangle 指定了坐标空间中的一个区域，通过 Rectangle 对象 </span></span><br><span class="line"><span class="comment">             * 的左上顶点的坐标（x，y）、宽度和高度可以定义这个区域。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            Rectangle rect = <span class="keyword">new</span> Rectangle(x, y, width, height);  </span><br><span class="line">            <span class="comment">// 提供一个 BufferedImage，将其用作解码像素数据的目标。  </span></span><br><span class="line">            param.setSourceRegion(rect);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象，并将 它作为一个完整的 </span></span><br><span class="line"><span class="comment">             * BufferedImage 返回。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            BufferedImage bi = reader.read(<span class="number">0</span>, param);  </span><br><span class="line">            <span class="comment">// 保存新图片  </span></span><br><span class="line">            ImageIO.write(bi, fileEx, <span class="keyword">new</span> File(path)); </span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">	            <span class="keyword">if</span> (is != <span class="keyword">null</span>)</span><br><span class="line">					is.close();</span><br><span class="line">	            <span class="keyword">if</span> (iis != <span class="keyword">null</span>) </span><br><span class="line">	                iis.close(); </span><br><span class="line">	        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Jenkins+SpringBoot+Docker实战</title>
     <url>/Jenkins-SpringBoot-Docker%E5%AE%9E%E6%88%98.html</url>
     <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h3><p>直接去官网下载就好了，这里给上链接：<a href="https://jenkins.io" target="_blank" rel="noopener">官网</a></p>
@@ -511,114 +474,40 @@
       </tags>
   </entry>
   <entry>
-    <title>MAC OSX环境下cordova+Ionic的安装配置</title>
-    <url>/MAC-OSX%E7%8E%AF%E5%A2%83%E4%B8%8Bcordova-Ionic%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE.html</url>
-    <content><![CDATA[<blockquote>
-<p>去年开始接触混合式开发APP，主要是精力有限，没办法再静下心来学swift语言的IOS开发了，开始的第一步就是环境搭建了，因为使用过Vue.js进行前端开发，所以已经有了npm和node的基础环境了。</p>
-</blockquote>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="检查环境"><a href="#检查环境" class="headerlink" title="检查环境"></a>检查环境</h3><p>首先第一步就是检查基础安装环境</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+    <title>Java OCR [Tess4j]</title>
+    <url>/Java-OCR-Tess4j.html</url>
+    <content><![CDATA[<h2 id="OCR介绍"><a href="#OCR介绍" class="headerlink" title="OCR介绍"></a>OCR介绍</h2><p>OCR技术是光学字符识别的缩写(Optical Character Recognition)，是通过扫描等光学输入方式将各种票据、报刊、书籍、文稿及其它印刷品的文字转化为图像信息，再利用文字识别技术将图像信息转化为可以使用的计算机输入技术。可应用于银行票据、大量文字资料、档案卷宗、文案的录入和处理领域。适合于银行、税务等行业大量票据表格的自动扫描识别及长期存储。相对一般文本，通常以最终识别率、识别速度、版面理解正确率及版面还原满意度4个方面作为OCR技术的评测依据；而相对于表格及票据， 通常以识别率或整张通过率及识别速度为测定OCR技术的实用标准。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>tensoflow-ocr是谷歌开源的一个ocr文字识别功能，本次介绍的OCR如何与其他语言之一Java的结合调用，需要已经有tenslow-ocr的安装环境。</p>
+<h3 id="pom依赖"><a href="#pom依赖" class="headerlink" title="pom依赖"></a>pom依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.cms<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ocr<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>ocr<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.bytedeco<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javacv<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   	<span class="comment">&lt;!-- tesseract-ocr 文字识别调用 --&gt;</span></span><br><span class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sourceforge.tess4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tess4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">version</span>&gt;</span>3.3.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>可以看到相应的版本号就表示成功。</p>
-<h3 id="cordova安装"><a href="#cordova安装" class="headerlink" title="cordova安装"></a>cordova安装</h3><p>由于镜像在国外，网络不行，因此使用代理安装<code>cordova</code></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.cnpmjs.org</span><br><span class="line">sudo npm install -g cordova</span><br></pre></td></tr></table></figure>
+<h3 id="需要的文件"><a href="#需要的文件" class="headerlink" title="需要的文件"></a>需要的文件</h3><ol>
+<li>需要分析的图片文件</li>
+<li>创建tessdata文件夹，并放入模型文件chi_sim.traineddata (训练集的制作在这里不做讲解)</li>
+</ol>
+<h3 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h3><p>实际使用过程中，可能还需要对图像进行相关处理，如二值化、灰度化，文字图像捕捉等相关操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Tess-OCR 文字识别</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">( String[] args )</span> <span class="keyword">throws</span> IOException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println( <span class="string">"tess4j starting..."</span> );</span><br><span class="line">        File imgFile = <span class="keyword">new</span> File(<span class="string">"images/testhuang.png"</span>);</span><br><span class="line">        BufferedImage image = ImageIO.read(imgFile);</span><br><span class="line">        <span class="comment">//TODO 图像灰度化</span></span><br><span class="line">        <span class="comment">//image = ImageHelper.convertImageToGrayscale(image);</span></span><br><span class="line">        <span class="comment">//TODO 图像二值化</span></span><br><span class="line">        <span class="comment">//image = ImageHelper.convertImageToBinary(image);</span></span><br><span class="line">        <span class="comment">//ImageIO.write(image, "jpg", new File("gray.jpg"));</span></span><br><span class="line">        ITesseract instance = <span class="keyword">new</span> Tesseract(); <span class="comment">//JNA Interface Mapping</span></span><br><span class="line">        instance.setLanguage(<span class="string">"chi_sim"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">			String res = instance.doOCR(image);</span><br><span class="line">			System.out.println(res);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (TesseractException e) &#123;</span><br><span class="line">			System.out.println(e.getMessage());</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>输入下面命令测试是否安装成功</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cordova -v</span><br></pre></td></tr></table></figure>
-
-<p>和上面一样，出现版本号就表示成功了。</p>
-<h3 id="Ionic安装"><a href="#Ionic安装" class="headerlink" title="Ionic安装"></a>Ionic安装</h3><p>Ionic的安装就容易多了，直接命令行输入命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo npm install -g ionic</span><br></pre></td></tr></table></figure>
-
-<p>输入如下命令测试是否安装成功</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ionic -v</span><br></pre></td></tr></table></figure>
-
-<h3 id="相关命令行"><a href="#相关命令行" class="headerlink" title="相关命令行"></a>相关命令行</h3><ul>
-<li><code>ionic platform add android</code> 添加android平台</li>
-<li><code>ionic platform add ios</code> 添加ios平台</li>
-<li><code>ionic lib update</code> 版本库更新</li>
-<li><code>ionic build android</code> 编译android项目</li>
-<li><code>ionic emulate android</code>模拟器运行</li>
-</ul>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>Ionic中的基础命令有时间再更新下，很久没写Ionic Webapp了，连环境也不记得怎么搭建了，在这里记录备份一下，用作使用参考。</p>
-<p>More Info: <a href="https://ionicframework.com/docs/cli/" target="_blank" rel="noopener">https://ionicframework.com/docs/cli/</a></p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>有其他不足的部分，日后再做补充。</p>
 ]]></content>
       <categories>
-        <category>Ionic</category>
+        <category>ocr</category>
       </categories>
       <tags>
-        <tag>ionic</tag>
-        <tag>cordova</tag>
+        <tag>ocr</tag>
       </tags>
   </entry>
   <entry>
-    <title>OpenJDK9在OSX平台下编译和调试</title>
-    <url>/OpenJDK9%E5%9C%A8OSX%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95.html</url>
-    <content><![CDATA[<p>在<code>深入理解Java虚拟机</code>一书中编译OpenJDK出现各种奇怪的错误，在这里集中做一下说明，以便日后查看。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装hg"><a href="#安装hg" class="headerlink" title="安装hg"></a>安装hg</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install hg</span><br></pre></td></tr></table></figure>
-
-<h3 id="下载OpenJDK源码"><a href="#下载OpenJDK源码" class="headerlink" title="下载OpenJDK源码"></a>下载OpenJDK源码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hg <span class="built_in">clone</span> http://hg.openjdk.java.net/jdk9/dev</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装freetype"><a href="#安装freetype" class="headerlink" title="安装freetype"></a>安装freetype</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install freetype</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装libffi（可选）"><a href="#安装libffi（可选）" class="headerlink" title="安装libffi（可选）"></a>安装libffi（可选）</h3><p>如果需要使用zero解释器，需要安装libffi</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install libffi</span><br></pre></td></tr></table></figure>
-
-<h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash configure --with-debug-level=slowdebug \</span><br><span class="line">--with-freetype=/usr/<span class="built_in">local</span>/opt/freetype \</span><br><span class="line">--<span class="built_in">disable</span>-warnings-as-errors \</span><br><span class="line">--with-jvm-features=zero \</span><br><span class="line">--with-jvm-variants=zero \</span><br><span class="line">--with-libffi=/usr/<span class="built_in">local</span>/opt/libffi \</span><br><span class="line">--with-libffi-include=/usr/<span class="built_in">local</span>/Cellar/libffi/3.0.13/lib/libffi-3.0.13/include</span><br></pre></td></tr></table></figure>
-
-<h4 id="–with-debug-level"><a href="#–with-debug-level" class="headerlink" title="–with-debug-level"></a>–with-debug-level</h4><p>设置调试级别，设成 slow debug 可以提供更多的调试信息</p>
-<h4 id="–with-free-type"><a href="#–with-free-type" class="headerlink" title="–with-free-type"></a>–with-free-type</h4><p>设置 free type 路径</p>
-<h4 id="–disable-warnings-as-errors"><a href="#–disable-warnings-as-errors" class="headerlink" title="–disable-warnings-as-errors"></a>–disable-warnings-as-errors</h4><p>忽略警告</p>
-<h4 id="–with-jvm-features"><a href="#–with-jvm-features" class="headerlink" title="–with-jvm-features"></a>–with-jvm-features</h4><p>设置使用 c++ 实现的 zero 解释器，比基于模版的解释器更容易调试（如果汇编功力不够的话）</p>
-<h4 id="–with-jvm-variants"><a href="#–with-jvm-variants" class="headerlink" title="–with-jvm-variants"></a>–with-jvm-variants</h4><p>配合 –with-jvm-features 使用</p>
-<h4 id="–with-libffi"><a href="#–with-libffi" class="headerlink" title="–with-libffi"></a>–with-libffi</h4><p>配合 –with-jvm-features 使用</p>
-<h4 id="–with-libffi-include"><a href="#–with-libffi-include" class="headerlink" title="–with-libffi-include"></a>–with-libffi-include</h4><p>设置 libffi include 文件夹路径</p>
-<h3 id="make"><a href="#make" class="headerlink" title="make"></a>make</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
-
-<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>在实际编译过程中出现了错误信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">error: ordered comparison between pointer and zero (<span class="string">'char *'</span> and <span class="string">'int'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>将代码<code>&gt; 0</code>或者<code>&gt;=0</code>部分改为<code>!= NULL</code>继续编译即可通过。</p>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>编译成功后，测试：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/build/***/jdk/bin/java -version</span><br></pre></td></tr></table></figure>
+    <title>Java图像截取</title>
+    <url>/Java%E5%9B%BE%E5%83%8F%E6%88%AA%E5%8F%96.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在仔细观察QQ空间的说说、微博以及微信的图文形式，它们的缩略图都是是对原图像经过一定的切割显示的图像，那么在我开发的<code>碎片云</code>中似乎也可以加上一个类似的功能。因此需要一个图像切割的方法完成这样类似的功能，具体的切割模式可以根据自己的实际需求来进行切割，下面就是核心方法<code>ImageUtil</code>的内容。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.awt.Rectangle;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReadParam;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageReader;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.stream.ImageInputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">ImageUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getImageWidth</span><span class="params">(<span class="keyword">int</span> port,String url)</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">if</span>(url.indexOf(<span class="string">"attached"</span>)&gt;-<span class="number">1</span>)&#123;</span><br><span class="line">				url = <span class="string">"http://127.0.0.1:"</span>+port+url;</span><br><span class="line">			&#125;</span><br><span class="line">			InputStream is = <span class="keyword">new</span> URL(url).openStream();</span><br><span class="line">			BufferedImage img = ImageIO.read(is);</span><br><span class="line">			<span class="keyword">return</span> img.getWidth();</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace();</span></span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cutImage</span><span class="params">(String path,<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> width,<span class="keyword">int</span> height)</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(width &lt; <span class="number">1</span> || height &lt; <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">		FileInputStream is = <span class="keyword">null</span>;</span><br><span class="line">		ImageInputStream iis = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">// 读取图片文件</span></span><br><span class="line">			is = <span class="keyword">new</span> FileInputStream(path);</span><br><span class="line">			<span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 返回包含所有当前已注册 ImageReader 的 Iterator，这些 ImageReader 声称能够解码指定格式。 </span></span><br><span class="line"><span class="comment">             * 参数：formatName - 包含非正式格式名称 . （例如 "jpeg" 或 "tiff"）等 。 </span></span><br><span class="line"><span class="comment">             */</span> </span><br><span class="line">		 String fileEx = path.substring(path.lastIndexOf(<span class="string">"."</span>)+<span class="number">1</span>);</span><br><span class="line">            Iterator&lt;ImageReader&gt; it = ImageIO.getImageReadersByFormatName(fileEx);  </span><br><span class="line">            ImageReader reader = it.next();  </span><br><span class="line">            <span class="comment">// 获取图片流  </span></span><br><span class="line">            iis = ImageIO.createImageInputStream(is);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;iis:读取源.true:只向前搜索 &lt;/p&gt;.将它标记为 ‘只向前搜索’。 </span></span><br><span class="line"><span class="comment">             * 此设置意味着包含在输入源中的图像将只按顺序读取，可能允许 reader 避免缓存包含与以前已经读取的图像关联的数据的那些输入部分。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            reader.setInput(iis, <span class="keyword">true</span>);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * &lt;p&gt;描述如何对流进行解码的类&lt;p&gt;.用于指定如何在输入时从 Java Image I/O </span></span><br><span class="line"><span class="comment">             * 框架的上下文中的流转换一幅图像或一组图像。用于特定图像格式的插件 将从其 ImageReader 实现的 </span></span><br><span class="line"><span class="comment">             * getDefaultReadParam 方法中返回 ImageReadParam 的实例。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            ImageReadParam param = reader.getDefaultReadParam();  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 图片裁剪区域。Rectangle 指定了坐标空间中的一个区域，通过 Rectangle 对象 </span></span><br><span class="line"><span class="comment">             * 的左上顶点的坐标（x，y）、宽度和高度可以定义这个区域。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            Rectangle rect = <span class="keyword">new</span> Rectangle(x, y, width, height);  </span><br><span class="line">            <span class="comment">// 提供一个 BufferedImage，将其用作解码像素数据的目标。  </span></span><br><span class="line">            param.setSourceRegion(rect);  </span><br><span class="line">            <span class="comment">/* </span></span><br><span class="line"><span class="comment">             * 使用所提供的 ImageReadParam 读取通过索引 imageIndex 指定的对象，并将 它作为一个完整的 </span></span><br><span class="line"><span class="comment">             * BufferedImage 返回。 </span></span><br><span class="line"><span class="comment">             */</span>  </span><br><span class="line">            BufferedImage bi = reader.read(<span class="number">0</span>, param);  </span><br><span class="line">            <span class="comment">// 保存新图片  </span></span><br><span class="line">            ImageIO.write(bi, fileEx, <span class="keyword">new</span> File(path)); </span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">	            <span class="keyword">if</span> (is != <span class="keyword">null</span>)</span><br><span class="line">					is.close();</span><br><span class="line">	            <span class="keyword">if</span> (iis != <span class="keyword">null</span>) </span><br><span class="line">	                iis.close(); </span><br><span class="line">	        	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;  </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
         <category>Java</category>
       </categories>
       <tags>
-        <tag>JDK</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Rabbitmq for Docker安装教程</title>
-    <url>/Rabbitmq-for-Docker%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>为了配合Spring-Cloud-Bus做配置文件的更新，需要用到Rabbitmq，在实际生产环境中安装Rabbitmq出现了一些问题（如Linux内核版本、erlang版本等其他问题），因此使用Docker进行部署。</p>
-<p>运行查找命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker search rabbitmq</span><br></pre></td></tr></table></figure>
-
-<p>找到第一个：NAME is rabbitmq</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull rabbitmq</span><br></pre></td></tr></table></figure>
-
-<p>运行一个rabbitmq容器</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:latest</span><br></pre></td></tr></table></figure>
-
-<p>5672: 服务端口号</p>
-<p>15672: web管理端口号</p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>最后，可以把运行容器的部分保存成一个rabbitmq-start.sh的文件，方便快速启动。</p>
-<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><ul>
-<li>docker ps : 查看已经运行的容器</li>
-<li>docker ps -a: 查看停止的容器</li>
-<li>docker stop &lt;container_name/container_id&gt;: 停止容器</li>
-<li>docker rm &lt;container_name/container_id&gt;: 删除容器</li>
-<li>Docker rmi &lt;image_name/image_id&gt;: 删除镜像</li>
-</ul>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
-      <tags>
-        <tag>rabbitmq</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
@@ -856,6 +745,117 @@
       </tags>
   </entry>
   <entry>
+    <title>OpenJDK9在OSX平台下编译和调试</title>
+    <url>/OpenJDK9%E5%9C%A8OSX%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%BC%96%E8%AF%91%E5%92%8C%E8%B0%83%E8%AF%95.html</url>
+    <content><![CDATA[<p>在<code>深入理解Java虚拟机</code>一书中编译OpenJDK出现各种奇怪的错误，在这里集中做一下说明，以便日后查看。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装hg"><a href="#安装hg" class="headerlink" title="安装hg"></a>安装hg</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install hg</span><br></pre></td></tr></table></figure>
+
+<h3 id="下载OpenJDK源码"><a href="#下载OpenJDK源码" class="headerlink" title="下载OpenJDK源码"></a>下载OpenJDK源码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hg <span class="built_in">clone</span> http://hg.openjdk.java.net/jdk9/dev</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装freetype"><a href="#安装freetype" class="headerlink" title="安装freetype"></a>安装freetype</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install freetype</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装libffi（可选）"><a href="#安装libffi（可选）" class="headerlink" title="安装libffi（可选）"></a>安装libffi（可选）</h3><p>如果需要使用zero解释器，需要安装libffi</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">brew install libffi</span><br></pre></td></tr></table></figure>
+
+<h3 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash configure --with-debug-level=slowdebug \</span><br><span class="line">--with-freetype=/usr/<span class="built_in">local</span>/opt/freetype \</span><br><span class="line">--<span class="built_in">disable</span>-warnings-as-errors \</span><br><span class="line">--with-jvm-features=zero \</span><br><span class="line">--with-jvm-variants=zero \</span><br><span class="line">--with-libffi=/usr/<span class="built_in">local</span>/opt/libffi \</span><br><span class="line">--with-libffi-include=/usr/<span class="built_in">local</span>/Cellar/libffi/3.0.13/lib/libffi-3.0.13/include</span><br></pre></td></tr></table></figure>
+
+<h4 id="–with-debug-level"><a href="#–with-debug-level" class="headerlink" title="–with-debug-level"></a>–with-debug-level</h4><p>设置调试级别，设成 slow debug 可以提供更多的调试信息</p>
+<h4 id="–with-free-type"><a href="#–with-free-type" class="headerlink" title="–with-free-type"></a>–with-free-type</h4><p>设置 free type 路径</p>
+<h4 id="–disable-warnings-as-errors"><a href="#–disable-warnings-as-errors" class="headerlink" title="–disable-warnings-as-errors"></a>–disable-warnings-as-errors</h4><p>忽略警告</p>
+<h4 id="–with-jvm-features"><a href="#–with-jvm-features" class="headerlink" title="–with-jvm-features"></a>–with-jvm-features</h4><p>设置使用 c++ 实现的 zero 解释器，比基于模版的解释器更容易调试（如果汇编功力不够的话）</p>
+<h4 id="–with-jvm-variants"><a href="#–with-jvm-variants" class="headerlink" title="–with-jvm-variants"></a>–with-jvm-variants</h4><p>配合 –with-jvm-features 使用</p>
+<h4 id="–with-libffi"><a href="#–with-libffi" class="headerlink" title="–with-libffi"></a>–with-libffi</h4><p>配合 –with-jvm-features 使用</p>
+<h4 id="–with-libffi-include"><a href="#–with-libffi-include" class="headerlink" title="–with-libffi-include"></a>–with-libffi-include</h4><p>设置 libffi include 文件夹路径</p>
+<h3 id="make"><a href="#make" class="headerlink" title="make"></a>make</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>在实际编译过程中出现了错误信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">error: ordered comparison between pointer and zero (<span class="string">'char *'</span> and <span class="string">'int'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>将代码<code>&gt; 0</code>或者<code>&gt;=0</code>部分改为<code>!= NULL</code>继续编译即可通过。</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>编译成功后，测试：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">~/build/***/jdk/bin/java -version</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>JDK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rabbitmq for Docker安装教程</title>
+    <url>/Rabbitmq-for-Docker%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>为了配合Spring-Cloud-Bus做配置文件的更新，需要用到Rabbitmq，在实际生产环境中安装Rabbitmq出现了一些问题（如Linux内核版本、erlang版本等其他问题），因此使用Docker进行部署。</p>
+<p>运行查找命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker search rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>找到第一个：NAME is rabbitmq</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>运行一个rabbitmq容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:latest</span><br></pre></td></tr></table></figure>
+
+<p>5672: 服务端口号</p>
+<p>15672: web管理端口号</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>最后，可以把运行容器的部分保存成一个rabbitmq-start.sh的文件，方便快速启动。</p>
+<h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><ul>
+<li>docker ps : 查看已经运行的容器</li>
+<li>docker ps -a: 查看停止的容器</li>
+<li>docker stop &lt;container_name/container_id&gt;: 停止容器</li>
+<li>docker rm &lt;container_name/container_id&gt;: 删除容器</li>
+<li>Docker rmi &lt;image_name/image_id&gt;: 删除镜像</li>
+</ul>
+]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+      <tags>
+        <tag>rabbitmq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC OSX环境下cordova+Ionic的安装配置</title>
+    <url>/MAC-OSX%E7%8E%AF%E5%A2%83%E4%B8%8Bcordova-Ionic%E7%9A%84%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE.html</url>
+    <content><![CDATA[<blockquote>
+<p>去年开始接触混合式开发APP，主要是精力有限，没办法再静下心来学swift语言的IOS开发了，开始的第一步就是环境搭建了，因为使用过Vue.js进行前端开发，所以已经有了npm和node的基础环境了。</p>
+</blockquote>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="检查环境"><a href="#检查环境" class="headerlink" title="检查环境"></a>检查环境</h3><p>首先第一步就是检查基础安装环境</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<p>可以看到相应的版本号就表示成功。</p>
+<h3 id="cordova安装"><a href="#cordova安装" class="headerlink" title="cordova安装"></a>cordova安装</h3><p>由于镜像在国外，网络不行，因此使用代理安装<code>cordova</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm config set registry http://registry.cnpmjs.org</span><br><span class="line">sudo npm install -g cordova</span><br></pre></td></tr></table></figure>
+
+<p>输入下面命令测试是否安装成功</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cordova -v</span><br></pre></td></tr></table></figure>
+
+<p>和上面一样，出现版本号就表示成功了。</p>
+<h3 id="Ionic安装"><a href="#Ionic安装" class="headerlink" title="Ionic安装"></a>Ionic安装</h3><p>Ionic的安装就容易多了，直接命令行输入命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo npm install -g ionic</span><br></pre></td></tr></table></figure>
+
+<p>输入如下命令测试是否安装成功</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ionic -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="相关命令行"><a href="#相关命令行" class="headerlink" title="相关命令行"></a>相关命令行</h3><ul>
+<li><code>ionic platform add android</code> 添加android平台</li>
+<li><code>ionic platform add ios</code> 添加ios平台</li>
+<li><code>ionic lib update</code> 版本库更新</li>
+<li><code>ionic build android</code> 编译android项目</li>
+<li><code>ionic emulate android</code>模拟器运行</li>
+</ul>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>Ionic中的基础命令有时间再更新下，很久没写Ionic Webapp了，连环境也不记得怎么搭建了，在这里记录备份一下，用作使用参考。</p>
+<p>More Info: <a href="https://ionicframework.com/docs/cli/" target="_blank" rel="noopener">https://ionicframework.com/docs/cli/</a></p>
+]]></content>
+      <categories>
+        <category>Ionic</category>
+      </categories>
+      <tags>
+        <tag>ionic</tag>
+        <tag>cordova</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SSH建立SOCKS代理</title>
     <url>/SSH%E5%BB%BA%E7%AB%8BSOCKS%E4%BB%A3%E7%90%86.html</url>
     <content><![CDATA[<p>因工作环境与服务器不在同一局域网下，为了安全性，不公开内部端口，因此需要进行外网对局域网的服务进行访问，我的ssh账号拥有shell权限，可以建立SSH Tunnel。</p>
@@ -942,51 +942,6 @@
         <tag>mnist</tag>
         <tag>machine learning</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>SpringFramework BeanUtil</title>
-    <url>/SpringFramework-BeanUtil.html</url>
-    <content><![CDATA[<p>在使用SpringMVC开发JavaWeb网站的时候，当执行Update方法的时候，需要对修改实体类的字段进行<code>set</code>操作，字段过多的时候一个个的<code>set</code>实在是一件麻烦事，于是想到了SpringFramework自带的BeanUtils方法，但是这个方法会将结果为<code>Null</code>的字段也进行拷贝，与实际Update功能不符，因此需要进行改写。</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>改写SpringFramework BeanUtils</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapperImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">BeanUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 重写工具类BeanUtils，如果为NULL则不复制属性值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source newClass</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> target oldClass</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyProperties</span><span class="params">(Object source,Object target)</span></span>&#123;</span><br><span class="line">		BeanUtils.copyProperties(source, target,getNullPropertyNames(source));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object source)&#123;</span><br><span class="line">		<span class="keyword">final</span> BeanWrapper src = <span class="keyword">new</span> BeanWrapperImpl(source);</span><br><span class="line">		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();</span><br><span class="line">		Set&lt;String&gt; emptyNames = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(java.beans.PropertyDescriptor pd:pds)&#123;</span><br><span class="line">			Object srcValue = src.getPropertyValue(pd.getName());</span><br><span class="line">			<span class="keyword">if</span>(srcValue == <span class="keyword">null</span>) emptyNames.add(pd.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		String[] result = <span class="keyword">new</span> String[emptyNames.size()];</span><br><span class="line">		<span class="keyword">return</span> emptyNames.toArray(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>在实际使用过程中可以进行拓展，比如对<code>int</code>类型进行操作。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Spring</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Spring Config Server搭建教程</title>
-    <url>/Spring-Config-Server%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B.html</url>
-    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在分布式系统中，由于服务数量巨多，为了方便服务配置文件统一管理，实时更新，所以需要分布式配置中心组件。在Spring Cloud中，有分布式配置中心组件spring cloud config ，它支持配置服务放在配置服务的内存中（即本地），也支持放在远程Git仓库中。在spring cloud config 组件中，分两个角色，一是config server，二是config client。</p>
-<h3 id="构建Config-Server"><a href="#构建Config-Server" class="headerlink" title="构建Config Server"></a>构建Config Server</h3><p>创建一个Spring Boot项目，pom.xml文件如下：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fiveplus<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>config-server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>User project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.8.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Dalston.SR4<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">docker.image.prefix</span>&gt;</span>spring-boot<span class="tag">&lt;/<span class="name">docker.image.prefix</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">				&lt;configuration&gt;</span></span><br><span class="line"><span class="comment">					&lt;executable&gt;true&lt;/executable&gt;</span></span><br><span class="line"><span class="comment">				&lt;/configuration&gt;</span></span><br><span class="line"><span class="comment">				 --&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- tag:plugin[] --&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">imageName</span>&gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">dockerDirectory</span>&gt;</span>src/main/docker<span class="tag">&lt;/<span class="name">dockerDirectory</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- end::plugin[] --&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>application.properties配置文件如下：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.application.name</span>=<span class="string">config-server</span></span><br><span class="line"><span class="meta">server.port</span>=<span class="string">8888</span></span><br><span class="line"></span><br><span class="line"><span class="meta">management.security.enabled</span>=<span class="string">false</span></span><br><span class="line"></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.uri</span>=<span class="string">&lt;you_git_uri&gt;/</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.search-paths</span>=<span class="string">&lt;floder&gt;</span></span><br><span class="line"><span class="meta">spring.cloud.config.label</span>=<span class="string">master</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.username</span>=<span class="string">&lt;your_username&gt;</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.password</span>=<span class="string">&lt;your_password&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>最后是Application.java</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fiveplus;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接下来在你的git仓库下新建一个文件夹，这个文件夹名与application.properties文件中的spring.cloud.config.server.git.search-paths一致。</p>
-<p>http请求地址与资源文件映射：</p>
-<ul>
-<li>/{application}/{profile}[/{label}]</li>
-<li>/{application}-{profile}.yml</li>
-<li>/{label}/{application}-{profile}.yml</li>
-<li>/{application}-{profile}.properties</li>
-<li>/{label}/{application}-{profile}.properties</li>
-</ul>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>可以使用Docker的方式构建该项目。</p>
-]]></content>
-      <categories>
-        <category>SpringBoot</category>
-      </categories>
   </entry>
   <entry>
     <title>OpenCore升级不受支持的macbook</title>
@@ -1288,6 +1243,23 @@
       </tags>
   </entry>
   <entry>
+    <title>SpringFramework BeanUtil</title>
+    <url>/SpringFramework-BeanUtil.html</url>
+    <content><![CDATA[<p>在使用SpringMVC开发JavaWeb网站的时候，当执行Update方法的时候，需要对修改实体类的字段进行<code>set</code>操作，字段过多的时候一个个的<code>set</code>实在是一件麻烦事，于是想到了SpringFramework自带的BeanUtils方法，但是这个方法会将结果为<code>Null</code>的字段也进行拷贝，与实际Update功能不符，因此需要进行改写。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>改写SpringFramework BeanUtils</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cloud.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanUtils;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.BeanWrapperImpl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanUtil</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">BeanUtil</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 重写工具类BeanUtils，如果为NULL则不复制属性值</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> source newClass</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> target oldClass</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyProperties</span><span class="params">(Object source,Object target)</span></span>&#123;</span><br><span class="line">		BeanUtils.copyProperties(source, target,getNullPropertyNames(source));</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object source)&#123;</span><br><span class="line">		<span class="keyword">final</span> BeanWrapper src = <span class="keyword">new</span> BeanWrapperImpl(source);</span><br><span class="line">		java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();</span><br><span class="line">		Set&lt;String&gt; emptyNames = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">		<span class="keyword">for</span>(java.beans.PropertyDescriptor pd:pds)&#123;</span><br><span class="line">			Object srcValue = src.getPropertyValue(pd.getName());</span><br><span class="line">			<span class="keyword">if</span>(srcValue == <span class="keyword">null</span>) emptyNames.add(pd.getName());</span><br><span class="line">		&#125;</span><br><span class="line">		String[] result = <span class="keyword">new</span> String[emptyNames.size()];</span><br><span class="line">		<span class="keyword">return</span> emptyNames.toArray(result);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>在实际使用过程中可以进行拓展，比如对<code>int</code>类型进行操作。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Tesseract-OCR识别中文与训练字库实例</title>
     <url>/Tesseract-OCR%E8%AF%86%E5%88%AB%E4%B8%AD%E6%96%87%E4%B8%8E%E8%AE%AD%E7%BB%83%E5%AD%97%E5%BA%93%E5%AE%9E%E4%BE%8B.html</url>
     <content><![CDATA[<p>关于中文识别，效果不错并且开源的应该就是Tesseract-OCR了，在Mac下试用了一下，参考了网络上其他人的一些资源，在这里分享一下。</p>
@@ -1345,6 +1317,30 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring Cloud Feign和Hystric进行负载和熔断</title>
     <url>/Spring-Cloud-Feign%E5%92%8CHystric%E8%BF%9B%E8%A1%8C%E8%B4%9F%E8%BD%BD%E5%92%8C%E7%86%94%E6%96%AD.html</url>
     <content><![CDATA[<blockquote>
@@ -1387,6 +1383,94 @@
       </tags>
   </entry>
   <entry>
+    <title>macOS下AppStore无法登陆的处理方案</title>
+    <url>/macOS%E4%B8%8BAppStore%E6%97%A0%E6%B3%95%E7%99%BB%E9%99%86%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
+    <content><![CDATA[<blockquote>
+<p>在<code>macOS</code>, <code>iPadOS</code>, <code>iOS</code>系统下有时会出现<code>AppStore</code>无法访问的问题，这里说一下如何解决。</p>
+</blockquote>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li>将DNS修改为<code>4.4.2.2</code>后尝试登陆/下载安装</li>
+<li>成功后将DNS改回自动获取即可</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>AppStore</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>macOS下JD-GUI无法打开的问题</title>
+    <url>/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html</url>
+    <content><![CDATA[<blockquote>
+<p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>macOS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
+    <url>/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
+    <content><![CDATA[<blockquote>
+<p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p>
+</blockquote>
+<h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure>
+
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p>
+<p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>dmidecode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spring Config Server搭建教程</title>
+    <url>/Spring-Config-Server%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B.html</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><p>在分布式系统中，由于服务数量巨多，为了方便服务配置文件统一管理，实时更新，所以需要分布式配置中心组件。在Spring Cloud中，有分布式配置中心组件spring cloud config ，它支持配置服务放在配置服务的内存中（即本地），也支持放在远程Git仓库中。在spring cloud config 组件中，分两个角色，一是config server，二是config client。</p>
+<h3 id="构建Config-Server"><a href="#构建Config-Server" class="headerlink" title="构建Config Server"></a>构建Config Server</h3><p>创建一个Spring Boot项目，pom.xml文件如下：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fiveplus<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>config-server<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>User project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.8.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">spring-cloud.version</span>&gt;</span>Dalston.SR4<span class="tag">&lt;/<span class="name">spring-cloud.version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">docker.image.prefix</span>&gt;</span>spring-boot<span class="tag">&lt;/<span class="name">docker.image.prefix</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-bus-amqp<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		  	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spring-cloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">				&lt;configuration&gt;</span></span><br><span class="line"><span class="comment">					&lt;executable&gt;true&lt;/executable&gt;</span></span><br><span class="line"><span class="comment">				&lt;/configuration&gt;</span></span><br><span class="line"><span class="comment">				 --&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- tag:plugin[] --&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spotify<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>docker-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">imageName</span>&gt;</span>$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;<span class="tag">&lt;/<span class="name">imageName</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">dockerDirectory</span>&gt;</span>src/main/docker<span class="tag">&lt;/<span class="name">dockerDirectory</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">targetPath</span>&gt;</span>/<span class="tag">&lt;/<span class="name">targetPath</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;project.build.directory&#125;<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                            <span class="tag">&lt;<span class="name">include</span>&gt;</span>$&#123;project.build.finalName&#125;.jar<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">			<span class="comment">&lt;!-- end::plugin[] --&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring-milestones<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">name</span>&gt;</span>Spring Milestones<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://repo.spring.io/milestone<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>false<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>application.properties配置文件如下：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">spring.application.name</span>=<span class="string">config-server</span></span><br><span class="line"><span class="meta">server.port</span>=<span class="string">8888</span></span><br><span class="line"></span><br><span class="line"><span class="meta">management.security.enabled</span>=<span class="string">false</span></span><br><span class="line"></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.uri</span>=<span class="string">&lt;you_git_uri&gt;/</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.search-paths</span>=<span class="string">&lt;floder&gt;</span></span><br><span class="line"><span class="meta">spring.cloud.config.label</span>=<span class="string">master</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.username</span>=<span class="string">&lt;your_username&gt;</span></span><br><span class="line"><span class="meta">spring.cloud.config.server.git.password</span>=<span class="string">&lt;your_password&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后是Application.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.fiveplus;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.config.server.EnableConfigServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableConfigServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Application<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来在你的git仓库下新建一个文件夹，这个文件夹名与application.properties文件中的spring.cloud.config.server.git.search-paths一致。</p>
+<p>http请求地址与资源文件映射：</p>
+<ul>
+<li>/{application}/{profile}[/{label}]</li>
+<li>/{application}-{profile}.yml</li>
+<li>/{label}/{application}-{profile}.yml</li>
+<li>/{application}-{profile}.properties</li>
+<li>/{label}/{application}-{profile}.properties</li>
+</ul>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>可以使用Docker的方式构建该项目。</p>
+]]></content>
+      <categories>
+        <category>SpringBoot</category>
+      </categories>
+  </entry>
+  <entry>
     <title>frp-NAS内网穿透实现</title>
     <url>/frp-NAS%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%AE%9E%E7%8E%B0.html</url>
     <content><![CDATA[<p>群晖在使用的过程中，因为没有公网IP的关系，因而需要用到内网穿透技术。使用nat123或者花生壳虽然能达到效果，奈何速度太慢，收到端口闲置颇多，因而使用frp实现内网穿透。</p>
@@ -1418,48 +1502,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>macOS下JD-GUI无法打开的问题</title>
-    <url>/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html</url>
-    <content><![CDATA[<blockquote>
-<p>在官网下载了最新版本的额JD-GUI，打开出现如下错误</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ERROR launching ‘JD-GUI’</span><br><span class="line">No suitable Java version found on your system!</span><br><span class="line">This program requires Java 1.8+</span><br><span class="line">Make sure you install the required Java version.</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>进入Contents文件下编辑<code>Info.plist</code>文件，搜索<code>1.8+</code>，然后将<code>+</code>删除掉，保存即可</p>
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/546643868?utm_id=0" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/546643868?utm_id=0</a></p>
-]]></content>
-      <categories>
-        <category>MacOS</category>
-      </categories>
-      <tags>
-        <tag>macOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOSOpenDev安装</title>
     <url>/iOSOpenDev%E5%AE%89%E8%A3%85.html</url>
     <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装-macports"><a href="#安装-macports" class="headerlink" title="安装 macports"></a>安装 <a href="https://link.jianshu.com/?t=https://www.macports.org/install.php" target="_blank" rel="noopener">macports</a></h3><p>安装完MacPorts后打开终端，输入 sudo port -v selfupdate 更新MacPorts到最新版本，时间可能比较长。</p>
@@ -1481,6 +1523,23 @@
       </categories>
       <tags>
         <tag>iOSOpenDev</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于Spring-Cloud的一点想法</title>
+    <url>/%E5%85%B3%E4%BA%8ESpring-Cloud%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95.html</url>
+    <content><![CDATA[<p>第一次知道Spring-Cloud是通过同学的介绍，第一次使用是因为想把在公司做的所有项目做一个集合，但是在实际使用过程中发现了一些问题，所以在这里对Spring-Cloud的使用场合以及需要注意的地方，做一个总结。</p>
+<p>首先作为Spring-Cloud的核心就是Eureka-Server（服务发现平台），在Spring-Cloud中，几乎你创建的所有服务，都必须通过这个服务发现平台注册，那么安全性应该是首先需要考虑的了，再考虑到分布式，那么这个服务发现平台应该不只是在局域网内使用，因此我觉得应该需要有账户和密码，好在Spring-Security模块帮我解决了这个问题。</p>
+<p>其二是网关处理，所有的服务最终的出口是Zuul，Zuul不能当作nginx，他对css/js等前端的处理不做好，因此如果想要使用spring-cloud的同学注意了，这里讲的所有概念都是基于微服务的，是一种需要将前端与服务端分离的架构模式。Zuul也可以代理由其他语言完成的微服务，比如ASP.NET/PHP语言等，但是最友好的应该是Spring-Cloud，这里可以通过设置route配置相关service-name，对于service-name相同的微服务，会自动对其做负载均衡处理。</p>
+<p>再然后一个问题就是，每当我有一个新的微服务的时候，那么我就需要重新编译Zuul，再上传，这也太费劲了吧！然后出现了Config+Bus这个组合，结合git的WebHook功能，可以做到网关配置文件的集中管理。</p>
+<p>接着说说负载均衡和熔断处理，在Spring-Cloud中主要是有Feign+Hystric来做的，但是似乎和我想的不太一样，首先我需要新建一个项目，把所有的服务聚合起来，然后对每个服务的每个http分别做熔断，这部分代码的编写无非就是接口+熔断，接口部分需要和每个service-id下的所有请求一一对应，但是似乎我没有找到好的解决方案，写这么些几乎重复的东西实在有些不舒服。替代的解决方案是去掉feign层，直接在zuul网关上进行处理，当请求无法到达的时候统一处理熔断。（似乎也不是很好）</p>
+<p>最后的部分就是自动化部署了，毕竟每次编译代码+上传代码+上传服务器+重新启动也是个体力活，咱能自动化处理岂不美哉？</p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+      <tags>
+        <tag>spring-cloud</tag>
       </tags>
   </entry>
   <entry>
@@ -1513,65 +1572,6 @@
       <tags>
         <tag>macOS</tag>
         <tag>PD</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
-    <url>/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
-    <content><![CDATA[<blockquote>
-<p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p>
-</blockquote>
-<h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure>
-
-<h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-
-<h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure>
-
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p>
-<p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>
-]]></content>
-      <categories>
-        <category>MacOS</category>
-      </categories>
-      <tags>
-        <tag>dmidecode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>macOS升级到Ventura后gem无法使用处理方案</title>
-    <url>/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Egem%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
-    <content><![CDATA[<blockquote>
-<p>最近将主力工作机macOS升级到了Ventura，发现<code>sass</code>无法安装成功，特此记录一下如何解决</p>
-</blockquote>
-<h2 id="错误信息参考"><a href="#错误信息参考" class="headerlink" title="错误信息参考"></a>错误信息参考</h2><blockquote>
-<p>You don’t have write permissions for the /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/gems/2.6.0 directory.</p>
-</blockquote>
-<h2 id="安装Ruby"><a href="#安装Ruby" class="headerlink" title="安装Ruby"></a>安装Ruby</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">brew install ruby</span><br></pre></td></tr></table></figure>
-
-<h2 id="查看ruby版本"><a href="#查看ruby版本" class="headerlink" title="查看ruby版本"></a>查看ruby版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
-
-<h2 id="安装完成后发现依旧是2-6版本，需要设置环境变量"><a href="#安装完成后发现依旧是2-6版本，需要设置环境变量" class="headerlink" title="安装完成后发现依旧是2.6版本，需要设置环境变量"></a>安装完成后发现依旧是2.6版本，需要设置环境变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure>
-
-<h2 id="ARM机型粘贴以下代码"><a href="#ARM机型粘贴以下代码" class="headerlink" title="ARM机型粘贴以下代码"></a>ARM机型粘贴以下代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">if [ -d "/opt/homebrew/opt/ruby/bin" ]; then</span><br><span class="line">  export PATH=/opt/homebrew/opt/ruby/bin:$PATH</span><br><span class="line">  export PATH=`gem environment gemdir`/bin:$PATH</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h2 id="x86机型粘贴以下代码"><a href="#x86机型粘贴以下代码" class="headerlink" title="x86机型粘贴以下代码"></a>x86机型粘贴以下代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">if [ -d "/usr/local/opt/ruby/bin" ]; then</span><br><span class="line">  export PATH=/usr/local/opt/ruby/bin:$PATH</span><br><span class="line">  export PATH=`gem environment gemdir`/bin:$PATH</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h2 id="再次查看版本是否为新安装的版本"><a href="#再次查看版本是否为新安装的版本" class="headerlink" title="再次查看版本是否为新安装的版本"></a>再次查看版本是否为新安装的版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source ~/.zshrc</span><br><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
-
-<h2 id="重新安装sass"><a href="#重新安装sass" class="headerlink" title="重新安装sass"></a>重新安装sass</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo gem install sass</span><br></pre></td></tr></table></figure>
-
-<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：</p>
-<p><a href="https://mac.install.guide/ruby/13.html" target="_blank" rel="noopener">https://mac.install.guide/ruby/13.html</a></p>
-<p><a href="https://blog.csdn.net/liuwenchang1234/article/details/127635234" target="_blank" rel="noopener">https://blog.csdn.net/liuwenchang1234/article/details/127635234</a></p>
-]]></content>
-      <categories>
-        <category>MacOS</category>
-      </categories>
-      <tags>
-        <tag>gem</tag>
-        <tag>ruby</tag>
       </tags>
   </entry>
   <entry>
@@ -1635,20 +1635,57 @@
       </tags>
   </entry>
   <entry>
-    <title>关于Spring-Cloud的一点想法</title>
-    <url>/%E5%85%B3%E4%BA%8ESpring-Cloud%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95.html</url>
-    <content><![CDATA[<p>第一次知道Spring-Cloud是通过同学的介绍，第一次使用是因为想把在公司做的所有项目做一个集合，但是在实际使用过程中发现了一些问题，所以在这里对Spring-Cloud的使用场合以及需要注意的地方，做一个总结。</p>
-<p>首先作为Spring-Cloud的核心就是Eureka-Server（服务发现平台），在Spring-Cloud中，几乎你创建的所有服务，都必须通过这个服务发现平台注册，那么安全性应该是首先需要考虑的了，再考虑到分布式，那么这个服务发现平台应该不只是在局域网内使用，因此我觉得应该需要有账户和密码，好在Spring-Security模块帮我解决了这个问题。</p>
-<p>其二是网关处理，所有的服务最终的出口是Zuul，Zuul不能当作nginx，他对css/js等前端的处理不做好，因此如果想要使用spring-cloud的同学注意了，这里讲的所有概念都是基于微服务的，是一种需要将前端与服务端分离的架构模式。Zuul也可以代理由其他语言完成的微服务，比如ASP.NET/PHP语言等，但是最友好的应该是Spring-Cloud，这里可以通过设置route配置相关service-name，对于service-name相同的微服务，会自动对其做负载均衡处理。</p>
-<p>再然后一个问题就是，每当我有一个新的微服务的时候，那么我就需要重新编译Zuul，再上传，这也太费劲了吧！然后出现了Config+Bus这个组合，结合git的WebHook功能，可以做到网关配置文件的集中管理。</p>
-<p>接着说说负载均衡和熔断处理，在Spring-Cloud中主要是有Feign+Hystric来做的，但是似乎和我想的不太一样，首先我需要新建一个项目，把所有的服务聚合起来，然后对每个服务的每个http分别做熔断，这部分代码的编写无非就是接口+熔断，接口部分需要和每个service-id下的所有请求一一对应，但是似乎我没有找到好的解决方案，写这么些几乎重复的东西实在有些不舒服。替代的解决方案是去掉feign层，直接在zuul网关上进行处理，当请求无法到达的时候统一处理熔断。（似乎也不是很好）</p>
-<p>最后的部分就是自动化部署了，毕竟每次编译代码+上传代码+上传服务器+重新启动也是个体力活，咱能自动化处理岂不美哉？</p>
+    <title>打开Windows Powershell Modules报错</title>
+    <url>/%E6%89%93%E5%BC%80Windows-Powershell-Modules%E6%8A%A5%E9%94%99.html</url>
+    <content><![CDATA[<p>在阿里云Windows Server里进入PowerShell的时候一直报如下错误：</p>
+<p>警告: 无法加载文件<br>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\PSDiagnostics\PSDiagnostics.psm1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 “get-help about_signing”。</p>
+<p>警告: 无法加载文件<br>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\WebAdministration\WebAdministrationAliases.ps1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 “get-help about_signing”。</p>
+<p>进入PowerShell，执行：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set-executionpolicy</span> remotesigned</span><br></pre></td></tr></table></figure>
+
+<p>选择<y>之后再进入PowerShell，警告消失。</y></p>
 ]]></content>
       <categories>
-        <category>Others</category>
+        <category>Windows</category>
       </categories>
       <tags>
-        <tag>spring-cloud</tag>
+        <tag>PowerShell</tag>
+        <tag>Windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>macOS升级到Ventura后gem无法使用处理方案</title>
+    <url>/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Egem%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html</url>
+    <content><![CDATA[<blockquote>
+<p>最近将主力工作机macOS升级到了Ventura，发现<code>sass</code>无法安装成功，特此记录一下如何解决</p>
+</blockquote>
+<h2 id="错误信息参考"><a href="#错误信息参考" class="headerlink" title="错误信息参考"></a>错误信息参考</h2><blockquote>
+<p>You don’t have write permissions for the /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/gems/2.6.0 directory.</p>
+</blockquote>
+<h2 id="安装Ruby"><a href="#安装Ruby" class="headerlink" title="安装Ruby"></a>安装Ruby</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">brew install ruby</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看ruby版本"><a href="#查看ruby版本" class="headerlink" title="查看ruby版本"></a>查看ruby版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装完成后发现依旧是2-6版本，需要设置环境变量"><a href="#安装完成后发现依旧是2-6版本，需要设置环境变量" class="headerlink" title="安装完成后发现依旧是2.6版本，需要设置环境变量"></a>安装完成后发现依旧是2.6版本，需要设置环境变量</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="ARM机型粘贴以下代码"><a href="#ARM机型粘贴以下代码" class="headerlink" title="ARM机型粘贴以下代码"></a>ARM机型粘贴以下代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">if [ -d "/opt/homebrew/opt/ruby/bin" ]; then</span><br><span class="line">  export PATH=/opt/homebrew/opt/ruby/bin:$PATH</span><br><span class="line">  export PATH=`gem environment gemdir`/bin:$PATH</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h2 id="x86机型粘贴以下代码"><a href="#x86机型粘贴以下代码" class="headerlink" title="x86机型粘贴以下代码"></a>x86机型粘贴以下代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">if [ -d "/usr/local/opt/ruby/bin" ]; then</span><br><span class="line">  export PATH=/usr/local/opt/ruby/bin:$PATH</span><br><span class="line">  export PATH=`gem environment gemdir`/bin:$PATH</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h2 id="再次查看版本是否为新安装的版本"><a href="#再次查看版本是否为新安装的版本" class="headerlink" title="再次查看版本是否为新安装的版本"></a>再次查看版本是否为新安装的版本</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">source ~/.zshrc</span><br><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="重新安装sass"><a href="#重新安装sass" class="headerlink" title="重新安装sass"></a>重新安装sass</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo gem install sass</span><br></pre></td></tr></table></figure>
+
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：</p>
+<p><a href="https://mac.install.guide/ruby/13.html" target="_blank" rel="noopener">https://mac.install.guide/ruby/13.html</a></p>
+<p><a href="https://blog.csdn.net/liuwenchang1234/article/details/127635234" target="_blank" rel="noopener">https://blog.csdn.net/liuwenchang1234/article/details/127635234</a></p>
+]]></content>
+      <categories>
+        <category>MacOS</category>
+      </categories>
+      <tags>
+        <tag>gem</tag>
+        <tag>ruby</tag>
       </tags>
   </entry>
   <entry>
@@ -1769,54 +1806,6 @@
       </tags>
   </entry>
   <entry>
-    <title>华为手机adbshell卸载不需要的系统应用</title>
-    <url>/%E5%8D%8E%E4%B8%BA%E6%89%8B%E6%9C%BAadbshell%E5%8D%B8%E8%BD%BD%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8.html</url>
-    <content><![CDATA[<blockquote>
-<p>华为手机上有些系统应用广告太多，但是却无法卸载，这里介绍一下如何卸载这些系统应用</p>
-</blockquote>
-<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><h3 id="adb的下载与环境变量设置"><a href="#adb的下载与环境变量设置" class="headerlink" title="adb的下载与环境变量设置"></a>adb的下载与环境变量设置</h3><p>略</p>
-<h3 id="手机USB调试模式开启"><a href="#手机USB调试模式开启" class="headerlink" title="手机USB调试模式开启"></a>手机USB调试模式开启</h3><p>略</p>
-<h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>略</p>
-<h3 id="adb会用到的命令"><a href="#adb会用到的命令" class="headerlink" title="adb会用到的命令"></a>adb会用到的命令</h3><p><code>adb version</code>: 安装完成查看版本号</p>
-<p><code>adb devices</code>: 连接设备</p>
-<p><code>adb shell am monitor</code>: 执行后运行需要卸载的应用，即可看到该应用的包名</p>
-<p><code>adb shell pm list packages</code>: 查看所有应用包名</p>
-<p><code>adb shell pm uninstall -k --user 0 应用包名</code>: 卸载应用，-k表示保存数据</p>
-<p><code>adb shell pm disable -k --user 0 应用包名</code>: 禁用应用,-k表示保存数据</p>
-<p><code>adb shell pm enable -k --user 0 应用包名</code>: 恢复应用,-k表示保存数据</p>
-<p>我卸载的应用（华为音乐，华为浏览器，华为电影，华为智慧助手）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">adb shell pm uninstall -k --user 0 com.huawei.music    </span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.browser</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.himovie</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.vassistant</span><br></pre></td></tr></table></figure>
-
-<p>建议先从<code>华为应用市场</code>-<code>我的</code>-<code>设置</code>中关闭自动更新后再卸载应用</p>
-<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>参考链接：<a href="https://www.xjx100.cn/news/405554.html?action=onClick" target="_blank" rel="noopener">https://www.xjx100.cn/news/405554.html?action=onClick</a></p>
-]]></content>
-      <categories>
-        <category>Others</category>
-      </categories>
-      <tags>
-        <tag>android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>打开Windows Powershell Modules报错</title>
-    <url>/%E6%89%93%E5%BC%80Windows-Powershell-Modules%E6%8A%A5%E9%94%99.html</url>
-    <content><![CDATA[<p>在阿里云Windows Server里进入PowerShell的时候一直报如下错误：</p>
-<p>警告: 无法加载文件<br>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\PSDiagnostics\PSDiagnostics.psm1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 “get-help about_signing”。</p>
-<p>警告: 无法加载文件<br>C:\Windows\system32\WindowsPowerShell\v1.0\Modules\WebAdministration\WebAdministrationAliases.ps1，因为在此系统中禁止执行脚本。有关详细信息，请参阅 “get-help about_signing”。</p>
-<p>进入PowerShell，执行：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set-executionpolicy</span> remotesigned</span><br></pre></td></tr></table></figure>
-
-<p>选择<y>之后再进入PowerShell，警告消失。</y></p>
-]]></content>
-      <categories>
-        <category>Windows</category>
-      </categories>
-      <tags>
-        <tag>PowerShell</tag>
-        <tag>Windows</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据库事务以及事务隔离级别</title>
     <url>/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E4%BB%A5%E5%8F%8A%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.html</url>
     <content><![CDATA[<p>本篇文章讲述数据库事务的四大特性（ACID），并详细说明事务的隔离级别。</p>
@@ -1865,6 +1854,35 @@
       </categories>
       <tags>
         <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>华为手机adbshell卸载不需要的系统应用</title>
+    <url>/%E5%8D%8E%E4%B8%BA%E6%89%8B%E6%9C%BAadbshell%E5%8D%B8%E8%BD%BD%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8.html</url>
+    <content><![CDATA[<blockquote>
+<p>华为手机上有些系统应用广告太多，但是却无法卸载，这里介绍一下如何卸载这些系统应用</p>
+</blockquote>
+<h2 id="解决步骤"><a href="#解决步骤" class="headerlink" title="解决步骤"></a>解决步骤</h2><h3 id="adb的下载与环境变量设置"><a href="#adb的下载与环境变量设置" class="headerlink" title="adb的下载与环境变量设置"></a>adb的下载与环境变量设置</h3><p>略</p>
+<h3 id="手机USB调试模式开启"><a href="#手机USB调试模式开启" class="headerlink" title="手机USB调试模式开启"></a>手机USB调试模式开启</h3><p>略</p>
+<h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>略</p>
+<h3 id="adb会用到的命令"><a href="#adb会用到的命令" class="headerlink" title="adb会用到的命令"></a>adb会用到的命令</h3><p><code>adb version</code>: 安装完成查看版本号</p>
+<p><code>adb devices</code>: 连接设备</p>
+<p><code>adb shell am monitor</code>: 执行后运行需要卸载的应用，即可看到该应用的包名</p>
+<p><code>adb shell pm list packages</code>: 查看所有应用包名</p>
+<p><code>adb shell pm uninstall -k --user 0 应用包名</code>: 卸载应用，-k表示保存数据</p>
+<p><code>adb shell pm disable -k --user 0 应用包名</code>: 禁用应用,-k表示保存数据</p>
+<p><code>adb shell pm enable -k --user 0 应用包名</code>: 恢复应用,-k表示保存数据</p>
+<p>我卸载的应用（华为音乐，华为浏览器，华为电影，华为智慧助手）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">adb shell pm uninstall -k --user 0 com.huawei.music    </span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.browser</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.himovie</span><br><span class="line">adb shell pm uninstall -k --user 0 com.huawei.vassistant</span><br></pre></td></tr></table></figure>
+
+<p>建议先从<code>华为应用市场</code>-<code>我的</code>-<code>设置</code>中关闭自动更新后再卸载应用</p>
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>参考链接：<a href="https://www.xjx100.cn/news/405554.html?action=onClick" target="_blank" rel="noopener">https://www.xjx100.cn/news/405554.html?action=onClick</a></p>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
       </tags>
   </entry>
   <entry>
