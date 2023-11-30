@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.ifiveplus.com/"/>
-  <updated>2023-11-23T09:55:53.822Z</updated>
+  <updated>2023-11-30T09:09:02.919Z</updated>
   <id>https://blog.ifiveplus.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vscode突然没法调试python2.7</title>
+    <link href="https://blog.ifiveplus.com/Vscode%E7%AA%81%E7%84%B6%E6%B2%A1%E6%B3%95%E8%B0%83%E8%AF%95python2.7.html"/>
+    <id>https://blog.ifiveplus.com/Vscode突然没法调试python2.7.html</id>
+    <published>2023-11-30T09:03:43.000Z</published>
+    <updated>2023-11-30T09:09:02.919Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>Vscode突然没办法调试<code>python2.7</code>, 且报错<code>...........import _thread as thread; verify_shadowed.check(thread, [&#39;start_new_thread&#39;, &#39;start_new&#39;, &#39;allocate_lock&#39;]) ImportError: No module named _thread</code>, 下面是解决方案</p></blockquote><h2 id="出现原因"><a href="#出现原因" class="headerlink" title="出现原因"></a>出现原因</h2><p>Vscode最新版本的<code>Python</code>扩展插件只支持python&gt;3.7的版本。</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>将Vscode扩展插件<code>Python</code>回滚到2022年以前的版本即可。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;Vscode突然没办法调试&lt;code&gt;python2.7&lt;/code&gt;, 且报错&lt;code&gt;...........import _thread as thread; verify_shadowed.check(thread, [&amp;#39;start
+      
+    
+    </summary>
+    
+      <category term="Others" scheme="https://blog.ifiveplus.com/categories/Others/"/>
+    
+    
+      <category term="Vscode" scheme="https://blog.ifiveplus.com/tags/Vscode/"/>
+    
+  </entry>
   
   <entry>
     <title>macOS下AppStore无法登陆的处理方案</title>
@@ -239,34 +265,6 @@
   </entry>
   
   <entry>
-    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
-    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
-    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
-    <published>2023-10-09T02:59:00.000Z</published>
-    <updated>2023-10-30T09:55:54.548Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
-      
-    
-    </summary>
-    
-      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
-    
-    
-      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
-    
-  </entry>
-  
-  <entry>
     <title>macOS下JD-GUI无法打开的问题</title>
     <link href="https://blog.ifiveplus.com/macOS%E4%B8%8BJD-GUI%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80%E7%9A%84%E9%97%AE%E9%A2%98.html"/>
     <id>https://blog.ifiveplus.com/macOS下JD-GUI无法打开的问题.html</id>
@@ -291,6 +289,34 @@
     
     
       <category term="macOS" scheme="https://blog.ifiveplus.com/tags/macOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>macOS升级到Ventura后dmidecode无法使用处理方案</title>
+    <link href="https://blog.ifiveplus.com/macOS%E5%8D%87%E7%BA%A7%E5%88%B0Ventura%E5%90%8Edmidecode%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88.html"/>
+    <id>https://blog.ifiveplus.com/macOS升级到Ventura后dmidecode无法使用处理方案.html</id>
+    <published>2023-10-09T02:59:00.000Z</published>
+    <updated>2023-10-30T09:55:54.548Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决</p></blockquote><h2 id="下载dmidecode-osx源码"><a href="#下载dmidecode-osx源码" class="headerlink" title="下载dmidecode-osx源码"></a>下载dmidecode-osx源码</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/cavaliercoder/dmidecode-osx</span><br></pre></td></tr></table></figure><h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">diff --git a/dmidecode.c b/dmidecode.c</span><br><span class="line">index bb651da.<span class="number">.194108</span>c <span class="number">100644</span></span><br><span class="line">--- a/dmidecode.c</span><br><span class="line">+++ b/dmidecode.c</span><br><span class="line">@@ <span class="number">-4811</span>,<span class="number">8</span> +<span class="number">4811</span>,<span class="number">10</span> @@ <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">dmi_table</span><span class="params">(<span class="keyword">off_t</span> base, u32 len, u16 num, u32 ver, <span class="keyword">const</span> <span class="keyword">char</span> *devmem,</span></span></span><br><span class="line">          * This CFRelease throws 'Segmentation fault: 11' since macOS 10.12, if</span><br><span class="line">          * the compiled binary is <span class="keyword">not</span> <span class="keyword">signed</span> with an Apple developer profile.</span><br><span class="line">          */</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">ifdef</span> SIGNED_BINARY  <span class="comment">// So don't do that unless you signed it</span></span></span><br><span class="line">         <span class="keyword">if</span> (<span class="literal">NULL</span> != properties)</span><br><span class="line">             CFRelease(properties);</span><br><span class="line">+        <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"> </span><br><span class="line">         IOObjectRelease(service);</span><br><span class="line">     &#125;</span><br><span class="line">@@ <span class="number">-5147</span>,<span class="number">7</span> +<span class="number">5149</span>,<span class="number">7</span> @@ <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * <span class="keyword">const</span> argv[])</span></span></span><br><span class="line"><span class="function">         <span class="keyword">goto</span> exit_free</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">-    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, <span class="number">0x20</span>), (UInt8*)buf);</span><br><span class="line">+    CFDataGetBytes(dataRef, CFRangeMake(<span class="number">0</span>, CFDataGetLength(dataRef)), (UInt8*)buf);</span><br><span class="line"> </span><br><span class="line">     <span class="keyword">if</span> (<span class="literal">NULL</span> != dataRef)</span><br><span class="line">         CFRelease(dataRef);</span><br></pre></td></tr></table></figure><h2 id="编译-amp-安装"><a href="#编译-amp-安装" class="headerlink" title="编译&amp;安装"></a>编译&amp;安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><h2 id="卸载命令"><a href="#卸载命令" class="headerlink" title="卸载命令"></a>卸载命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make uninstall</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>源码出处：<a href="https://github.com/cavaliercoder/dmidecode-osx" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx</a></p><p>解决方案出处：<a href="https://github.com/cavaliercoder/dmidecode-osx/issues/8" target="_blank" rel="noopener">https://github.com/cavaliercoder/dmidecode-osx/issues/8</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;最近将主力工作机macOS升级到了Ventura，发现dmidecode无法使用，特此记录一下如何解决&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;下载dmidecode-osx源码&quot;&gt;&lt;a href=&quot;#下载dmidecode-osx源码
+      
+    
+    </summary>
+    
+      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
+    
+    
+      <category term="dmidecode" scheme="https://blog.ifiveplus.com/tags/dmidecode/"/>
     
   </entry>
   
@@ -535,31 +561,6 @@
     
     
       <category term="iOSOpenDev" scheme="https://blog.ifiveplus.com/tags/iOSOpenDev/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>FFmpeg常用基本命令</title>
-    <link href="https://blog.ifiveplus.com/FFmpeg%E5%B8%B8%E7%94%A8%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4.html"/>
-    <id>https://blog.ifiveplus.com/FFmpeg常用基本命令.html</id>
-    <published>2017-12-28T01:20:47.000Z</published>
-    <updated>2023-10-30T09:55:54.539Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="FFmpeg介绍"><a href="#FFmpeg介绍" class="headerlink" title="FFmpeg介绍"></a>FFmpeg介绍</h2><p>FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用LGPL或GPL许可证。它提供了录制、转换以及流化音视频的完整解决方案。它包含了非常先进的音频/视频编解码库libavcodec，为了保证高可移植性和编解码质量，libavcodec里很多code都是从头开发的。</p><h2 id="FFmpeg常用基本命令"><a href="#FFmpeg常用基本命令" class="headerlink" title="FFmpeg常用基本命令"></a>FFmpeg常用基本命令</h2><h3 id="分离视频音频流"><a href="#分离视频音频流" class="headerlink" title="分离视频音频流"></a>分离视频音频流</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input_file -vcodec copy -an output_file_video　　//分离视频流</span><br><span class="line">ffmpeg -i input_file -acodec copy -vn output_file_audio　　//分离音频流</span><br></pre></td></tr></table></figure><h3 id="视频解复用"><a href="#视频解复用" class="headerlink" title="视频解复用"></a>视频解复用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg –i test.mp4 –vcodec copy –an –f m4v test.264</span><br><span class="line">ffmpeg –i test.avi –vcodec copy –an –f m4v test.264</span><br></pre></td></tr></table></figure><h3 id="视频转码"><a href="#视频转码" class="headerlink" title="视频转码"></a>视频转码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为码流原始文件</span><br><span class="line">ffmpeg –i test.mp4 –vcodec h264 –bf 0 –g 25 –s 352*278 –an –f m4v test.264</span><br><span class="line">//转码为封装文件</span><br><span class="line">ffmpeg –i test.avi -vcodec mpeg4 –vtag xvid –qsame test_xvid.avi</span><br><span class="line">//-bf B帧数目控制，-g 关键帧间隔控制，-s 分辨率控制</span><br></pre></td></tr></table></figure><h3 id="视频封装"><a href="#视频封装" class="headerlink" title="视频封装"></a>视频封装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg –i video_file –i audio_file –vcodec copy –acodec copy output_file</span><br></pre></td></tr></table></figure><h3 id="视频剪切"><a href="#视频剪切" class="headerlink" title="视频剪切"></a>视频剪切</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg –i test.avi –r 1 –f image2 image-%3d.jpeg        //提取图片</span><br><span class="line">ffmpeg -ss 0:1:30 -t 0:0:20 -i input.avi -vcodec copy -acodec copy output.avi    //剪切视频</span><br><span class="line">//-r 提取图像的频率，-ss 开始时间，-t 持续时间</span><br></pre></td></tr></table></figure><h3 id="视频录制"><a href="#视频录制" class="headerlink" title="视频录制"></a>视频录制</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg –i rtsp://192.168.3.205:5555/<span class="built_in">test</span> –vcodec copy out.avi</span><br></pre></td></tr></table></figure><h3 id="YUV序列播放"><a href="#YUV序列播放" class="headerlink" title="YUV序列播放"></a>YUV序列播放</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -f rawvideo -video_size 1920x1080 input.yuv</span><br></pre></td></tr></table></figure><h3 id="YUV序列转AVI"><a href="#YUV序列转AVI" class="headerlink" title="YUV序列转AVI"></a>YUV序列转AVI</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg –s w*h –pix_fmt yuv420p –i input.yuv –vcodec mpeg4 output.avi</span><br></pre></td></tr></table></figure><h3 id="常用参数说明："><a href="#常用参数说明：" class="headerlink" title="常用参数说明："></a>常用参数说明：</h3><p><strong>主要参数：</strong></p><ul><li>-i 设定输入流</li><li>-f 设定输出格式</li><li>-ss 开始时间</li></ul><p><strong>视频参数：</strong></p><ul><li>-b 设定视频流量，默认为200Kbit/s</li><li>-r 设定帧速率，默认为25</li><li>-s 设定画面的宽与高</li><li>-aspect 设定画面的比例</li><li>-vn 不处理视频</li><li>-vcodec 设定视频编解码器，未设定时则使用与输入流相同的编解码器</li></ul><p><strong>音频参数：</strong></p><ul><li>-ar 设定采样率</li><li>-ac 设定声音的Channel数</li><li>-acodec 设定声音编解码器，未设定时则使用与输入流相同的编解码器</li><li>-an 不处理音频</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;FFmpeg介绍&quot;&gt;&lt;a href=&quot;#FFmpeg介绍&quot; class=&quot;headerlink&quot; title=&quot;FFmpeg介绍&quot;&gt;&lt;/a&gt;FFmpeg介绍&lt;/h2&gt;&lt;p&gt;FFmpeg是一套可以用来记录、转换数字音频、视频，并能将其转化为流的开源计算机程序。采用L
-      
-    
-    </summary>
-    
-      <category term="ffmpeg" scheme="https://blog.ifiveplus.com/categories/ffmpeg/"/>
-    
-    
-      <category term="ffmpeg" scheme="https://blog.ifiveplus.com/tags/ffmpeg/"/>
     
   </entry>
   
