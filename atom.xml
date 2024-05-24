@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.ifiveplus.com/"/>
-  <updated>2023-11-30T09:09:02.919Z</updated>
+  <updated>2024-05-24T01:05:58.978Z</updated>
   <id>https://blog.ifiveplus.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>macOS下eclipseIDE提示无法打开</title>
+    <link href="https://blog.ifiveplus.com/macOS%E4%B8%8BeclipseIDE%E6%8F%90%E7%A4%BA%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80.html"/>
+    <id>https://blog.ifiveplus.com/macOS下eclipseIDE提示无法打开.html</id>
+    <published>2024-05-24T00:58:00.000Z</published>
+    <updated>2024-05-24T01:05:58.978Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>这两天升级<code>macOS</code>系统失败，从时间机器恢复数据后，使用<code>eclipse</code>开始工作的时候，弹出了一个错误提示窗口，提示<code>应用程序eclipse无法打开</code>。不清楚是什么问题，使用命令行/Application文件夹右键均不能打开。</p></blockquote><blockquote><p>查阅相关资料，是因为权限不足导致其无法打开，这里讲一下如何解决这个问题。</p></blockquote><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>重新将<code>eclipse</code>应用程序签名即可。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo codesign --force --deep --sign - /Applications/Eclipse.app</span><br></pre></td></tr></table></figure><p>执行完该命令后，会提示<code>/Applications/Eclipse: replacing existing signature</code>, 耐心等待执行结束即可打开<code>eclipse</code>应用程序。</p><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>参考链接：</p><p><a href="https://blog.csdn.net/u011074091/article/details/135912417" target="_blank" rel="noopener">https://blog.csdn.net/u011074091/article/details/135912417</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;这两天升级&lt;code&gt;macOS&lt;/code&gt;系统失败，从时间机器恢复数据后，使用&lt;code&gt;eclipse&lt;/code&gt;开始工作的时候，弹出了一个错误提示窗口，提示&lt;code&gt;应用程序eclipse无法打开&lt;/code&gt;。不清楚是什么问题，使用命
+      
+    
+    </summary>
+    
+      <category term="MacOS" scheme="https://blog.ifiveplus.com/categories/MacOS/"/>
+    
+    
+      <category term="eclipse" scheme="https://blog.ifiveplus.com/tags/eclipse/"/>
+    
+  </entry>
   
   <entry>
     <title>Vscode突然没法调试python2.7</title>
@@ -536,31 +562,6 @@
       <category term="ionic" scheme="https://blog.ifiveplus.com/tags/ionic/"/>
     
       <category term="cordova" scheme="https://blog.ifiveplus.com/tags/cordova/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOSOpenDev安装</title>
-    <link href="https://blog.ifiveplus.com/iOSOpenDev%E5%AE%89%E8%A3%85.html"/>
-    <id>https://blog.ifiveplus.com/iOSOpenDev安装.html</id>
-    <published>2018-01-04T03:58:27.000Z</published>
-    <updated>2023-10-30T09:55:54.547Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="安装-macports"><a href="#安装-macports" class="headerlink" title="安装 macports"></a>安装 <a href="https://link.jianshu.com/?t=https://www.macports.org/install.php" target="_blank" rel="noopener">macports</a></h3><p>安装完MacPorts后打开终端，输入 sudo port -v selfupdate 更新MacPorts到最新版本，时间可能比较长。</p><h3 id="安装DPKG文件"><a href="#安装DPKG文件" class="headerlink" title="安装DPKG文件"></a>安装DPKG文件</h3><p>更新完MacPorts后安装DPKG文件，在终端输入sudo port -f install dpkg</p><h3 id="安装iosopendev"><a href="#安装iosopendev" class="headerlink" title="安装iosopendev"></a>安装iosopendev</h3><p>下载安装 <a href="https://link.jianshu.com/?t=http://iosopendev.com/download/" target="_blank" rel="noopener">iosopendev</a> 如果安装失败，可以通过 Command + L 查看安装中出现的问题。如果提示以下问题请先下载 <a href="https://link.jianshu.com/?t=https://github.com/LengYi/iosOpenDev" target="_blank" rel="noopener">附件</a></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PackageKit: Install Failed: Error Domain=PKInstallErrorDomain Code=112 "运行软件包“iOSOpenDev-1.6-2.pkg”的脚本时出错。" UserInfo=&#123;NSFilePath=./postinstall, NSURL=file://localhost/Users/ice/Downloads/iOSOpenDev-1.6-2.pkg#iodsetup.pkg, PKInstallPackageIdentifier=com.iosopendev.iosopendev162.iod-setup.pkg, NSLocalizedDescription=运行软件包“iOSOpenDev-1.6-2.pkg”的脚本时出错。&#125; &#123;</span><br><span class="line">        NSFilePath = "./postinstall";</span><br><span class="line">        NSLocalizedDescription = "\U8fd0\U884c\U8f6f\U4ef6\U5305\U201ciOSOpenDev-1.6-2.pkg\U201d\U7684\U811a\U672c\U65f6\U51fa\U9519\U3002";</span><br><span class="line">        NSURL = "file://localhost/Users/ice/Downloads/iOSOpenDev-1.6-2.pkg#iodsetup.pkg";</span><br><span class="line">        PKInstallPackageIdentifier = "com.iosopendev.iosopendev162.iod-setup.pkg";</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><h3 id="修复安装失败问题"><a href="#修复安装失败问题" class="headerlink" title="修复安装失败问题"></a>修复安装失败问题</h3><p>打开上面 <a href="https://link.jianshu.com/?t=https://github.com/LengYi/iosOpenDev" target="_blank" rel="noopener">附件</a> 里面的Specifications文件夹，里面应该有8个文件,如果你有安装多个xcode注意放到对应的xcode里面。</p><ol><li>iPhoneOS开头的四个文件放到<code>/应用程序/Xcode/Content/Developer/Platforms/IphoneOS.platform/Developer/Library/Xcode/Specifications</code>文件夹下（如果没有，请自己创建一个）</li><li>iPhone Simulator 开头的另外四个文件放入<code>/应用程序/Xcode/Content/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Specifications</code>文件夹下(如果没有，请同样创建一个)</li><li>在<code>/应用程序/Xcode/Content/Developer/Platforms/iPhoneSimulator.platform/Developer/</code>文件夹下创建usr文件夹，usr文件夹下再创建一个名为bin的文件夹</li></ol><p>如果还是不行，重新安装iOSOpenDev,如果还是有问题请 <a href="https://link.jianshu.com/?t=http://www.cnblogs.com/xiongwj0910/p/3713290.html" target="_blank" rel="noopener">参考</a></p><h2 id="More-Info"><a href="#More-Info" class="headerlink" title="More Info"></a>More Info</h2><p>原文出处：<a href="https://www.jianshu.com/p/29580725707a" target="_blank" rel="noopener">https://www.jianshu.com/p/29580725707a</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;安装-macports&quot;&gt;&lt;a href=&quot;#安装-mac
-      
-    
-    </summary>
-    
-      <category term="iOSCrack" scheme="https://blog.ifiveplus.com/categories/iOSCrack/"/>
-    
-    
-      <category term="iOSOpenDev" scheme="https://blog.ifiveplus.com/tags/iOSOpenDev/"/>
     
   </entry>
   
